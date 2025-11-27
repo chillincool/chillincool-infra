@@ -1,0 +1,67 @@
+---
+# TALOS NODE-SPECIFIC CONFIGURATION: k8s-0
+# 
+# This file overrides and patches the base machineconfig.yaml.j2 for the first control plane node.
+# Node-specific settings:
+# - Hostname: k8s-0
+# - Thunderbolt network interface configuration
+# - Point-to-point networking over Thunderbolt for inter-node communication
+#
+# PATCHING MECHANISM:
+# During templating, this config is merged with machineconfig.yaml.j2 using Kustomize/talosctl
+# Settings here override the base config for this specific node.
+
+version: v1alpha1
+kind: Config
+
+machine:
+  # Hostname for this specific node
+  # k8s-0 = first control plane (Kubernetes node 0)
+  # The number matches the control plane index
+  hostname: k8s-0
+  
+  # NETWORK CUSTOMIZATION FOR THIS NODE
+  # Extends the bond0 configuration from machineconfig.yaml.j2
+  network:
+    interfaces:
+      # Point-to-point Thunderbolt connection to k8s-1
+      # This is direct node-to-node communication (faster than going through switches)
+      - interface: tbt0
+        # Manual IP configuration (not DHCP)
+        addresses:
+          # /32 = single host address; full routing table needed for each peer
+          - address: 169.254.255.20/32
+        # Routes to other nodes through this interface
+        routes:
+          # Reach k8s-1 through this tbt0 link
+          - destination: 169.254.255.21/32
+            gateway: 169.254.255.21
+          # Reach k8s-2 through this tbt0 link
+          - destination: 169.254.255.22/32
+            gateway: 169.254.255.21  # Via k8s-1
+      
+      # Point-to-point Thunderbolt connection to k8s-2
+      - interface: tbt1
+        addresses:
+          # Different subnet for redundancy (if tbt0 fails, use tbt1)
+          - address: 169.254.254.20/32
+        routes:
+          - destination: 169.254.254.21/32
+            gateway: 169.254.254.21
+          - destination: 169.254.254.22/32
+            gateway: 169.254.254.21
+
+  # Kubernetes node labels for this specific node
+  nodeLabels:
+    # Zone label: Primary zone (for pod anti-affinity)
+    topology.kubernetes.io/zone: zone-0
+    # Control plane index
+    talos.dev/cluster-node-index: "0"
+
+# Control plane specific settings (IS_CONTROLLER=true for k8s-0)
+cluster:
+  # etcd: Tell other nodes about this node's etcd endpoint
+  # This k8s-0 instance hosts etcd on its main network interface
+  etcd:
+    # Subdomain for this specific etcd member
+    peerSubdomainName: "k8s-0"

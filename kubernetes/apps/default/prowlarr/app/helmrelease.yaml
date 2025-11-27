@@ -1,0 +1,42 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: prowlarr
+spec:
+  interval: 30m
+  chart:
+    spec:
+      # Prowlarr chart from chillincool GHCR OCI registry
+      chart: prowlarr
+      version: "*"  # Use latest version
+      sourceRef:
+        kind: HelmRepository
+        name: chillincool
+        namespace: flux-system
+  install:
+    crds: create
+    remediation:
+      retries: 3
+  upgrade:
+    crds: createReplace
+    remediation:
+      retries: 3
+      remediateLastFailure: true
+  # Chart values - customize as needed
+  values:
+    image:
+      repository: ghcr.io/chillincool/prowlarr
+      tag: latest
+    service:
+      main:
+        type: ClusterIP
+        ports:
+          http:
+            port: 9696
+    persistence:
+      config:
+        enabled: true
+        type: emptyDir
+        globalMounts:
+          - path: /config

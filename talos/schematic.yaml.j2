@@ -1,0 +1,115 @@
+---
+# TALOS SYSTEM EXTENSION SCHEMATIC
+# 
+# This file defines how the Talos factory image is customized with:
+# 1. Kernel arguments (boot parameters and runtime tuning)
+# 2. System extensions (additional drivers and utilities)
+#
+# FACTORY IMAGE BUILD:
+# Talos Factory uses this schematic to build a custom image with:
+# - Custom kernel build with specific modules
+# - Preloaded system extensions (no need to load at runtime)
+# - Optimized for your specific hardware (GPU, network adapters, etc.)
+#
+# OUTPUT: Use "just gen-schematic-id" to get the factory image URL
+# Then update machineconfig.yaml.j2 line: install.image with the new URL
+
+apiVersion: v1alpha1
+kind: SchematicConfiguration
+
+# EXTENSIONS - System additions to include in the Talos image
+# These are loaded early (kernel/initrd time), not after boot
+extensions:
+  # i915: Intel integrated GPU driver
+  # REQUIRED if: Using Intel Arc/Iris Xe GPU or Intel iGPU for compute
+  # CUSTOMIZE: Remove if not using Intel GPU
+  - image: ghcr.io/siderolabs/i915-ucode:ca2146c
+  
+  # intel-ucode: Intel CPU microcode updates
+  # Security and stability patches for Intel processors
+  # CUSTOMIZE: Remove if using AMD CPUs instead
+  - image: ghcr.io/siderolabs/intel-ucode:microcode-20250331
+  
+  # mei: Intel ME (Management Engine) driver
+  # REQUIRED if: Intel CPU with ME (needed for some iGPU features)
+  # Usually safe to keep even if not needed
+  - image: ghcr.io/siderolabs/intel-mei:f50d8b6
+  
+  # thunderbolt: Thunderbolt/USB4 support
+  # REQUIRED for: Your Thunderbolt NICs (network adapters)
+  # CUSTOMIZE: Remove if not using Thunderbolt devices
+  - image: ghcr.io/siderolabs/thunderbolt:4ed4b3e
+
+# KERNEL PARAMETERS - Boot and runtime tuning arguments
+# These are passed to the Linux kernel at boot time
+extraKernelArgs:
+  # Performance optimization: Reduce CPU idle sleep latency
+  # Trade-off: Slightly higher power consumption for lower latency
+  - cpuidle.governor=performance
+  
+  # CPU frequency scaling: Powersave governor
+  # Lets CPU frequency scale based on load
+  # Trade-off: Might be slower at peak performance than "performance" governor
+  - cpufreq.default_governor=powersave
+  
+  # AMD: Prefer Secure Memory Encryption (if AMD CPU with SME support)
+  # CUSTOMIZE: Remove if using Intel CPU
+  - amd_iommu=on
+  
+  # IOMMU (I/O Memory Management Unit) for VM pass-through and device isolation
+  # CUSTOMIZE: Remove if not using VM pass-through or device isolation
+  - iommu=pt
+  
+  # Intel: Enable Serial Port Debugging (for troubleshooting)
+  # CUSTOMIZE: Comment out in production (can cause slight performance impact)
+  # - intel_iommu=on,igfx_off
+  
+  # EXT4 filesystem optimization
+  # Enables discards (TRIM) for SSD optimization
+  - ext4.discard_on_mount=1
+  
+  # PCIe: Enable FLR (Function Level Reset) support
+  # Needed for certain GPU pass-through setups
+  - pcie=aspm-force
+  
+  # Systemd: Use cgroup v2 (modern control groups)
+  # Better resource management and accounting
+  - systemd.unified_cgroup_hierarchy=1
+  
+  # Quiet boot: Reduce verbose kernel messages
+  # CUSTOMIZE: Remove if debugging boot issues
+  - quiet
+  
+  # Network: Boost network buffer sizes
+  # More NFS connections don't need higher limits, but doesn't hurt
+  - net.ipv4.tcp_rmem="4096 87380 33554432"
+  
+  # NVMe: Enable polling instead of interrupt-driven I/O
+  # CUSTOMIZE: Only if using NVMe directly (not via raid/lvm)
+  # Trade-off: Slightly higher CPU usage for lower latency
+  - nvme_core.poll_queues=1
+  
+  # SLUB allocator: Use hardware DMA memory alignment
+  # Helps with some device DMA scenarios
+  - slub_debug=FZP
+
+# OPTIONAL CUSTOMIZATION GUIDE:
+#
+# For AMD Systems:
+#   - Replace intel-ucode with amd-ucode
+#   - Replace intel-mei with equivalent
+#   - Change amd_iommu=on to iommu=pt
+#
+# For NVIDIA GPU:
+#   - Add: ghcr.io/siderolabs/nvidia-container-toolkit:nnn
+#   - Add: ghcr.io/siderolabs/nvidia-gpu:nnn
+#
+# For additional network drivers:
+#   - Add more extension images for your specific NICs
+#
+# For high-performance NVMe:
+#   - Keep nvme_core.poll_queues enabled
+#
+# For debugging kernel issues:
+#   - Remove "quiet" from kernel args
+#   - Add "debug" flag instead

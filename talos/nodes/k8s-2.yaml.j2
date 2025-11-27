@@ -1,0 +1,65 @@
+---
+# TALOS NODE-SPECIFIC CONFIGURATION: k8s-2
+# 
+# This file overrides and patches the base machineconfig.yaml.j2 for the third control plane node.
+# Node-specific settings:
+# - Hostname: k8s-2
+# - Thunderbolt network interface configuration
+# - Point-to-point networking for inter-node communication
+#
+# CLUSTER TOPOLOGY NOTE:
+# k8s-0, k8s-1, k8s-2 form a three-node control plane cluster
+# - All three nodes run etcd, API server, scheduler, controller manager
+# - This provides high availability: cluster survives any single node failure
+# - Direct Thunderbolt connections reduce dependency on network switching
+
+version: v1alpha1
+kind: Config
+
+machine:
+  # Hostname for this specific node
+  # k8s-2 = third control plane
+  hostname: k8s-2
+  
+  # NETWORK CUSTOMIZATION FOR THIS NODE
+  # Extends the bond0 configuration from machineconfig.yaml.j2
+  network:
+    interfaces:
+      # Point-to-point Thunderbolt connection to k8s-0
+      # .22 is the next sequential IP from k8s-1's .21
+      - interface: tbt0
+        addresses:
+          - address: 169.254.255.22/32
+        routes:
+          # Reach k8s-0 through k8s-1 (or directly if route exists)
+          - destination: 169.254.255.20/32
+            gateway: 169.254.255.21
+          # Reach k8s-1 directly
+          - destination: 169.254.255.21/32
+            gateway: 169.254.255.21
+      
+      # Point-to-point Thunderbolt connection to k8s-1
+      # Using different subnet (169.254.254.x) for redundancy
+      - interface: tbt1
+        addresses:
+          - address: 169.254.254.22/32
+        routes:
+          # Reach k8s-0 and k8s-1 through secondary link
+          - destination: 169.254.254.20/32
+            gateway: 169.254.254.20
+          - destination: 169.254.254.21/32
+            gateway: 169.254.254.21
+
+  # Kubernetes node labels for this specific node
+  nodeLabels:
+    # Zone label: Primary zone (for pod anti-affinity)
+    topology.kubernetes.io/zone: zone-2
+    # Control plane index
+    talos.dev/cluster-node-index: "2"
+
+# Control plane specific settings (IS_CONTROLLER=true for k8s-2)
+cluster:
+  # etcd: Tell other nodes about this node's etcd endpoint
+  etcd:
+    # Subdomain for this specific etcd member
+    peerSubdomainName: "k8s-2"
