@@ -6,5 +6,5 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h
-  url: oci://ghcr.io/chillincool
+  url: oci://ghcr.io/chillincool/charts
   type: oci
