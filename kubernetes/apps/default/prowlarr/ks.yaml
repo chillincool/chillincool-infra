@@ -13,3 +13,4 @@ spec:
     name: flux-system
   wait: true
   timeout: 10m
+  targetNamespace: default
