@@ -1,0 +1,39 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: sonarr
+  namespace: default
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: sonarr
+      version: "*"
+      sourceRef:
+        kind: HelmRepository
+        name: chillincool
+        namespace: flux-system
+  install:
+    crds: Create
+    remediation:
+      retries: 3
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 3
+      remediateLastFailure: true
+  values:
+    image:
+      repository: ghcr.io/chillincool/sonarr
+      tag: latest
+    service:
+      type: NodePort
+      port: 8989
+      nodePort: 30989
+    persistence:
+      config:
+        enabled: true
+        type: emptyDir
+        globalMounts:
+          - path: /config
