@@ -1,0 +1,29 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: radarr
+  namespace: default
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: radarr
+      version: "*"
+      sourceRef:
+        kind: HelmRepository
+        name: chillincool
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+    createNamespace: false
+    crds: Create
+  upgrade:
+    cleanupOnFail: true
+    crds: CreateReplace
+  values:
+    service:
+      type: NodePort
+      port: 7878
+      nodePort: 30878
