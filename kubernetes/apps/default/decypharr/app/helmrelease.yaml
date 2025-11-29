@@ -25,5 +25,32 @@ spec:
   values:
     service:
       type: NodePort
-      port: 5000
-      nodePort: 30500
+      port: 8282
+      nodePort: 30828
+      targetPort: http
+    
+    podSecurityContext:
+      fsGroup: 568
+    
+    securityContext:
+      runAsNonRoot: false
+      runAsUser: 568
+      runAsGroup: 568
+      readOnlyRootFilesystem: false
+      privileged: true
+      capabilities:
+        add:
+          - SYS_ADMIN
+    
+    volumes:
+      - name: config
+        emptyDir: {}
+      - name: dev-fuse
+        hostPath:
+          path: /dev/fuse
+    
+    volumeMounts:
+      - name: config
+        mountPath: /config
+      - name: dev-fuse
+        mountPath: /dev/fuse

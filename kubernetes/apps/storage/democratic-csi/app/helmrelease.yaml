@@ -1,0 +1,49 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: democratic-csi-webdav
+  namespace: storage
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: democratic-csi
+      version: "*"
+      sourceRef:
+        kind: HelmRepository
+        name: democratic-csi
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+    createNamespace: false
+  upgrade:
+    cleanupOnFail: true
+  values:
+    csiDriver:
+      name: "org.democratic-csi.webdav"
+    
+    storageClasses:
+      - name: webdav-decypharr
+        defaultClass: false
+        reclaimPolicy: Retain
+        volumeBindingMode: Immediate
+        allowVolumeExpansion: false
+        parameters:
+          fsType: ""
+        mountOptions: []
+    
+    volumeSnapshotClasses: []
+    
+    driver:
+      config:
+        driver: node-manual
+        node:
+          driver: rclone-nfs
+          rclone:
+            remote: "decypharr:"
+            shareBasePath: "/"
+            remotePath: "/"
+            # Reference to the secret containing rclone.conf
+            existingSecret: democratic-csi-webdav-rclone-config
