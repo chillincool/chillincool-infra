@@ -1,0 +1,29 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: decypharr
+  namespace: default
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: decypharr
+      version: "*"
+      sourceRef:
+        kind: HelmRepository
+        name: chillincool
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+    createNamespace: false
+    crds: Create
+  upgrade:
+    cleanupOnFail: true
+    crds: CreateReplace
+  values:
+    service:
+      type: NodePort
+      port: 5000
+      nodePort: 30500
