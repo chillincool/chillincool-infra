@@ -30,12 +30,9 @@ spec:
       repository: ghcr.io/chillincool/prowlarr
       tag: latest
     service:
-      main:
-        type: NodePort
-        ports:
-          http:
-            port: 9696
-            nodePort: 30696
+      type: NodePort
+      port: 9696
+      nodePort: 30696
     persistence:
       config:
         enabled: true
