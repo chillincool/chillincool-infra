@@ -16,11 +16,11 @@ spec:
         name: chillincool
         namespace: flux-system
   install:
-    crds: create
+    crds: Create
     remediation:
       retries: 3
   upgrade:
-    crds: createReplace
+    crds: CreateReplace
     remediation:
       retries: 3
       remediateLastFailure: true
