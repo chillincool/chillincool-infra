@@ -10,7 +10,7 @@ spec:
     spec:
       # Prowlarr chart from chillincool GHCR OCI registry
       chart: prowlarr
-      version: "*"  # Use latest version
+      version: "0.2.0"  # Use latest version
       sourceRef:
         kind: HelmRepository
         name: chillincool

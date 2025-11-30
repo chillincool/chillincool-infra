@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: radarr
-      version: "*"
+      version: "0.2.0"
       sourceRef:
         kind: HelmRepository
         name: chillincool
