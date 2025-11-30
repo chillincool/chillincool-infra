@@ -1,0 +1,23 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: config-manager
+  namespace: default
+spec:
+  containers:
+    - name: manager
+      image: alpine:latest
+      command: ["sleep", "infinity"]
+      volumeMounts:
+        - name: config
+          mountPath: /storage/config
+        - name: realdebrid
+          mountPath: /storage/realdebrid
+  volumes:
+    - name: config
+      persistentVolumeClaim:
+        claimName: shared-app-config
+    - name: realdebrid
+      persistentVolumeClaim:
+        claimName: test-webdav-pvc

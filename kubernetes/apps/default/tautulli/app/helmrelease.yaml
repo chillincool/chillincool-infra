@@ -27,3 +27,11 @@ spec:
       type: NodePort
       port: 8181
       nodePort: 30181
+    persistence:
+      config:
+        enabled: true
+        type: persistentVolumeClaim
+        existingClaim: shared-app-config
+        globalMounts:
+          - path: /config
+            subPath: tautulli

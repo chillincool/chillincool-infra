@@ -42,15 +42,20 @@ spec:
         add:
           - SYS_ADMIN
     
+    persistence:
+      config:
+        enabled: true
+        type: persistentVolumeClaim
+        existingClaim: shared-app-config
+        globalMounts:
+          - path: /config
+            subPath: decypharr
+    
     volumes:
-      - name: config
-        emptyDir: {}
       - name: dev-fuse
         hostPath:
           path: /dev/fuse
     
     volumeMounts:
-      - name: config
-        mountPath: /config
       - name: dev-fuse
         mountPath: /dev/fuse

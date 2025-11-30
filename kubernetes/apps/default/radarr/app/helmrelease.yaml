@@ -27,3 +27,11 @@ spec:
       type: NodePort
       port: 7878
       nodePort: 30878
+    persistence:
+      config:
+        enabled: true
+        type: persistentVolumeClaim
+        existingClaim: shared-app-config
+        globalMounts:
+          - path: /config
+            subPath: radarr
