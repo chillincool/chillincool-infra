@@ -23,22 +23,28 @@ spec:
     cleanupOnFail: true
     crds: CreateReplace
   values:
-    controllers:
-      main:
-        initContainers:
-          create-directories:
-            image: alpine:latest
-            command:
-              - sh
-              - -c
-              - |
-                mkdir -p /storage/realdebrid
-                mkdir -p /storage/symlinks/downloads/radarr
-                mkdir -p /storage/symlinks/movies
-                chown -R 568:568 /storage/symlinks
-            volumeMounts:
-              - name: symlinks
-                mountPath: /storage/symlinks
+    additionalInitContainers:
+      - name: create-directories
+        image: alpine:latest
+        command:
+          - sh
+          - -c
+          - |
+            mkdir -p /storage/symlinks/downloads/radarr
+            mkdir -p /storage/symlinks/movies
+            chown -R 568:568 /storage/symlinks
+        volumeMounts:
+          - name: symlinks
+            mountPath: /storage/symlinks
+    
+    additionalVolumes:
+      - name: symlinks
+        persistentVolumeClaim:
+          claimName: symlinks
+    
+    additionalVolumeMounts:
+      - name: symlinks
+        mountPath: /storage/symlinks
     
     service:
       type: NodePort
@@ -63,9 +69,3 @@ spec:
         globalMounts:
           - path: /config
             subPath: radarr
-      symlinks:
-        enabled: true
-        type: persistentVolumeClaim
-        existingClaim: symlinks
-        globalMounts:
-          - path: /storage/symlinks
