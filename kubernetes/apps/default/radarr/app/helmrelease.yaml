@@ -23,23 +23,6 @@ spec:
     cleanupOnFail: true
     crds: CreateReplace
   values:
-    initContainers:
-      - name: create-directories
-        image: alpine:latest
-        command:
-          - sh
-          - -c
-          - |
-            mkdir -p /storage/realdebrid
-            mkdir -p /storage/symlinks/downloads/radarr
-            mkdir -p /storage/symlinks/movies
-            chown -R 568:568 /storage
-        volumeMounts:
-          - name: realdebrid
-            mountPath: /storage/realdebrid
-          - name: symlinks
-            mountPath: /storage/symlinks
-    
     service:
       type: NodePort
       port: 7878
