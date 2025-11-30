@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: decypharr-values
   namespace: default
-stringData:
+data:
   values.yaml: |
     realdebrid:
       enabled: true
