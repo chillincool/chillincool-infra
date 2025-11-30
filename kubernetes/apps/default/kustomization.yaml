@@ -6,6 +6,7 @@ resources:
   - ./shared-config-pvc.yaml
   - ./config-manager-pod.yaml
   - ./decypharr/ks.yaml
+  - ./decypharr/enable/ks.yaml
   - ./lidarr/ks.yaml
   - ./prowlarr/ks.yaml
   - ./radarr/ks.yaml
