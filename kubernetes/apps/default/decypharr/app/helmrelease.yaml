@@ -23,6 +23,32 @@ spec:
     cleanupOnFail: true
     crds: CreateReplace
   values:
+    controllers:
+      main:
+        initContainers:
+          create-directories:
+            image: alpine:latest
+            command:
+              - sh
+              - -c
+              - |
+                mkdir -p /storage/realdebrid
+                mkdir -p /storage/symlinks/downloads/sonarr
+                mkdir -p /storage/symlinks/downloads/sonarr4k
+                mkdir -p /storage/symlinks/downloads/radarr
+                mkdir -p /storage/symlinks/downloads/radarr4k
+                mkdir -p /storage/symlinks/movies
+                mkdir -p /storage/symlinks/movies-4k
+                mkdir -p /storage/symlinks/series
+                mkdir -p /storage/symlinks/series-4k
+                mkdir -p /storage/symlinks/series-anime
+                chown -R 568:568 /storage
+            volumeMounts:
+              - name: realdebrid
+                mountPath: /storage/realdebrid
+              - name: symlinks
+                mountPath: /storage/symlinks
+    
     service:
       type: NodePort
       port: 8282
@@ -37,10 +63,6 @@ spec:
       runAsUser: 568
       runAsGroup: 568
       readOnlyRootFilesystem: false
-      privileged: true
-      capabilities:
-        add:
-          - SYS_ADMIN
     
     persistence:
       config:
@@ -50,12 +72,15 @@ spec:
         globalMounts:
           - path: /config
             subPath: decypharr
-    
-    volumes:
-      - name: dev-fuse
-        hostPath:
-          path: /dev/fuse
-    
-    volumeMounts:
-      - name: dev-fuse
-        mountPath: /dev/fuse
+      realdebrid:
+        enabled: true
+        type: persistentVolumeClaim
+        existingClaim: realdebrid-webdav
+        globalMounts:
+          - path: /storage/realdebrid
+      symlinks:
+        enabled: true
+        type: persistentVolumeClaim
+        existingClaim: symlinks
+        globalMounts:
+          - path: /storage/symlinks

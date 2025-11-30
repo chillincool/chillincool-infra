@@ -5,10 +5,30 @@ metadata:
   name: config-manager
   namespace: default
 spec:
+  securityContext:
+    fsGroup: 568
+  initContainers:
+    - name: fix-permissions
+      image: alpine:latest
+      command:
+        - sh
+        - -c
+        - |
+          chown -R 568:568 /storage/config /storage/realdebrid
+          chmod -R 775 /storage/config
+          chmod -R 775 /storage/realdebrid
+      volumeMounts:
+        - name: config
+          mountPath: /storage/config
+        - name: realdebrid
+          mountPath: /storage/realdebrid
   containers:
     - name: manager
       image: alpine:latest
       command: ["sleep", "infinity"]
+      securityContext:
+        runAsUser: 568
+        runAsGroup: 568
       volumeMounts:
         - name: config
           mountPath: /storage/config
@@ -20,4 +40,4 @@ spec:
         claimName: shared-app-config
     - name: realdebrid
       persistentVolumeClaim:
-        claimName: test-webdav-pvc
+        claimName: realdebrid-webdav
