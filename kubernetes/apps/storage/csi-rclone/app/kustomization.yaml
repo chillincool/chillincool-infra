@@ -10,3 +10,36 @@ resources:
   - https://raw.githubusercontent.com/wunderio/csi-rclone/master/deploy/kubernetes/1.20/csi-nodeplugin-rclone.yaml
   - https://raw.githubusercontent.com/wunderio/csi-rclone/master/deploy/kubernetes/1.20/csi-rclone-storageclass.yaml
   - ./rclone-secret.yaml
+patches:
+  - patch: |
+      apiVersion: apps/v1
+      kind: StatefulSet
+      metadata:
+        name: csi-controller-rclone
+        namespace: csi-rclone
+      spec:
+        template:
+          spec:
+            tolerations:
+              - key: node-role.kubernetes.io/control-plane
+                operator: Exists
+                effect: NoSchedule
+    target:
+      kind: StatefulSet
+      name: csi-controller-rclone
+  - patch: |
+      apiVersion: apps/v1
+      kind: DaemonSet
+      metadata:
+        name: csi-nodeplugin-rclone
+        namespace: csi-rclone
+      spec:
+        template:
+          spec:
+            tolerations:
+              - key: node-role.kubernetes.io/control-plane
+                operator: Exists
+                effect: NoSchedule
+    target:
+      kind: DaemonSet
+      name: csi-nodeplugin-rclone
