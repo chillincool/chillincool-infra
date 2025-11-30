@@ -1,0 +1,41 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: realdebrid-webdav-manual
+spec:
+  capacity:
+    storage: 100Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: rclone-realdebrid
+  csi:
+    driver: csi-rclone
+    volumeHandle: realdebrid-webdav-manual
+    volumeAttributes:
+      remote: decypharr
+      remotePath: /realdebrid
+    controllerPublishSecretRef:
+      name: rclone-secret-realdebrid
+      namespace: csi-rclone
+    nodeStageSecretRef:
+      name: rclone-secret-realdebrid
+      namespace: csi-rclone
+    nodePublishSecretRef:
+      name: rclone-secret-realdebrid
+      namespace: csi-rclone
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: realdebrid-webdav
+  namespace: default
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: rclone-realdebrid
+  resources:
+    requests:
+      storage: 100Gi
+  volumeName: realdebrid-webdav-manual
