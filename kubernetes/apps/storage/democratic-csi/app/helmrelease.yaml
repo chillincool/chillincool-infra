@@ -40,7 +40,7 @@ spec:
       config:
         driver: node-manual
         node:
-          driver: rclone-nfs
+          driver: rclone
           rclone:
             remote: "decypharr:"
             shareBasePath: "/"
