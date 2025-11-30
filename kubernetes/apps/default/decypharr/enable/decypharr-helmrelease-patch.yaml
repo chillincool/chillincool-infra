@@ -1,0 +1,10 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: decypharr
+  namespace: default
+spec:
+  values:
+    persistence:
+      realdebrid:
+        enabled: true
