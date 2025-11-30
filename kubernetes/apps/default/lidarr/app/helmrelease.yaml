@@ -27,6 +27,9 @@ spec:
       type: NodePort
       port: 8686
       nodePort: 30686
+    # Decypharr is responsible for creating required directories on the symlinks PVC.
+    # No init container is necessary here.
+
     persistence:
       config:
         enabled: true
@@ -35,3 +38,15 @@ spec:
         globalMounts:
           - path: /config
             subPath: lidarr
+      realdebrid:
+        enabled: true
+        type: persistentVolumeClaim
+        existingClaim: realdebrid-webdav
+        globalMounts:
+          - path: /storage/realdebrid
+      symlinks:
+        enabled: true
+        type: persistentVolumeClaim
+        existingClaim: symlinks
+        globalMounts:
+          - path: /storage/symlinks

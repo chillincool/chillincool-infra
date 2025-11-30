@@ -27,6 +27,9 @@ spec:
       type: NodePort
       port: 8181
       nodePort: 30181
+    # Decypharr is responsible for creating required directories on the symlinks PVC.
+    # No init container is necessary for Tautulli.
+
     persistence:
       config:
         enabled: true
@@ -35,3 +38,15 @@ spec:
         globalMounts:
           - path: /config
             subPath: tautulli
+      realdebrid:
+        enabled: true
+        type: persistentVolumeClaim
+        existingClaim: realdebrid-webdav
+        globalMounts:
+          - path: /storage/realdebrid
+      symlinks:
+        enabled: true
+        type: persistentVolumeClaim
+        existingClaim: symlinks
+        globalMounts:
+          - path: /storage/symlinks

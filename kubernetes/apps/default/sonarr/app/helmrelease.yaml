@@ -31,6 +31,9 @@ spec:
       type: NodePort
       port: 8989
       nodePort: 30989
+    # Decypharr's init container already manages creation of required
+    # directories in the `symlinks` PVC. We don't need an init container here.
+
     persistence:
       config:
         enabled: true
@@ -39,3 +42,15 @@ spec:
         globalMounts:
           - path: /config
             subPath: sonarr
+      realdebrid:
+        enabled: true
+        type: persistentVolumeClaim
+        existingClaim: realdebrid-webdav
+        globalMounts:
+          - path: /storage/realdebrid
+      symlinks:
+        enabled: true
+        type: persistentVolumeClaim
+        existingClaim: symlinks
+        globalMounts:
+          - path: /storage/symlinks

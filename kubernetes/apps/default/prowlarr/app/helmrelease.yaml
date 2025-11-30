@@ -41,3 +41,15 @@ spec:
         globalMounts:
           - path: /config
             subPath: prowlarr
+      realdebrid:
+        enabled: true
+        type: persistentVolumeClaim
+        existingClaim: realdebrid-webdav
+        globalMounts:
+          - path: /storage/realdebrid
+      symlinks:
+        enabled: true
+        type: persistentVolumeClaim
+        existingClaim: symlinks
+        globalMounts:
+          - path: /storage/symlinks
