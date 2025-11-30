@@ -1,0 +1,8 @@
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: rclone-webdav
+provisioner: csi-rclone
+reclaimPolicy: Retain
+volumeBindingMode: Immediate

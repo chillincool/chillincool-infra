@@ -5,6 +5,5 @@ namespace: flux-system
 resources:
   - ./namespace.yaml
   - ./helmrepository-chillincool.yaml
-  - ./helmrepository-democratic-csi.yaml
   - ./ks-default-apps.yaml
   - ./ks-storage-apps.yaml
