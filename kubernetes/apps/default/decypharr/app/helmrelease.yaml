@@ -32,7 +32,6 @@ spec:
               - sh
               - -c
               - |
-                mkdir -p /storage/realdebrid
                 mkdir -p /storage/symlinks/downloads/sonarr
                 mkdir -p /storage/symlinks/downloads/sonarr4k
                 mkdir -p /storage/symlinks/downloads/radarr
@@ -42,10 +41,8 @@ spec:
                 mkdir -p /storage/symlinks/series
                 mkdir -p /storage/symlinks/series-4k
                 mkdir -p /storage/symlinks/series-anime
-                chown -R 568:568 /storage
+                chown -R 568:568 /storage/symlinks
             volumeMounts:
-              - name: realdebrid
-                mountPath: /storage/realdebrid
               - name: symlinks
                 mountPath: /storage/symlinks
     
@@ -72,12 +69,6 @@ spec:
         globalMounts:
           - path: /config
             subPath: decypharr
-      realdebrid:
-        enabled: true
-        type: persistentVolumeClaim
-        existingClaim: realdebrid-webdav
-        globalMounts:
-          - path: /storage/realdebrid
       symlinks:
         enabled: true
         type: persistentVolumeClaim
