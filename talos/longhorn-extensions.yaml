@@ -1,0 +1,16 @@
+# Talos machine config patch for Longhorn support
+# Apply with: talosctl patch mc -n <node-ip> --patch @longhorn-extensions.yaml
+machine:
+  install:
+    extensions:
+      - image: ghcr.io/siderolabs/iscsi-tools:v0.1.6
+      - image: ghcr.io/siderolabs/util-linux-tools:2.40.2
+  kubelet:
+    extraMounts:
+      - destination: /var/lib/longhorn
+        type: bind
+        source: /var/lib/longhorn
+        options:
+          - bind
+          - rshared
+          - rw
