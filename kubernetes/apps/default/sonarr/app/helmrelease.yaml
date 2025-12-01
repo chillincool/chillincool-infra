@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: sonarr
-      version: "0.2.0"
+      version: "0.x.x"
       sourceRef:
         kind: HelmRepository
         name: chillincool
