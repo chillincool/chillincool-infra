@@ -22,6 +22,9 @@ spec:
   upgrade:
     cleanupOnFail: true
     crds: CreateReplace
+  valuesFrom:
+    - kind: ConfigMap
+      name: decypharr-values
   values:
     initContainers:
       - name: create-directories
@@ -65,10 +68,6 @@ spec:
       runAsGroup: 568
       readOnlyRootFilesystem: false
     
-    valuesFrom:
-      - kind: ConfigMap
-        name: decypharr-values
-
     persistence:
       config:
         enabled: true
