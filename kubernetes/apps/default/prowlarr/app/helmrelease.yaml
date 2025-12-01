@@ -8,7 +8,6 @@ spec:
   interval: 30m
   chart:
     spec:
-      # Prowlarr chart from chillincool GHCR OCI registry
       chart: prowlarr
       version: "0.2.0"  # Use latest version
       sourceRef:
