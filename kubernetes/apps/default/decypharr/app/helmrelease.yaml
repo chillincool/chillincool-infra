@@ -49,12 +49,6 @@ spec:
         globalMounts:
           - path: /config
             subPath: decypharr
-      realdebrid:
-        enabled: false
-        type: persistentVolumeClaim
-        existingClaim: realdebrid-webdav
-        globalMounts:
-          - path: /storage/realdebrid
       symlinks:
         enabled: true
         type: persistentVolumeClaim

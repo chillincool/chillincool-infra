@@ -8,3 +8,7 @@ data:
     persistence:
       realdebrid:
         enabled: true
+        type: persistentVolumeClaim
+        existingClaim: realdebrid-webdav
+        globalMounts:
+          - path: /storage/realdebrid
