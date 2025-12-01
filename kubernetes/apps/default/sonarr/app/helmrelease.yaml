@@ -31,6 +31,9 @@ spec:
       type: NodePort
       port: 8989
       nodePort: 30989
+    podAnnotations:
+      configmap.reloader.stakater.com/reload: decypharr-values
+      secret.reloader.stakater.com/reload: rclone-secret-realdebrid
     # Decypharr's init container already manages creation of required
     # directories in the `symlinks` PVC. We don't need an init container here.
 

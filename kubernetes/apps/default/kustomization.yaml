@@ -5,6 +5,8 @@ resources:
   - ./namespace.yaml
   - ./shared-config-pvc.yaml
   - ./config-manager-pod.yaml
+  - ./reloader/ks.yaml
+  - ./realdebrid-rclone-secret-copy.yaml
   - ./decypharr/ks.yaml
   - ./decypharr/enable/ks.yaml
   - ./lidarr/ks.yaml

@@ -27,6 +27,9 @@ spec:
       type: NodePort
       port: 8181
       nodePort: 30181
+    podAnnotations:
+      configmap.reloader.stakater.com/reload: decypharr-values
+      secret.reloader.stakater.com/reload: rclone-secret-realdebrid
     # Decypharr is responsible for creating required directories on the symlinks PVC.
     # No init container is necessary for Tautulli.
 

@@ -1,0 +1,35 @@
+---
+# Job that waits for Decypharr WebDAV to be ready before allowing
+# the decypharr-enable overlay to apply (which mounts the rclone PVC).
+# This prevents mount failures due to the WebDAV server not being available yet.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: decypharr-webdav-readiness-gate
+  namespace: default
+spec:
+  ttlSecondsAfterFinished: 300
+  backoffLimit: 20
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: wait-for-webdav
+          image: curlimages/curl:8.5.0
+          command:
+            - sh
+            - -c
+            - |
+              echo "Waiting for Decypharr WebDAV to be ready..."
+              until curl -sf -X PROPFIND http://decypharr.default.svc.cluster.local:8282/webdav/ >/dev/null 2>&1; do
+                echo "WebDAV not ready yet, retrying in 5s..."
+                sleep 5
+              done
+              echo "Decypharr WebDAV is ready!"
+          resources:
+            requests:
+              cpu: 10m
+              memory: 16Mi
+            limits:
+              cpu: 50m
+              memory: 32Mi

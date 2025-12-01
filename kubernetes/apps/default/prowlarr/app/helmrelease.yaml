@@ -33,6 +33,9 @@ spec:
       type: NodePort
       port: 9696
       nodePort: 30696
+    podAnnotations:
+      configmap.reloader.stakater.com/reload: decypharr-values
+      secret.reloader.stakater.com/reload: rclone-secret-realdebrid
     persistence:
       config:
         enabled: true

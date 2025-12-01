@@ -6,5 +6,6 @@ resources:
   - ./namespace.yaml
   - ./helmrepository-chillincool.yaml
   - ./helmrepository-longhorn.yaml
+  - ./helmrepository-stakater.yaml
   - ./ks-default-apps.yaml
   - ./ks-storage-apps.yaml

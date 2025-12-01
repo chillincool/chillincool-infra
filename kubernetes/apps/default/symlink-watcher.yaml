@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: symlink-watcher
+  namespace: default
+spec:
+  restartPolicy: Never
+  containers:
+    - name: watcher
+      image: alpine:3.18
+      command:
+        - sh
+        - -c
+        - |
+          apk add --no-cache inotify-tools coreutils && \
+          echo "Starting symlink watcher" && \
+          inotifywait -m -r -e close_write,create,move --format '%T %w %e %f' --timefmt '%Y-%m-%d %H:%M:%S' /storage/symlinks 2>/dev/null | \
+          while IFS=" " read -r event_time dir event file; do
+            fullpath="$dir/$file"
+            if [ -e "$fullpath" ]; then
+              stat_info=$(stat -c '%n|%s|%i|%h|%U|%G|%y' "$fullpath")
+            else
+              stat_info='(not found)'
+            fi
+            echo "$event_time|$event|$fullpath|$stat_info"
+          done
+      volumeMounts:
+        - name: symlinks
+          mountPath: /storage/symlinks
+  volumes:
+    - name: symlinks
+      persistentVolumeClaim:
+        claimName: symlinks

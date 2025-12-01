@@ -12,4 +12,11 @@ spec:
     name: flux-system
   dependsOn:
     - name: decypharr
+  wait: true
+  timeout: 5m
+  healthChecks:
+    - apiVersion: batch/v1
+      kind: Job
+      name: decypharr-webdav-readiness-gate
+      namespace: default
   targetNamespace: default
