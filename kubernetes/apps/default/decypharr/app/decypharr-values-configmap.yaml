@@ -5,5 +5,6 @@ metadata:
   namespace: default
 data:
   values.yaml: |
-    realdebrid:
-      enabled: false
+    persistence:
+      realdebrid:
+        enabled: false
