@@ -50,6 +50,7 @@ spec:
           - path: /config
             subPath: decypharr
       realdebrid:
+        enabled: false
         type: persistentVolumeClaim
         existingClaim: realdebrid-webdav
         globalMounts:
