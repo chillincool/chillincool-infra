@@ -26,33 +26,6 @@ spec:
     - kind: ConfigMap
       name: decypharr-values
   values:
-    initContainers:
-      - name: create-directories
-        image: alpine:latest
-        command:
-          - sh
-          - -c
-          - |
-            # Decypharr creates symlinks from downloads/ to realdebrid for Sonarr/Radarr
-            mkdir -p /storage/realdebrid
-            mkdir -p /storage/symlinks/downloads/sonarr
-            mkdir -p /storage/symlinks/downloads/radarr
-            mkdir -p /storage/symlinks/movies
-            mkdir -p /storage/symlinks/series
-            
-            # Only chown if not already correct (avoids touching existing files)
-            if [ "$(stat -c '%u:%g' /storage/symlinks 2>/dev/null || stat -f '%u:%g' /storage/symlinks)" != "568:568" ]; then
-              echo "Setting ownership to 568:568"
-              chown -R 568:568 /storage
-            else
-              echo "Ownership already correct, skipping chown"
-            fi
-        volumeMounts:
-          - name: realdebrid
-            mountPath: /storage/realdebrid
-          - name: symlinks
-            mountPath: /storage/symlinks
-    
     service:
       type: NodePort
       port: 8282
