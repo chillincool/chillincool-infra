@@ -61,6 +61,13 @@ spec:
         globalMounts:
           - path: /config
             subPath: lidarr
+      backups:
+        enabled: true
+        type: persistentVolumeClaim
+        existingClaim: backups
+        globalMounts:
+          - path: /storage/backups
+            subPath: lidarr
       realdebrid:
         enabled: true
         type: persistentVolumeClaim

@@ -66,6 +66,13 @@ spec:
         globalMounts:
           - path: /config
             subPath: prowlarr
+      backups:
+        enabled: true
+        type: persistentVolumeClaim
+        existingClaim: backups
+        globalMounts:
+          - path: /storage/backups
+            subPath: prowlarr
       realdebrid:
         enabled: true
         type: persistentVolumeClaim

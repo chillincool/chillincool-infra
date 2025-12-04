@@ -67,6 +67,13 @@ spec:
         globalMounts:
           - path: /config
             subPath: sonarr
+      backups:
+        enabled: true
+        type: persistentVolumeClaim
+        existingClaim: backups
+        globalMounts:
+          - path: /storage/backups
+            subPath: sonarr
       realdebrid:
         enabled: true
         type: persistentVolumeClaim

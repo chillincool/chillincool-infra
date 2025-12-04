@@ -14,12 +14,15 @@ spec:
         - sh
         - -c
         - |
-          chown -R 568:568 /storage/config /storage/realdebrid
+          chown -R 568:568 /storage/config /storage/backups /storage/realdebrid
           chmod -R 775 /storage/config
+          chmod -R 775 /storage/backups
           chmod -R 775 /storage/realdebrid
       volumeMounts:
         - name: config
           mountPath: /storage/config
+        - name: backups
+          mountPath: /storage/backups
         - name: realdebrid
           mountPath: /storage/realdebrid
   containers:
@@ -32,12 +35,17 @@ spec:
       volumeMounts:
         - name: config
           mountPath: /storage/config
+        - name: backups
+          mountPath: /storage/backups
         - name: realdebrid
           mountPath: /storage/realdebrid
   volumes:
     - name: config
       persistentVolumeClaim:
         claimName: shared-app-config
+    - name: backups
+      persistentVolumeClaim:
+        claimName: backups
     - name: realdebrid
       persistentVolumeClaim:
         claimName: realdebrid-webdav
