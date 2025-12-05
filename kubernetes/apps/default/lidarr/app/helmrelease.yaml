@@ -80,3 +80,8 @@ spec:
         existingClaim: symlinks
         globalMounts:
           - path: /storage/symlinks
+      tmp:
+        enabled: true
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
