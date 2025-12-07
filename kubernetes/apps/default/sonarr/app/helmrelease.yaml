@@ -46,10 +46,6 @@ spec:
           - name: symlinks
             mountPath: /storage/symlinks
     
-    image:
-      repository: ghcr.io/chillincool/sonarr
-      tag: latest
-    
     service:
       type: NodePort
       port: 8989

@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: radarr
+  name: radarr-4k
   namespace: default
 spec:
   interval: 30m
@@ -31,8 +31,8 @@ spec:
           - -c
           - |
             # Only create directories if they don't exist (idempotent)
-            mkdir -p /storage/symlinks/downloads/radarr
-            mkdir -p /storage/symlinks/movies
+            mkdir -p /storage/symlinks/downloads/radarr-4k
+            mkdir -p /storage/symlinks/movies-4k
             
             # Only chown if not already correct (avoids touching existing files)
             if [ "$(stat -c '%u:%g' /storage/symlinks 2>/dev/null || stat -f '%u:%g' /storage/symlinks)" != "568:568" ]; then
@@ -47,12 +47,12 @@ spec:
     
     envFrom:
       - secretRef:
-          name: radarr-secret
+          name: radarr-4k-secret
     
     service:
       type: NodePort
       port: 7878
-      nodePort: 30878
+      nodePort: 30879
       targetPort: http
     
     podAnnotations:
@@ -75,14 +75,14 @@ spec:
         existingClaim: shared-app-config
         globalMounts:
           - path: /config
-            subPath: radarr
+            subPath: radarr-4k
       backups:
         enabled: true
         type: persistentVolumeClaim
         existingClaim: backups
         globalMounts:
           - path: /storage/backups
-            subPath: radarr
+            subPath: radarr-4k
       realdebrid:
         enabled: true
         type: persistentVolumeClaim

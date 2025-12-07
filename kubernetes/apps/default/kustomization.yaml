@@ -11,11 +11,17 @@ resources:
   - ./decypharr/ks.yaml
   - ./decypharr/enable/ks.yaml
   - ./huntarr/ks.yaml
+  - ./imagemaid/ks.yaml
+  - ./kometa/ks.yaml
   - ./lidarr/ks.yaml
   - ./overseerr/ks.yaml
   - ./plex/ks.yaml
   - ./prowlarr/ks.yaml
   - ./radarr/ks.yaml
+  - ./radarr-4k/ks.yaml
   - ./sonarr/ks.yaml
+  - ./sonarr-4k/ks.yaml
+  - ./sonarr-anime/ks.yaml
+  - ./sugestarr/ks.yaml
   - ./tautulli/ks.yaml
   - ./symlinks-pvc.yaml
