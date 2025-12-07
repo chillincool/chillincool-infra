@@ -10,7 +10,10 @@ resources:
   - ./realdebrid-rclone-secret-copy.yaml
   - ./decypharr/ks.yaml
   - ./decypharr/enable/ks.yaml
+  - ./huntarr/ks.yaml
   - ./lidarr/ks.yaml
+  - ./overseerr/ks.yaml
+  - ./plex/ks.yaml
   - ./prowlarr/ks.yaml
   - ./radarr/ks.yaml
   - ./sonarr/ks.yaml

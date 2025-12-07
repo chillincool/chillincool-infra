@@ -1,0 +1,17 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: plex
+  namespace: flux-system
+spec:
+  interval: 30m
+  path: ./kubernetes/apps/default/plex/app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  wait: false
+  targetNamespace: default
+  dependsOn:
+    - name: decypharr-enable

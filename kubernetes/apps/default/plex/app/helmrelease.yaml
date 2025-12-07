@@ -1,0 +1,76 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: plex
+  namespace: default
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: plex
+      version: "0.x.x"
+      sourceRef:
+        kind: HelmRepository
+        name: chillincool
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+    createNamespace: false
+    crds: Create
+  upgrade:
+    cleanupOnFail: true
+    crds: CreateReplace
+  values:
+    service:
+      type: NodePort
+      port: 32400
+      nodePort: 32400
+      targetPort: http
+    
+    podAnnotations:
+      configmap.reloader.stakater.com/reload: decypharr-values
+      secret.reloader.stakater.com/reload: rclone-secret-realdebrid
+    
+    podSecurityContext:
+      fsGroup: 568
+    
+    securityContext:
+      runAsNonRoot: false
+      runAsUser: 568
+      runAsGroup: 568
+      readOnlyRootFilesystem: false
+    
+    persistence:
+      config:
+        enabled: true
+        type: persistentVolumeClaim
+        existingClaim: shared-app-config
+        globalMounts:
+          - path: /config
+            subPath: plex
+      backups:
+        enabled: true
+        type: persistentVolumeClaim
+        existingClaim: backups
+        globalMounts:
+          - path: /storage/backups
+            subPath: plex
+      realdebrid:
+        enabled: true
+        type: persistentVolumeClaim
+        existingClaim: realdebrid-webdav
+        globalMounts:
+          - path: /storage/realdebrid
+      symlinks:
+        enabled: true
+        type: persistentVolumeClaim
+        existingClaim: symlinks
+        globalMounts:
+          - path: /storage/symlinks
+      tmp:
+        enabled: true
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
