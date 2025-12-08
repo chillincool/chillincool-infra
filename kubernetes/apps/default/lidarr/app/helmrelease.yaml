@@ -47,6 +47,7 @@ spec:
     envFrom:
       - secretRef:
           name: lidarr-secret
+    service:
       type: NodePort
       port: 8686
       nodePort: 30686
