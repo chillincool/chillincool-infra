@@ -73,7 +73,7 @@ spec:
 
               check_pod_running() {
                 READY_PODS=$(kubectl get pods -n default -l app.kubernetes.io/name=decypharr -o json | \
-                  grep -o '"phase":"Running"' | wc -l)
+                  grep -c '"phase":"Running"' || true)
 
                 if [ "$READY_PODS" -gt 0 ]; then
                   return 0
