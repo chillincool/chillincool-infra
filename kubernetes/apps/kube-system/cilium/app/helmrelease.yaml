@@ -83,6 +83,10 @@ spec:
       exclusive: false
       chainingMode: none
 
+    # Talos-specific: disable sysctl init container (Talos manages sysctls)
+    initResources: {}
+    sysctlOverride: []
+
     # Security
     policyEnforcementMode: default
 
