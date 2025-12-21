@@ -1,0 +1,96 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: cilium
+  namespace: kube-system
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: cilium
+      version: "1.16.5"
+      sourceRef:
+        kind: HelmRepository
+        name: cilium
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+    createNamespace: false
+    crds: Create
+  upgrade:
+    cleanupOnFail: true
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  values:
+    # Use existing pod CIDR from your cluster
+    ipam:
+      mode: kubernetes
+
+    # Replace kube-proxy completely
+    kubeProxyReplacement: true
+
+    # Point to your control plane endpoint
+    k8sServiceHost: "172.16.60.7"
+    k8sServicePort: "6443"
+
+    # Enable socket-based load balancing (required for hostDNS.forwardKubeDNSToHost in Talos)
+    socketLB:
+      enabled: true
+
+    # Operator configuration
+    operator:
+      replicas: 1
+      rollOutPods: true
+
+    # Enable IP masquerading for traffic leaving the cluster
+    enableIPv4Masquerade: true
+
+    # Disable IPv6 (your cluster doesn't use it)
+    enableIPv6: false
+
+    # Hubble (observability) - disabled initially, can enable later
+    hubble:
+      enabled: false
+      relay:
+        enabled: false
+      ui:
+        enabled: false
+
+    # Security and performance settings
+    bpf:
+      masquerade: true
+      # Use host routing mode for better performance
+      hostRouting: true
+
+    # Enable automatic node CIDR allocation
+    autoDirectNodeRoutes: true
+
+    # Tunnel mode: disabled (use native routing for better performance)
+    tunnel: disabled
+
+    # Enable bandwidth manager for better QoS
+    bandwidthManager:
+      enabled: true
+
+    # Enable local redirect policy
+    localRedirectPolicy: true
+
+    # CNI configuration
+    cni:
+      exclusive: false
+      chainingMode: none
+
+    # Security
+    policyEnforcementMode: default
+
+    # Resource limits
+    resources:
+      limits:
+        cpu: 4000m
+        memory: 4Gi
+      requests:
+        cpu: 100m
+        memory: 512Mi
