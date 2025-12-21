@@ -5,7 +5,7 @@ metadata:
   name: huntarr
   namespace: default
 spec:
-  interval: 30m
+  interval: 1m
   chart:
     spec:
       chart: huntarr
@@ -25,6 +25,10 @@ spec:
     cleanupOnFail: true
     crds: CreateReplace
   values:
+    env:
+      - name: HUNTARR_PORT
+        value: "8080"
+    
     service:
       type: NodePort
       port: 5000
