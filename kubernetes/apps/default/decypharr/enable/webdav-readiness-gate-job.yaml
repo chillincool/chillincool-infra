@@ -1,35 +1,157 @@
 ---
-# Job that waits for Decypharr WebDAV to be ready before allowing
-# the decypharr-enable overlay to apply (which mounts the rclone PVC).
-# This prevents mount failures due to the WebDAV server not being available yet.
-apiVersion: batch/v1
-kind: Job
+# Deployment that continuously monitors Decypharr WebDAV health and manages
+# the rclone PVC mount by patching the ConfigMap based on WebDAV availability.
+# This prevents mount failures and automatically recovers from outages.
+apiVersion: v1
+kind: ServiceAccount
 metadata:
-  name: decypharr-webdav-readiness-gate
+  name: decypharr-webdav-controller
+  namespace: default
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: decypharr-webdav-controller
+  namespace: default
+rules:
+  - apiGroups: [""]
+    resources: ["configmaps"]
+    verbs: ["get", "patch"]
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: decypharr-webdav-controller
+  namespace: default
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: decypharr-webdav-controller
+subjects:
+  - kind: ServiceAccount
+    name: decypharr-webdav-controller
+    namespace: default
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: decypharr-webdav-controller
   namespace: default
 spec:
-  ttlSecondsAfterFinished: 300
-  backoffLimit: 20
+  replicas: 1
+  selector:
+    matchLabels:
+      app: decypharr-webdav-controller
   template:
+    metadata:
+      labels:
+        app: decypharr-webdav-controller
     spec:
-      restartPolicy: OnFailure
+      serviceAccountName: decypharr-webdav-controller
       containers:
-        - name: wait-for-webdav
-          image: curlimages/curl:8.5.0
+        - name: controller
+          image: bitnami/kubectl:1.31
           command:
             - sh
             - -c
             - |
-              echo "Waiting for Decypharr WebDAV to be ready..."
-              until curl -sf -X PROPFIND http://decypharr.default.svc.cluster.local:8282/webdav/ >/dev/null 2>&1; do
-                echo "WebDAV not ready yet, retrying in 5s..."
-                sleep 5
+              #!/bin/sh
+              set -e
+
+              CONFIGMAP_NAME="decypharr-values"
+              NAMESPACE="default"
+              SERVICE_URL="http://decypharr.default.svc.cluster.local:8282/webdav/"
+              CHECK_INTERVAL=30
+              ENABLED_STATE="unknown"
+
+              log() {
+                echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1"
+              }
+
+              check_dns() {
+                if nslookup decypharr.default.svc.cluster.local >/dev/null 2>&1; then
+                  return 0
+                else
+                  log "ERROR: DNS resolution failed for decypharr service"
+                  return 1
+                fi
+              }
+
+              check_pod_running() {
+                READY_PODS=$(kubectl get pods -n default -l app.kubernetes.io/name=decypharr -o json | \
+                  grep -o '"phase":"Running"' | wc -l)
+
+                if [ "$READY_PODS" -gt 0 ]; then
+                  return 0
+                else
+                  log "WARN: No running decypharr pods found"
+                  return 1
+                fi
+              }
+
+              check_webdav() {
+                if curl -sf -m 5 -X PROPFIND "$SERVICE_URL" >/dev/null 2>&1; then
+                  return 0
+                else
+                  log "WARN: WebDAV health check failed"
+                  return 1
+                fi
+              }
+
+              enable_rclone_mount() {
+                if [ "$ENABLED_STATE" = "true" ]; then
+                  return
+                fi
+
+                log "INFO: Enabling rclone mount..."
+                kubectl patch configmap "$CONFIGMAP_NAME" -n "$NAMESPACE" --type merge -p '
+                {
+                  "data": {
+                    "values.yaml": "persistence:\n  realdebrid:\n    enabled: true\n    type: persistentVolumeClaim\n    existingClaim: realdebrid-webdav\n    globalMounts:\n      - path: /storage/realdebrid\n"
+                  }
+                }'
+
+                ENABLED_STATE="true"
+                log "INFO: Rclone mount enabled"
+              }
+
+              disable_rclone_mount() {
+                if [ "$ENABLED_STATE" = "false" ]; then
+                  return
+                fi
+
+                log "INFO: Disabling rclone mount..."
+                kubectl patch configmap "$CONFIGMAP_NAME" -n "$NAMESPACE" --type merge -p '
+                {
+                  "data": {
+                    "values.yaml": "persistence:\n  realdebrid:\n    enabled: false\n    type: persistentVolumeClaim\n    existingClaim: realdebrid-webdav\n    globalMounts:\n      - path: /storage/realdebrid\n"
+                  }
+                }'
+
+                ENABLED_STATE="false"
+                log "INFO: Rclone mount disabled"
+              }
+
+              log "INFO: Starting Decypharr WebDAV controller..."
+
+              while true; do
+                if check_dns && check_pod_running && check_webdav; then
+                  log "INFO: WebDAV is healthy"
+                  enable_rclone_mount
+                else
+                  log "WARN: WebDAV is unhealthy, disabling rclone mount"
+                  disable_rclone_mount
+                fi
+
+                sleep "$CHECK_INTERVAL"
               done
-              echo "Decypharr WebDAV is ready!"
           resources:
             requests:
               cpu: 10m
-              memory: 16Mi
-            limits:
-              cpu: 50m
               memory: 32Mi
+            limits:
+              cpu: 100m
+              memory: 64Mi

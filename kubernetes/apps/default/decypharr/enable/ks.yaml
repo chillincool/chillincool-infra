@@ -15,8 +15,8 @@ spec:
   wait: true
   timeout: 5m
   healthChecks:
-    - apiVersion: batch/v1
-      kind: Job
-      name: decypharr-webdav-readiness-gate
+    - apiVersion: apps/v1
+      kind: Deployment
+      name: decypharr-webdav-controller
       namespace: default
   targetNamespace: default
