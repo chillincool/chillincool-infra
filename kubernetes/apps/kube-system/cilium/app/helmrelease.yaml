@@ -40,8 +40,9 @@ spec:
     k8sServicePort: "6443"
 
     # Enable socket-based load balancing (required for hostDNS.forwardKubeDNSToHost in Talos)
+    # TEMPORARILY DISABLED: Causing "operation not permitted" for services with no backends
     socketLB:
-      enabled: true
+      enabled: false
 
     # Operator configuration
     operator:

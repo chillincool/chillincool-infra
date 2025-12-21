@@ -71,15 +71,6 @@ spec:
                 echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1"
               }
 
-              check_dns() {
-                if nslookup decypharr.default.svc.cluster.local >/dev/null 2>&1; then
-                  return 0
-                else
-                  log "ERROR: DNS resolution failed for decypharr service"
-                  return 1
-                fi
-              }
-
               check_pod_running() {
                 READY_PODS=$(kubectl get pods -n default -l app.kubernetes.io/name=decypharr -o json | \
                   grep -o '"phase":"Running"' | wc -l)
@@ -138,7 +129,7 @@ spec:
               log "INFO: Starting Decypharr WebDAV controller..."
 
               while true; do
-                if check_dns && check_pod_running && check_webdav; then
+                if check_pod_running && check_webdav; then
                   log "INFO: WebDAV is healthy"
                   enable_rclone_mount
                 else
