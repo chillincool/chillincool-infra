@@ -19,9 +19,11 @@ spec:
       retries: 3
     createNamespace: false
     crds: Create
+    timeout: 10m
   upgrade:
     cleanupOnFail: true
     crds: CreateReplace
+    timeout: 2m
   values:
     service:
       type: NodePort
