@@ -63,7 +63,7 @@ spec:
       fsGroup: 568
     
     securityContext:
-      runAsNonRoot: false
+      runAsNonRoot: true
       runAsUser: 568
       runAsGroup: 568
       readOnlyRootFilesystem: false
