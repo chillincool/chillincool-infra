@@ -25,6 +25,21 @@ spec:
     crds: CreateReplace
     timeout: 2m
   values:
+    initContainers:
+      - name: create-directories
+        image: alpine:latest
+        command:
+          - sh
+          - -c
+          - |
+            # Create necessary directories for Plex
+            mkdir -p "/config/Library/Application Support/Plex Media Server"
+            
+            # Set ownership
+            chown -R 568:568 /config
+        volumeMounts:
+          - name: config
+            mountPath: /config
     service:
       type: NodePort
       port: 32400
