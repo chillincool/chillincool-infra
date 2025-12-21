@@ -68,8 +68,8 @@ spec:
     # Enable automatic node CIDR allocation
     autoDirectNodeRoutes: true
 
-    # Tunnel mode: disabled (use native routing for better performance)
-    tunnel: disabled
+    # Routing mode: native routing (default in v1.15+, tunnel option removed)
+    routingMode: native
 
     # Enable bandwidth manager for better QoS
     bandwidthManager:
