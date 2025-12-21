@@ -6,5 +6,5 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h
-  url: oci://ghcr.io/cert-manager/cert-manager
+  url: oci://quay.io/jetstack/charts
   type: oci
