@@ -10,6 +10,7 @@ resources:
   - ./helmrepository-longhorn.yaml
   - ./helmrepository-stakater.yaml
   - ./ks-cert-manager.yaml
+  - ./ks-cert-manager-issuers.yaml
   - ./ks-default-apps.yaml
   - ./ks-kube-system-apps.yaml
   - ./ks-storage-apps.yaml
