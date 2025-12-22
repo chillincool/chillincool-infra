@@ -5,3 +5,4 @@ resources:
   - namespace.yaml
   - secret.enc.yaml
   - helmrelease.yaml
+  - token-job.yaml

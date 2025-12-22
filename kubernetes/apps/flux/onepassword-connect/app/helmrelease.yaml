@@ -32,4 +32,4 @@ spec:
     operator:
       create: true
       autoRestart: true
-      watchNamespace: []  # Watch all namespaces
+      watchNamespace: []
