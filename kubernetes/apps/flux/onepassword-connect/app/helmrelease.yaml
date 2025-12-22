@@ -24,10 +24,6 @@ spec:
     remediation:
       retries: 3
   values:
-    connect:
-      credentialsName: "onepassword-credentials"  # Restored to use the existing secret
-      credentialsKey: "1password-credentials.json"  # Corrected to the valid key name
-
     operator:
       create: true
       autoRestart: true
