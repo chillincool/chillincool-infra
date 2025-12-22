@@ -100,3 +100,9 @@ spec:
     # BGP Control Plane for LoadBalancer IP advertisement
     bgpControlPlane:
       enabled: true
+
+    # Enable L2 announcements to bind LoadBalancer IPs locally
+    l2announcements:
+      enabled: true
+    externalIPs:
+      enabled: true
