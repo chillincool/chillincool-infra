@@ -32,3 +32,8 @@ spec:
         globalMounts:
           - path: /app/config/
             subPath: suggestarr
+      tmp:
+        enabled: true
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
