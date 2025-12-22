@@ -25,37 +25,26 @@ spec:
     remediation:
       retries: 3
   values:
-    # Use existing pod CIDR from your cluster
     ipam:
       mode: kubernetes
 
-    # Pod CIDR for native routing (required with routingMode: native)
     ipv4NativeRoutingCIDR: 10.244.0.0/16
 
-    # Replace kube-proxy completely
     kubeProxyReplacement: true
 
-    # Point to your control plane endpoint
     k8sServiceHost: "172.16.60.7"
     k8sServicePort: "6443"
 
-    # Enable socket-based load balancing (required for hostDNS.forwardKubeDNSToHost in Talos)
-    # TEMPORARILY DISABLED: Causing "operation not permitted" for services with no backends
     socketLB:
       enabled: false
 
-    # Operator configuration
     operator:
       replicas: 1
       rollOutPods: true
 
-    # Enable IP masquerading for traffic leaving the cluster
     enableIPv4Masquerade: true
-
-    # Disable IPv6 (your cluster doesn't use it)
     enableIPv6: false
 
-    # Hubble (observability) - disabled initially, can enable later
     hubble:
       enabled: false
       relay:
@@ -63,31 +52,22 @@ spec:
       ui:
         enabled: false
 
-    # Security and performance settings
     bpf:
       masquerade: true
-      # Use host routing mode for better performance
       hostRouting: true
 
-    # Enable automatic node CIDR allocation
     autoDirectNodeRoutes: true
-
-    # Routing mode: native routing (default in v1.15+, tunnel option removed)
     routingMode: native
 
-    # Enable bandwidth manager for better QoS
     bandwidthManager:
       enabled: true
 
-    # Enable local redirect policy
     localRedirectPolicy: true
 
-    # CNI configuration
     cni:
       exclusive: false
       chainingMode: none
 
-    # Talos-specific: security context capabilities (excludes SYS_MODULE which Talos doesn't allow)
     securityContext:
       capabilities:
         ciliumAgent:
@@ -107,10 +87,8 @@ spec:
           - SYS_ADMIN
           - SYS_RESOURCE
 
-    # Security
     policyEnforcementMode: default
 
-    # Resource limits
     resources:
       limits:
         cpu: 4000m
@@ -122,7 +100,3 @@ spec:
     # BGP Control Plane for LoadBalancer IP advertisement
     bgpControlPlane:
       enabled: true
-
-    # Enable LB IPAM for LoadBalancer services
-    loadBalancer:
-      mode: dsr

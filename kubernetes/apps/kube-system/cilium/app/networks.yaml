@@ -1,0 +1,55 @@
+---
+apiVersion: cilium.io/v2alpha1
+kind: CiliumLoadBalancerIPPool
+metadata:
+  name: lb-pool
+spec:
+  blocks:
+    - cidr: 10.60.60.0/24
+
+---
+apiVersion: cilium.io/v2alpha1
+kind: CiliumBGPClusterConfig
+metadata:
+  name: cilium-bgp
+spec:
+  bgpInstances:
+    - name: main
+      localASN: 65003
+      peers:
+        - name: fortigate
+          peerASN: 65001
+          peerAddress: 172.16.60.1
+          peerConfigRef:
+            name: cilium-peer
+
+---
+apiVersion: cilium.io/v2alpha1
+kind: CiliumBGPPeerConfig
+metadata:
+  name: cilium-peer
+spec:
+  authSecretRef: null
+  gracefulRestart:
+    enabled: true
+    restartTimeSeconds: 120
+  families:
+    - afi: ipv4
+      safi: unicast
+      advertisements:
+        matchLabels:
+          advertise: bgp
+
+---
+apiVersion: cilium.io/v2alpha1
+kind: CiliumBGPAdvertisement
+metadata:
+  name: bgp-advertisements
+  labels:
+    advertise: bgp
+spec:
+  advertisements:
+    - advertisementType: Service
+      service:
+        addresses:
+          - LoadBalancerIP
