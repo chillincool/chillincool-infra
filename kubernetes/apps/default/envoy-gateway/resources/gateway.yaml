@@ -27,3 +27,15 @@ spec:
         certificateRefs:
           - kind: Secret
             name: radarr-tls
+    - name: https-suggestarr
+      protocol: HTTPS
+      port: 443
+      hostname: suggestarr.chillincool.net
+      allowedRoutes:
+        namespaces:
+          from: Same
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: suggestarr-tls

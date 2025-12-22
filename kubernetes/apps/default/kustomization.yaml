@@ -24,7 +24,7 @@ resources:
   - ./sonarr/ks.yaml
   - ./sonarr-4k/ks.yaml
   - ./sonarr-anime/ks.yaml
-  - ./sugestarr/ks.yaml
+  - ./suggestarr/ks.yaml
   - ./tautulli/ks.yaml
   - ./symlinks-pvc.yaml
   - ./secrets.yaml
