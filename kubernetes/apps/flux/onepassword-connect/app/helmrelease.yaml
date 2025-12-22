@@ -25,7 +25,7 @@ spec:
       retries: 3
   values:
     connect:
-      credentials_base64: ""
+      # credentials_base64: ""
       credentialsKey: "1password-credentials.json"
       credentialsName: "onepassword-credentials"
 
