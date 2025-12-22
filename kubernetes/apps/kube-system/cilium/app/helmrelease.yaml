@@ -101,6 +101,10 @@ spec:
     bgpControlPlane:
       enabled: true
 
+    # Enable DSR mode for LoadBalancer services to handle asymmetric routing
+    loadBalancer:
+      mode: dsr
+
     # Enable L2 announcements to bind LoadBalancer IPs locally
     l2announcements:
       enabled: true
