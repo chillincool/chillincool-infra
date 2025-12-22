@@ -8,6 +8,7 @@ spec:
   parentRefs:
     - name: main-gateway
       namespace: default
+      sectionName: https-radarr
   hostnames:
     - "talos-radarr.chillincool.net"
   rules:

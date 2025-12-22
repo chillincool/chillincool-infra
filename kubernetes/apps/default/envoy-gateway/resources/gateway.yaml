@@ -15,10 +15,10 @@ spec:
       allowedRoutes:
         namespaces:
           from: Same
-    - name: https
+    - name: https-radarr
       protocol: HTTPS
       port: 443
-      hostname: "*.chillincool.net"
+      hostname: talos-radarr.chillincool.net
       allowedRoutes:
         namespaces:
           from: Same
@@ -26,4 +26,4 @@ spec:
         mode: Terminate
         certificateRefs:
           - kind: Secret
-            name: wildcard-chillincool-net-tls
+            name: radarr-tls
