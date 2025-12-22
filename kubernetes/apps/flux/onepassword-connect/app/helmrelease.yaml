@@ -25,9 +25,8 @@ spec:
       retries: 3
   values:
     connect:
-      # credentials_base64: ""
+      credentialsName: "onepassword-credentials"  # Reverted to match the existing secret
       credentialsKey: "1password-credentials.json"
-      credentialsName: "onepassword-credentials"
 
     operator:
       create: true
