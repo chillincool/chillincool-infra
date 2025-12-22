@@ -118,3 +118,11 @@ spec:
       requests:
         cpu: 100m
         memory: 512Mi
+
+    # BGP Control Plane for LoadBalancer IP advertisement
+    bgpControlPlane:
+      enabled: true
+
+    # Enable LB IPAM for LoadBalancer services
+    loadBalancer:
+      mode: dsr

@@ -24,9 +24,8 @@ spec:
     remediation:
       retries: 3
   values:
+    connect:
     operator:
       create: true
       autoRestart: true
       watchNamespace: []
-      tokenSecret: onepassword-token
-      tokenSecretKey: token
