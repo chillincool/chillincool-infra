@@ -4,5 +4,5 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - secret.enc.yaml
+  - token-secret.enc.yaml
   - helmrelease.yaml
-  - token-job.yaml
