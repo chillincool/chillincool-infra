@@ -15,3 +15,15 @@ spec:
       allowedRoutes:
         namespaces:
           from: Same
+    - name: https
+      protocol: HTTPS
+      port: 443
+      hostname: "*.chillincool.net"
+      allowedRoutes:
+        namespaces:
+          from: Same
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: wildcard-chillincool-net-tls

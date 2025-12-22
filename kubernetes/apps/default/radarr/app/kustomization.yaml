@@ -4,6 +4,3 @@ kind: Kustomization
 resources:
   - helmrelease.yaml
   - ../resources/httproute.yaml
-
-patches:
-  - path: ../resources/gateway-listener.yaml
