@@ -33,3 +33,5 @@ spec:
       create: true
       autoRestart: true
       watchNamespace: []
+      tokenSecret: onepassword-token
+      tokenSecretKey: token
