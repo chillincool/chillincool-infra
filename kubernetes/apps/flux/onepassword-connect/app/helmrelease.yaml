@@ -25,8 +25,8 @@ spec:
       retries: 3
   values:
     connect:
-      credentialsName: "onepassword-credentials"  # Reverted to match the existing secret
-      credentialsKey: "1password-credentials.json"
+      credentialsName: "onepassword-credentials"  # Restored to use the existing secret
+      credentialsKey: "MXBhc3N3b3JkLWNyZWRlbnRpYWxzLmpzb24="  # Base64-encoded string of '1password-credentials.json'
 
     operator:
       create: true
