@@ -16,15 +16,15 @@ spec:
         namespace: flux-system
   install:
     crds: Create
+    createNamespace: true
   upgrade:
     crds: CreateReplace
   values:
     installCRDs: true
-    serviceAccount:
-      create: true
-    securityContext:
-      fsGroup: 1001
-    podSecurityContext:
-      runAsNonRoot: true
-      runAsUser: 1001
-      runAsGroup: 1001
+
+    # Enable Gateway API support for automatic certificate provisioning
+    featureGates: "ExperimentalGatewayAPISupport=true"
+
+    global:
+      leaderElection:
+        namespace: cert-manager
