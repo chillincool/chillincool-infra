@@ -55,3 +55,6 @@ spec:
       service:
         addresses:
           - LoadBalancerIP
+      selector:
+        matchLabels:
+          app.kubernetes.io/managed-by: envoy-gateway
