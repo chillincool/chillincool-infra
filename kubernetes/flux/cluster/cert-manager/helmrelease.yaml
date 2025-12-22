@@ -23,7 +23,8 @@ spec:
     installCRDs: true
 
     # Enable Gateway API support for automatic certificate provisioning
-    featureGates: "ExperimentalGatewayAPISupport=true"
+    config:
+      enableGatewayAPI: true
 
     global:
       leaderElection:
