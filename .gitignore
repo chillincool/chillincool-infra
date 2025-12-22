@@ -3,3 +3,4 @@ CLAUDE.md
 controlplane.yaml
 certificate-sample.yaml
 .gitignore
+.age-key.txt
