@@ -1,3 +1,5 @@
 test-webdav.yaml
 CLAUDE.md
 controlplane.yaml
+certificate-sample.yaml
+.gitignore

@@ -1,0 +1,14 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: chillincool-tls
+  namespace: default
+spec:
+  secretName: chillincool-tls-secret
+  issuerRef:
+    name: letsencrypt-dns01
+    kind: ClusterIssuer
+  dnsNames:
+  - chillincool.net
+  - www.chillincool.net
