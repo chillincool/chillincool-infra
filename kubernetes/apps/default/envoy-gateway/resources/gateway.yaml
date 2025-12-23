@@ -51,3 +51,15 @@ spec:
         certificateRefs:
           - kind: Secret
             name: huntarr-tls
+    - name: https-sonarr-anime
+      protocol: HTTPS
+      port: 443
+      hostname: sonarr-anime.chillincool.net
+      allowedRoutes:
+        namespaces:
+          from: Same
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: sonarr-anime-tls
