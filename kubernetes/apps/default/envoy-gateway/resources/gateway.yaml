@@ -39,3 +39,15 @@ spec:
         certificateRefs:
           - kind: Secret
             name: suggestarr-tls
+    - name: https-huntarr
+      protocol: HTTPS
+      port: 443
+      hostname: huntarr.chillincool.net
+      allowedRoutes:
+        namespaces:
+          from: Same
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: huntarr-tls
