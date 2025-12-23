@@ -25,7 +25,7 @@ spec:
       remediateLastFailure: true
   values:
     probes:
-      enabled: false
+      path: /
 
     persistence:
       config:
