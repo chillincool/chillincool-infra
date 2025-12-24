@@ -25,6 +25,23 @@ spec:
       remediateLastFailure: true
   # Chart values - customize as needed
   values:
+    httpRoute:
+      enabled: true
+      parentRefs:
+        - name: main-gateway
+          namespace: default
+          sectionName: https-prowlarr
+      hostnames:
+        - prowlarr.chillincool.net
+      rules:
+        - matches:
+            - path:
+                type: PathPrefix
+                value: /
+          backendRefs:
+            - name: prowlarr
+              port: 9696
+
     initContainers:
       - name: create-directories
         image: alpine:latest

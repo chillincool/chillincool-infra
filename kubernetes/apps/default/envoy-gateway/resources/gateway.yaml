@@ -63,3 +63,15 @@ spec:
         certificateRefs:
           - kind: Secret
             name: sonarr-anime-tls
+    - name: https-prowlarr
+      protocol: HTTPS
+      port: 443
+      hostname: prowlarr.chillincool.net
+      allowedRoutes:
+        namespaces:
+          from: Same
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: prowlarr-tls
