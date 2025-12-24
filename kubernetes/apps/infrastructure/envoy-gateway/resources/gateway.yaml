@@ -18,7 +18,7 @@ spec:
     - name: https-radarr
       protocol: HTTPS
       port: 443
-      hostname: talos-radarr.chillincool.net
+      hostname: radarr.chillincool.net
       allowedRoutes:
         namespaces:
           from: All
@@ -88,4 +88,132 @@ spec:
         certificateRefs:
           - kind: Secret
             name: prowlarr-tls
+            namespace: media
+    - name: https-decypharr
+      protocol: HTTPS
+      port: 443
+      hostname: decypharr.chillincool.net
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: media
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: decypharr-tls
+            namespace: media
+    - name: https-lidarr
+      protocol: HTTPS
+      port: 443
+      hostname: lidarr.chillincool.net
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: media
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: lidarr-tls
+            namespace: media
+    - name: https-overseerr
+      protocol: HTTPS
+      port: 443
+      hostname: overseerr.chillincool.net
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: media
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: overseerr-tls
+            namespace: media
+    - name: https-plex
+      protocol: HTTPS
+      port: 443
+      hostname: plex.chillincool.net
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: media
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: plex-tls
+            namespace: media
+    - name: https-radarr-4k
+      protocol: HTTPS
+      port: 443
+      hostname: radarr-4k.chillincool.net
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: media
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: radarr-4k-tls
+            namespace: media
+    - name: https-sonarr
+      protocol: HTTPS
+      port: 443
+      hostname: sonarr.chillincool.net
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: media
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: sonarr-tls
+            namespace: media
+    - name: https-sonarr-4k
+      protocol: HTTPS
+      port: 443
+      hostname: sonarr-4k.chillincool.net
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: media
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: sonarr-4k-tls
+            namespace: media
+    - name: https-tautulli
+      protocol: HTTPS
+      port: 443
+      hostname: tautulli.chillincool.net
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: media
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: tautulli-tls
             namespace: media
