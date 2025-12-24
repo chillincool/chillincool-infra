@@ -27,6 +27,7 @@ spec:
   accessModes:
     - ReadWriteMany
   storageClassName: rclone-realdebrid
+  volumeName: realdebrid-webdav-manual
   resources:
     requests:
       storage: 100Gi
