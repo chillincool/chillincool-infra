@@ -5,14 +5,12 @@ metadata:
   name: cert-manager-issuers
   namespace: flux-system
 spec:
-  dependsOn:
-  - name: cert-manager
   interval: 30m
-  retryInterval: 1m
-  timeout: 10m
+  path: ./kubernetes/apps/infrastructure/cert-manager/issuers/app
+  prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./kubernetes/flux/cluster/cert-manager-issuers
-  prune: true
   wait: true
+  dependsOn:
+    - name: cert-manager

@@ -6,11 +6,10 @@ metadata:
   namespace: flux-system
 spec:
   interval: 30m
-  retryInterval: 1m
-  timeout: 10m
+  path: ./kubernetes/apps/infrastructure/cert-manager/app
+  prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./kubernetes/flux/cluster/cert-manager
-  prune: true
-  wait: false
+  wait: true
+  timeout: 10m
