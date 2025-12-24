@@ -29,7 +29,7 @@ spec:
       enabled: true
       parentRefs:
         - name: main-gateway
-          namespace: default
+          namespace: envoy-gateway-system
           sectionName: https-prowlarr
       hostnames:
         - prowlarr.chillincool.net

@@ -12,6 +12,7 @@ resources:
   - ./decypharr/enable/ks.yaml
   - ./envoy-gateway/ks.yaml
   - ./envoy-gateway/ks-gateway.yaml
+  - ./envoy-gateway/ks-referencegrant.yaml
   - ./huntarr/ks.yaml
   - ./imagemaid/ks.yaml
   - ./kometa/ks.yaml

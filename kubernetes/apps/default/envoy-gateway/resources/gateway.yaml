@@ -3,7 +3,7 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: main-gateway
-  namespace: default
+  namespace: envoy-gateway-system
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-dns01
 spec:
@@ -14,64 +14,78 @@ spec:
       port: 80
       allowedRoutes:
         namespaces:
-          from: Same
+          from: All
     - name: https-radarr
       protocol: HTTPS
       port: 443
       hostname: talos-radarr.chillincool.net
       allowedRoutes:
         namespaces:
-          from: Same
+          from: All
       tls:
         mode: Terminate
         certificateRefs:
           - kind: Secret
             name: radarr-tls
+            namespace: default
     - name: https-suggestarr
       protocol: HTTPS
       port: 443
       hostname: suggestarr.chillincool.net
       allowedRoutes:
         namespaces:
-          from: Same
+          from: All
       tls:
         mode: Terminate
         certificateRefs:
           - kind: Secret
             name: suggestarr-tls
+            namespace: default
     - name: https-huntarr
       protocol: HTTPS
       port: 443
       hostname: huntarr.chillincool.net
       allowedRoutes:
         namespaces:
-          from: Same
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: default
       tls:
         mode: Terminate
         certificateRefs:
           - kind: Secret
             name: huntarr-tls
+            namespace: default
     - name: https-sonarr-anime
       protocol: HTTPS
       port: 443
       hostname: sonarr-anime.chillincool.net
       allowedRoutes:
         namespaces:
-          from: Same
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: default
       tls:
         mode: Terminate
         certificateRefs:
           - kind: Secret
             name: sonarr-anime-tls
+            namespace: default
     - name: https-prowlarr
       protocol: HTTPS
       port: 443
       hostname: prowlarr.chillincool.net
       allowedRoutes:
         namespaces:
-          from: Same
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: default
       tls:
         mode: Terminate
         certificateRefs:
           - kind: Secret
             name: prowlarr-tls
+            namespace: default
