@@ -13,6 +13,7 @@ resources:
   - ./ks-cert-manager.yaml
   - ./ks-cert-manager-issuers.yaml
   - ./ks-onepassword-connect.yaml
-  - ./ks-default-apps.yaml
+  - ./ks-infrastructure-apps.yaml
   - ./ks-kube-system-apps.yaml
+  - ./ks-media-apps.yaml
   - ./ks-storage-apps.yaml

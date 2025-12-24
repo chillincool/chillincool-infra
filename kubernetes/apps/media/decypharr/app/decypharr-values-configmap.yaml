@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: decypharr-values
+  namespace: media
+  annotations:
+    # This ConfigMap is managed by decypharr-webdav-controller
+    # It will automatically flip enabled: true/false based on WebDAV health
+data:
+  values.yaml: |
+    persistence:
+      realdebrid:
+        enabled: false
+        type: persistentVolumeClaim
+        existingClaim: realdebrid-webdav
+        globalMounts:
+          - path: /storage/realdebrid

@@ -1,0 +1,91 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: main-gateway
+  namespace: envoy-gateway-system
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-dns01
+spec:
+  gatewayClassName: eg
+  listeners:
+    - name: http
+      protocol: HTTP
+      port: 80
+      allowedRoutes:
+        namespaces:
+          from: All
+    - name: https-radarr
+      protocol: HTTPS
+      port: 443
+      hostname: talos-radarr.chillincool.net
+      allowedRoutes:
+        namespaces:
+          from: All
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: radarr-tls
+            namespace: media
+    - name: https-suggestarr
+      protocol: HTTPS
+      port: 443
+      hostname: suggestarr.chillincool.net
+      allowedRoutes:
+        namespaces:
+          from: All
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: suggestarr-tls
+            namespace: media
+    - name: https-huntarr
+      protocol: HTTPS
+      port: 443
+      hostname: huntarr.chillincool.net
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: media
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: huntarr-tls
+            namespace: media
+    - name: https-sonarr-anime
+      protocol: HTTPS
+      port: 443
+      hostname: sonarr-anime.chillincool.net
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: media
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: sonarr-anime-tls
+            namespace: media
+    - name: https-prowlarr
+      protocol: HTTPS
+      port: 443
+      hostname: prowlarr.chillincool.net
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: media
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: prowlarr-tls
+            namespace: media

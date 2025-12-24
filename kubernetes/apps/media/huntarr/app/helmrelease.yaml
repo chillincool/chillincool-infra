@@ -1,0 +1,54 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: huntarr
+  namespace: media
+spec:
+  interval: 1m
+  chart:
+    spec:
+      chart: huntarr
+      version: "0.x.x"
+      sourceRef:
+        kind: HelmRepository
+        name: chillincool
+        namespace: flux-system
+  install:
+    timeout: 10m
+    remediation:
+      retries: 5
+    createNamespace: false
+    crds: Create
+  upgrade:
+    timeout: 10m
+    cleanupOnFail: true
+    crds: CreateReplace
+  values:
+    env:
+      - name: HUNTARR_PORT
+        value: "8080"
+    
+    service:
+      type: NodePort
+      port: 5000
+      nodePort: 30500
+      targetPort: http
+    
+    podSecurityContext:
+      fsGroup: 568
+    
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 568
+      runAsGroup: 568
+      readOnlyRootFilesystem: false
+    
+    persistence:
+      config:
+        enabled: true
+        type: persistentVolumeClaim
+        existingClaim: shared-app-config
+        globalMounts:
+          - path: /config
+            subPath: huntarr
