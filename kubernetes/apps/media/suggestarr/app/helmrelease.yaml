@@ -24,6 +24,23 @@ spec:
       retries: 3
       remediateLastFailure: true
   values:
+    httpRoute:
+      enabled: true
+      parentRefs:
+        - name: main-gateway
+          namespace: envoy-gateway-system
+          sectionName: https-suggestarr
+      hostnames:
+        - suggestarr.chillincool.net
+      rules:
+        - matches:
+            - path:
+                type: PathPrefix
+                value: /
+          backendRefs:
+            - name: suggestarr
+              port: 5000
+
     probes:
       path: /
 

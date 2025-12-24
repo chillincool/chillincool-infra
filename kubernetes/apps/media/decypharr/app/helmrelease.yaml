@@ -26,6 +26,23 @@ spec:
     - kind: ConfigMap
       name: decypharr-values
   values:
+    httpRoute:
+      enabled: true
+      parentRefs:
+        - name: main-gateway
+          namespace: envoy-gateway-system
+          sectionName: https-decypharr
+      hostnames:
+        - decypharr.chillincool.net
+      rules:
+        - matches:
+            - path:
+                type: PathPrefix
+                value: /
+          backendRefs:
+            - name: decypharr
+              port: 8282
+
     service:
       type: NodePort
       port: 8282

@@ -24,6 +24,23 @@ spec:
       retries: 3
       remediateLastFailure: true
   values:
+    httpRoute:
+      enabled: true
+      parentRefs:
+        - name: main-gateway
+          namespace: envoy-gateway-system
+          sectionName: https-sonarr-anime
+      hostnames:
+        - sonarr-anime.chillincool.net
+      rules:
+        - matches:
+            - path:
+                type: PathPrefix
+                value: /
+          backendRefs:
+            - name: sonarr-anime
+              port: 8989
+
     initContainers:
       - name: create-directories
         image: alpine:latest

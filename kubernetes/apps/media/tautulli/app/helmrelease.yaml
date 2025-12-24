@@ -23,6 +23,23 @@ spec:
     cleanupOnFail: true
     crds: CreateReplace
   values:
+    httpRoute:
+      enabled: true
+      parentRefs:
+        - name: main-gateway
+          namespace: envoy-gateway-system
+          sectionName: https-tautulli
+      hostnames:
+        - tautulli.chillincool.net
+      rules:
+        - matches:
+            - path:
+                type: PathPrefix
+                value: /
+          backendRefs:
+            - name: tautulli
+              port: 8181
+
     initContainers:
       - name: create-directories
         image: alpine:latest

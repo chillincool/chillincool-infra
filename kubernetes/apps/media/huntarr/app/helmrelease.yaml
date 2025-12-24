@@ -25,6 +25,23 @@ spec:
     cleanupOnFail: true
     crds: CreateReplace
   values:
+    httpRoute:
+      enabled: true
+      parentRefs:
+        - name: main-gateway
+          namespace: envoy-gateway-system
+          sectionName: https-huntarr
+      hostnames:
+        - huntarr.chillincool.net
+      rules:
+        - matches:
+            - path:
+                type: PathPrefix
+                value: /
+          backendRefs:
+            - name: huntarr
+              port: 5000
+
     env:
       - name: HUNTARR_PORT
         value: "8080"

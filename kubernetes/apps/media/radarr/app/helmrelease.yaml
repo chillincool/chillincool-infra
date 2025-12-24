@@ -23,6 +23,23 @@ spec:
     cleanupOnFail: true
     crds: CreateReplace
   values:
+    httpRoute:
+      enabled: true
+      parentRefs:
+        - name: main-gateway
+          namespace: envoy-gateway-system
+          sectionName: https-radarr
+      hostnames:
+        - radarr.chillincool.net
+      rules:
+        - matches:
+            - path:
+                type: PathPrefix
+                value: /
+          backendRefs:
+            - name: radarr
+              port: 7878
+
     initContainers:
       - name: create-directories
         image: alpine:latest

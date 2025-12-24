@@ -25,6 +25,23 @@ spec:
     crds: CreateReplace
     timeout: 2m
   values:
+    httpRoute:
+      enabled: true
+      parentRefs:
+        - name: main-gateway
+          namespace: envoy-gateway-system
+          sectionName: https-plex
+      hostnames:
+        - plex.chillincool.net
+      rules:
+        - matches:
+            - path:
+                type: PathPrefix
+                value: /
+          backendRefs:
+            - name: plex
+              port: 32400
+
     initContainers:
       - name: create-directories
         image: alpine:latest

@@ -23,6 +23,23 @@ spec:
     cleanupOnFail: true
     crds: CreateReplace
   values:
+    httpRoute:
+      enabled: true
+      parentRefs:
+        - name: main-gateway
+          namespace: envoy-gateway-system
+          sectionName: https-overseerr
+      hostnames:
+        - overseerr.chillincool.net
+      rules:
+        - matches:
+            - path:
+                type: PathPrefix
+                value: /
+          backendRefs:
+            - name: overseerr
+              port: 5055
+
     service:
       type: NodePort
       port: 5055
