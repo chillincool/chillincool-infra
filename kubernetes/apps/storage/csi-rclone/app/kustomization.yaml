@@ -2,56 +2,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - https://raw.githubusercontent.com/wunderio/csi-rclone/master/deploy/kubernetes/1.20/_csi-rclone-namespace.yaml
-  - https://raw.githubusercontent.com/wunderio/csi-rclone/master/deploy/kubernetes/1.20/csi-controller-rbac.yaml
-  - https://raw.githubusercontent.com/wunderio/csi-rclone/master/deploy/kubernetes/1.20/csi-nodeplugin-rbac.yaml
-  - https://raw.githubusercontent.com/wunderio/csi-rclone/master/deploy/kubernetes/1.20/csi-driver.yaml
-  - https://raw.githubusercontent.com/wunderio/csi-rclone/master/deploy/kubernetes/1.20/csi-controller-rclone.yaml
-  - https://raw.githubusercontent.com/wunderio/csi-rclone/master/deploy/kubernetes/1.20/csi-nodeplugin-rclone.yaml
-  - https://raw.githubusercontent.com/wunderio/csi-rclone/master/deploy/kubernetes/1.20/csi-rclone-storageclass.yaml
+  - ./helmrelease.yaml
   - ./rclone-secret.yaml
-patches:
-  - patch: |
-      apiVersion: v1
-      kind: Namespace
-      metadata:
-        name: csi-rclone
-        labels:
-          pod-security.kubernetes.io/enforce: privileged
-          pod-security.kubernetes.io/audit: privileged
-          pod-security.kubernetes.io/warn: privileged
-    target:
-      kind: Namespace
-      name: csi-rclone
-  - patch: |
-      apiVersion: apps/v1
-      kind: StatefulSet
-      metadata:
-        name: csi-controller-rclone
-        namespace: csi-rclone
-      spec:
-        template:
-          spec:
-            tolerations:
-              - key: node-role.kubernetes.io/control-plane
-                operator: Exists
-                effect: NoSchedule
-    target:
-      kind: StatefulSet
-      name: csi-controller-rclone
-  - patch: |
-      apiVersion: apps/v1
-      kind: DaemonSet
-      metadata:
-        name: csi-nodeplugin-rclone
-        namespace: csi-rclone
-      spec:
-        template:
-          spec:
-            tolerations:
-              - key: node-role.kubernetes.io/control-plane
-                operator: Exists
-                effect: NoSchedule
-    target:
-      kind: DaemonSet
-      name: csi-nodeplugin-rclone
+  - ./storageclass.yaml
