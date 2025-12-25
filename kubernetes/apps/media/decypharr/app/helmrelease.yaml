@@ -68,7 +68,7 @@ spec:
       auth:
         enabled: true
         type: secret
-        name: decypharr-auth
+        secretName: decypharr-auth
         globalMounts:
           - path: /config/auth.json
             subPath: json
