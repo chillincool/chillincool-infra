@@ -24,4 +24,4 @@ resources:
   - ./suggestarr/ks.yaml
   - ./tautulli/ks.yaml
   - ./symlinks-pvc.yaml
-  - ./secrets.yaml
+  - ./onepassworditem.yaml

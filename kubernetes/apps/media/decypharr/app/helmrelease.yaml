@@ -65,6 +65,14 @@ spec:
         globalMounts:
           - path: /config
             subPath: decypharr
+      auth:
+        enabled: true
+        type: secret
+        name: decypharr-auth
+        globalMounts:
+          - path: /config/auth.json
+            subPath: json
+            readOnly: true
       symlinks:
         enabled: true
         type: persistentVolumeClaim
