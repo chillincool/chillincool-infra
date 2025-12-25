@@ -26,8 +26,8 @@ spec:
     httpRoute:
       enabled: true
       parentRefs:
-        - name: main-gateway
-          namespace: envoy-gateway-system
+        - name: media-gateway
+          namespace: media
           sectionName: https-lidarr
       hostnames:
         - lidarr.chillincool.net

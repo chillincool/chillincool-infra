@@ -2,8 +2,8 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
-  name: main-gateway
-  namespace: envoy-gateway-system
+  name: media-gateway
+  namespace: media
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-dns01
 spec:

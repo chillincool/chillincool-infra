@@ -1,0 +1,24 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: cert-manager-secret-creator
+  namespace: media
+rules:
+  - apiGroups: [""]
+    resources: ["secrets"]
+    verbs: ["create", "update", "patch", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: cert-manager-secret-creator-binding
+  namespace: media
+subjects:
+  - kind: ServiceAccount
+    name: cert-manager
+    namespace: cert-manager
+roleRef:
+  kind: Role
+  name: cert-manager-secret-creator
+  apiGroup: rbac.authorization.k8s.io

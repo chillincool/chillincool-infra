@@ -27,8 +27,8 @@ spec:
     httpRoute:
       enabled: true
       parentRefs:
-        - name: main-gateway
-          namespace: envoy-gateway-system
+        - name: media-gateway
+          namespace: media
           sectionName: https-sonarr-anime
       hostnames:
         - sonarr-anime.chillincool.net

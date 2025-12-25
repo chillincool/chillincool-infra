@@ -26,8 +26,8 @@ spec:
     httpRoute:
       enabled: true
       parentRefs:
-        - name: main-gateway
-          namespace: envoy-gateway-system
+        - name: media-gateway
+          namespace: media
           sectionName: https-radarr-4k
       hostnames:
         - radarr-4k.chillincool.net
