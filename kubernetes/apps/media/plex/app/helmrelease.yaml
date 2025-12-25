@@ -58,9 +58,8 @@ spec:
           - name: config
             mountPath: /config
     service:
-      type: NodePort
+      type: ClusterIP
       port: 32400
-      nodePort: 32400
       targetPort: http
     
     podAnnotations:

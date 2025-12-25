@@ -41,9 +41,8 @@ spec:
               port: 5055
 
     service:
-      type: NodePort
+      type: ClusterIP
       port: 5055
-      nodePort: 30555
       targetPort: http
     
     podSecurityContext:

@@ -78,9 +78,8 @@ spec:
           name: radarr-4k-secret
     
     service:
-      type: NodePort
+      type: ClusterIP
       port: 7878
-      nodePort: 30879
       targetPort: http
     
     podAnnotations:

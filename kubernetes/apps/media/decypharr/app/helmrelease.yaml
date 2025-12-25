@@ -44,9 +44,8 @@ spec:
               port: 8282
 
     service:
-      type: NodePort
+      type: ClusterIP
       port: 8282
-      nodePort: 30828
       targetPort: http
     
     podSecurityContext:

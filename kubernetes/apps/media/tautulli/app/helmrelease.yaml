@@ -62,9 +62,8 @@ spec:
             mountPath: /storage/symlinks
     
     service:
-      type: NodePort
+      type: ClusterIP
       port: 8181
-      nodePort: 30181
     
     podAnnotations:
       configmap.reloader.stakater.com/reload: decypharr-values

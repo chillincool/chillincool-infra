@@ -79,9 +79,8 @@ spec:
           name: sonarr-4k-secret
     
     service:
-      type: NodePort
+      type: ClusterIP
       port: 8989
-      nodePort: 30990
     
     podAnnotations:
       configmap.reloader.stakater.com/reload: decypharr-values
