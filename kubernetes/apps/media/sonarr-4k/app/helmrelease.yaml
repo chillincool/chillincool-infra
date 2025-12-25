@@ -52,7 +52,7 @@ spec:
             mkdir -p /storage/symlinks/downloads/sonarr-4k
             mkdir -p /storage/symlinks/series-4k
             mkdir -p /config
-            
+
             # Only chown if not already correct (avoids touching existing files)
             if [ "$(stat -c '%u:%g' /storage/symlinks 2>/dev/null || stat -f '%u:%g' /storage/symlinks)" != "568:568" ]; then
               echo "Setting ownership to 568:568"
@@ -60,7 +60,7 @@ spec:
             else
               echo "Ownership already correct, skipping chown"
             fi
-            
+
             # Ensure config directory has correct ownership
             if [ "$(stat -c '%u:%g' /config 2>/dev/null || stat -f '%u:%g' /config)" != "568:568" ]; then
               echo "Setting config ownership to 568:568"
@@ -73,29 +73,29 @@ spec:
             mountPath: /storage/symlinks
           - name: config
             mountPath: /config
-    
+
     envFrom:
       - secretRef:
           name: sonarr-4k-secret
-    
+
     service:
       type: ClusterIP
       port: 8989
-    
+
     podAnnotations:
       configmap.reloader.stakater.com/reload: decypharr-values
       secret.reloader.stakater.com/reload: rclone-secret-realdebrid
-    
+
     podSecurityContext:
       fsGroup: 568
       fsGroupChangePolicy: OnRootMismatch
-    
+
     securityContext:
       runAsNonRoot: false
       runAsUser: 568
       runAsGroup: 568
       readOnlyRootFilesystem: false
-    
+
     persistence:
       config:
         enabled: true

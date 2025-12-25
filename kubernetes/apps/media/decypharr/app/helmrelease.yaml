@@ -47,16 +47,16 @@ spec:
       type: ClusterIP
       port: 8282
       targetPort: http
-    
+
     podSecurityContext:
       fsGroup: 568
-    
+
     securityContext:
       runAsNonRoot: true
       runAsUser: 568
       runAsGroup: 568
       readOnlyRootFilesystem: false
-    
+
     persistence:
       config:
         enabled: true

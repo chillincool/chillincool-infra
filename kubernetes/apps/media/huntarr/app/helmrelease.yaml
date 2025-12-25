@@ -45,21 +45,21 @@ spec:
     env:
       - name: HUNTARR_PORT
         value: "8080"
-    
+
     service:
       type: ClusterIP
       port: 5000
       targetPort: http
-    
+
     podSecurityContext:
       fsGroup: 568
-    
+
     securityContext:
       runAsNonRoot: true
       runAsUser: 568
       runAsGroup: 568
       readOnlyRootFilesystem: false
-    
+
     persistence:
       config:
         enabled: true

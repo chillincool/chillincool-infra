@@ -24,13 +24,13 @@ spec:
       retries: 3
   values:
     defaultSettings:
-      defaultReplicaCount: 1  # Start with 1 for single node, increase when you add nodes
+      defaultReplicaCount: 1 # Start with 1 for single node, increase when you add nodes
       storageMinimalAvailablePercentage: 10
       defaultDataPath: /var/lib/longhorn
       createDefaultDiskLabeledNodes: true
     persistence:
       defaultClass: true
-      defaultClassReplicaCount: 1  # Will auto-scale when more nodes are added
+      defaultClassReplicaCount: 1 # Will auto-scale when more nodes are added
     csi:
       kubeletRootDir: /var/lib/kubelet
     longhornUI:

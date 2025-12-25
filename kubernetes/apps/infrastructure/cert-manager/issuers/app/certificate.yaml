@@ -10,5 +10,5 @@ spec:
     name: letsencrypt-dns01
     kind: ClusterIssuer
   dnsNames:
-  - chillincool.net
-  - www.chillincool.net
+    - chillincool.net
+    - www.chillincool.net

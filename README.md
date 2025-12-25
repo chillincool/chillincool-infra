@@ -34,9 +34,11 @@ This repository follows the [onedr0p/home-ops](https://github.com/onedr0p/home-o
 ## GitOps Workflow
 
 1. **Bootstrap Phase** (run once):
+
    ```bash
    kubectl apply -f bootstrap/flux-bootstrap.yaml
    ```
+
    This creates the GitRepository pointing to this repo and a root Kustomization
 
 2. **Flux Discovery**:
@@ -61,6 +63,7 @@ mkdir -p kubernetes/apps/default/radarr/{app,resources}
 ```
 
 Create `kubernetes/apps/default/radarr/app/helmrelease.yaml`:
+
 ```yaml
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
@@ -80,6 +83,7 @@ spec:
 ```
 
 Create `kubernetes/apps/default/radarr/kustomization.yaml`:
+
 ```yaml
 ---
 apiVersion: kustomize.config.k8s.io/v1beta1
@@ -91,10 +95,11 @@ resources:
 ```
 
 Update `kubernetes/apps/default/kustomization.yaml`:
+
 ```yaml
 resources:
   - ./prowlarr/kustomization.yaml
-  - ./radarr/kustomization.yaml  # Add this
+  - ./radarr/kustomization.yaml # Add this
 ```
 
 Commit and push - Flux will automatically deploy it!

@@ -51,7 +51,7 @@ spec:
           - |
             # Create necessary directories for Plex
             mkdir -p "/config/Library/Application Support/Plex Media Server"
-            
+
             # Set ownership
             chown -R 568:568 /config
         volumeMounts:
@@ -61,20 +61,20 @@ spec:
       type: ClusterIP
       port: 32400
       targetPort: http
-    
+
     podAnnotations:
       configmap.reloader.stakater.com/reload: decypharr-values
       secret.reloader.stakater.com/reload: rclone-secret-realdebrid
-    
+
     podSecurityContext:
       fsGroup: 568
-    
+
     securityContext:
       runAsNonRoot: true
       runAsUser: 568
       runAsGroup: 568
       readOnlyRootFilesystem: false
-    
+
     persistence:
       config:
         enabled: true

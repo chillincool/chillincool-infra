@@ -5,6 +5,7 @@ This directory contains the Talos OS configuration for your Kubernetes cluster. 
 ## Overview
 
 Talos provides a container-optimized operating system that:
+
 - **Immutable**: The root filesystem is read-only, improving security and reliability
 - **Minimal**: Only includes what's needed to run Kubernetes (tiny attack surface)
 - **Declarative**: Configuration is defined as YAML, matching Kubernetes style
@@ -30,39 +31,49 @@ talos/
 ## Files Explained
 
 ### `machineconfig.yaml.j2`
+
 **Base configuration for all nodes.** Contains:
+
 - **Machine section**: OS-level settings (kernel parameters, filesystem, network)
 - **Cluster section**: Kubernetes-specific config (control plane components, API server, etcd)
 - Jinja2 templating: Uses `{% if ENV.IS_CONTROLLER %}` for control plane-only settings
 
 **Key customizations you'll need:**
+
 - `install.diskSelector.model`: Change to match your disk type (currently "Samsung SSD 870")
 - `network.interfaces`: Configure your NICs (currently bonded Thunderbolt)
 - `machine.nodeLabels`: Add custom labels for pod scheduling
 - All `op://...` secrets: Update to match your 1Password vault paths
 
 ### `nodes/k8s-0.yaml.j2`, `k8s-1.yaml.j2`, `k8s-2.yaml.j2`
+
 **Per-node overrides** for hostname and networking.
 
 **Customizations:**
+
 - `machine.hostname`: Update to match your node naming scheme
 - `machine.network.interfaces`: Change Thunderbolt IPs to match your network
 - `topology.kubernetes.io/zone`: Update zone labels for your environment
 
 ### `schematic.yaml.j2`
+
 **Factory image customization.** Defines:
+
 - **System extensions**: Drivers loaded into the image (GPU, NIC, etc.)
 - **Kernel arguments**: Boot-time performance/security tuning
 
 **Customizations:**
+
 - Remove Intel GPU extension if using AMD CPU
 - Remove Thunderbolt extension if not using Thunderbolt adapters
 - Adjust kernel arguments for your hardware (CPU governor, IOMMU settings, etc.)
 
 ### `mod.just`
+
 **Management commands** for applying and upgrading configurations.
 
 Common tasks:
+
 ```bash
 just render-config              # Generate final YAML from templates
 just apply-node k8s-0          # Apply config to a node
@@ -115,6 +126,7 @@ machine:
 ### 2. **Understand Your Hardware**
 
 Check your system:
+
 ```bash
 # List disks and models
 lsblk -o NAME,MODEL
@@ -130,6 +142,7 @@ lspci | grep -i gpu
 ```
 
 Then update `schematic.yaml.j2` extensions:
+
 - **Intel iGPU**: Keep `i915` extension
 - **AMD CPU**: Replace `intel-ucode` with `amd-ucode`
 - **NVIDIA GPU**: Replace `i915` with `nvidia-gpu` extension
@@ -177,6 +190,7 @@ just health  # Verify cluster is healthy
 ### Change Network from Thunderbolt to Standard Ethernet
 
 Replace in `machineconfig.yaml.j2`:
+
 ```yaml
 interfaces:
   - interface: bond0
@@ -188,6 +202,7 @@ interfaces:
 ```
 
 With:
+
 ```yaml
 interfaces:
   - interface: eth0
@@ -197,6 +212,7 @@ interfaces:
 ### Add More Storage
 
 Add to `machine.userVolumeConfig`:
+
 ```yaml
 - op: create
   path: /etc/cri/conf.d/custom.part
@@ -208,9 +224,10 @@ Add to `machine.userVolumeConfig`:
 ### Enable More Kernel Modules
 
 Add to `machine.kernel.modules`:
+
 ```yaml
-- name: nf_conntrack    # For firewall tracking
-- name: br_netfilter    # For bridge networking
+- name: nf_conntrack # For firewall tracking
+- name: br_netfilter # For bridge networking
 ```
 
 ### Add GPU Support
@@ -220,6 +237,7 @@ Already included in `schematic.yaml.j2`
 
 **For NVIDIA GPU:**
 Replace in `schematic.yaml.j2`:
+
 ```yaml
 extensions:
   - image: ghcr.io/siderolabs/nvidia-container-toolkit:550.54.14
@@ -227,6 +245,7 @@ extensions:
 ```
 
 Then enable in `machineconfig.yaml.j2`:
+
 ```yaml
 extraArgs:
   feature-gates: GPUAccess=true
@@ -235,11 +254,13 @@ extraArgs:
 ## 1Password Integration
 
 Talos uses 1Password for secret management. The `op://` URIs reference secrets like:
+
 - `op://kubernetes/talos/MACHINE_CA_CRT` - Machine CA certificate
 - `op://kubernetes/talos/CLUSTER_ID` - Cluster identifier
 - `op://kubernetes/talos/MACHINE_TOKEN` - Authentication token
 
 **Setup:**
+
 1. Install 1Password CLI: `brew install 1password-cli`
 2. Sign in: `op account add`
 3. Create a vault called "kubernetes" in 1Password
@@ -247,6 +268,7 @@ Talos uses 1Password for secret management. The `op://` URIs reference secrets l
 5. Update the `op://` paths to match your vault structure
 
 **Verification:**
+
 ```bash
 # Test that op can fetch secrets
 op read op://kubernetes/talos/MACHINE_CA_CRT
@@ -255,6 +277,7 @@ op read op://kubernetes/talos/MACHINE_CA_CRT
 ## Troubleshooting
 
 ### Configuration won't apply
+
 ```bash
 # Check if config is valid
 talosctl config validate
@@ -264,6 +287,7 @@ talosctl read /etc/talos/config.yaml
 ```
 
 ### Node won't boot
+
 ```bash
 # View boot logs via IPMI/console
 # Check kernel arguments in dmesg
@@ -271,6 +295,7 @@ talosctl dmesg --nodes <node>
 ```
 
 ### Network not working
+
 ```bash
 # Check interface status
 talosctl interfaces
@@ -280,6 +305,7 @@ talosctl read /etc/net/00-dhcp.yaml
 ```
 
 ### Upgrade failed
+
 ```bash
 # Check upgrade logs
 talosctl logs <node> --service kubelet

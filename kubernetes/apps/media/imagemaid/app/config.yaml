@@ -9,7 +9,7 @@ data:
     plex:
       url: http://plex:32400
       token: YOUR_PLEX_TOKEN_HERE
-    
+
     # Main settings
     settings:
       mode: show  # Options: show, move, delete
@@ -18,7 +18,7 @@ data:
     libraries:
       - Movies
       - TV Shows
-    
+
     # Rules for what gets cleaned
     rules:
       # Remove images for items deleted from Plex
