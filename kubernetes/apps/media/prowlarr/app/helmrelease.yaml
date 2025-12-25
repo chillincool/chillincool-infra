@@ -68,9 +68,8 @@ spec:
           name: prowlarr-secret
 
     service:
-      type: NodePort
+      type: ClusterIP
       port: 9696
-      nodePort: 30696
     
     podAnnotations:
       configmap.reloader.stakater.com/reload: decypharr-values

@@ -79,9 +79,8 @@ spec:
           name: sonarr-anime-secret
     
     service:
-      type: NodePort
+      type: ClusterIP
       port: 8989
-      nodePort: 30991
     
     podAnnotations:
       configmap.reloader.stakater.com/reload: decypharr-values
