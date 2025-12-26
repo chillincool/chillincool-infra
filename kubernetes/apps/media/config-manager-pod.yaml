@@ -22,6 +22,8 @@ spec:
           mountPath: /storage/config
         - name: backups
           mountPath: /storage/backups
+        - name: dsm1
+          mountPath: /storage/dsm1
   containers:
     - name: manager
       image: alpine:latest
@@ -34,6 +36,8 @@ spec:
           mountPath: /storage/config
         - name: backups
           mountPath: /storage/backups
+        - name: dsm1
+          mountPath: /storage/dsm1
         - name: realdebrid
           mountPath: /storage/realdebrid
   volumes:
@@ -43,6 +47,9 @@ spec:
     - name: backups
       persistentVolumeClaim:
         claimName: backups
+    - name: dsm1
+      persistentVolumeClaim:
+        claimName: dsm1-data
     - name: realdebrid
       persistentVolumeClaim:
         claimName: realdebrid-webdav
