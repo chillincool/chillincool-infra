@@ -1,0 +1,85 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: recyclarr
+  namespace: media
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: recyclarr
+      version: "0.x.x"
+      sourceRef:
+        kind: HelmRepository
+        name: chillincool
+        namespace: flux-system
+  install:
+    crds: Create
+    remediation:
+      retries: 3
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  values:
+    service:
+      type: ClusterIP
+      port: 8080
+
+    env:
+      - name: SONARR_API_KEY
+        valueFrom:
+          secretKeyRef:
+            name: sonarr-secret
+            key: SONARR__AUTH__APIKEY
+      - name: SONARR_4K_API_KEY
+        valueFrom:
+          secretKeyRef:
+            name: sonarr-4k-secret
+            key: SONARR__AUTH__APIKEY
+      - name: SONARR_ANIME_API_KEY
+        valueFrom:
+          secretKeyRef:
+            name: sonarr-anime-secret
+            key: SONARR__AUTH__APIKEY
+      - name: RADARR_API_KEY
+        valueFrom:
+          secretKeyRef:
+            name: radarr-secret
+            key: RADARR__AUTH__APIKEY
+      - name: RADARR_4K_API_KEY
+        valueFrom:
+          secretKeyRef:
+            name: radarr-4k-secret
+            key: RADARR__AUTH__APIKEY
+
+    podAnnotations:
+      configmap.reloader.stakater.com/reload: recyclarr-config
+      secret.reloader.stakater.com/reload: sonarr-secret,sonarr-4k-secret,sonarr-anime-secret,radarr-secret,radarr-4k-secret
+
+    podSecurityContext:
+      fsGroup: 568
+
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 568
+      runAsGroup: 568
+      readOnlyRootFilesystem: false
+
+    persistence:
+      config-file:
+        enabled: true
+        type: configMap
+        name: recyclarr-config
+        globalMounts:
+          - path: /config/recyclarr.yml
+            subPath: recyclarr.yml
+            readOnly: true
+      config:
+        enabled: true
+        type: persistentVolumeClaim
+        existingClaim: shared-app-config
+        globalMounts:
+          - path: /config
+            subPath: recyclarr

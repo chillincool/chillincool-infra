@@ -4,3 +4,12 @@ controlplane.yaml
 certificate-sample.yaml
 .gitignore
 .age-key.txt
+kubernetes/apps/media/recyclarr/RECYCLARR_OPTIONS.csv
+kubernetes/apps/media/recyclarr/RECYCLARR_OPTIONS_COMPLETE-filled.csv
+kubernetes/apps/media/recyclarr/RECYCLARR_OPTIONS_COMPLETE-filled.csv.numbers
+kubernetes/apps/media/recyclarr/RECYCLARR_OPTIONS_COMPLETE.csv
+kubernetes/apps/media/recyclarr/RECYCLARR_OPTIONS_COMPLETE.numbers-filled.numbers
+kubernetes/.DS_Store
+kubernetes/apps/.DS_Store
+kubernetes/apps/media/.DS_Store
+.DS_Store
