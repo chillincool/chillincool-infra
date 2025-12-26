@@ -23,6 +23,11 @@ spec:
     remediation:
       retries: 3
   values:
+    command:
+      - /app/recyclarr
+    args:
+      - sync
+
     service:
       type: ClusterIP
       port: 8080
