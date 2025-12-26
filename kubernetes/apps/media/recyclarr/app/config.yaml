@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: recyclarr-config
+  name: recyclarr
   namespace: media
 data:
   recyclarr.yml: |

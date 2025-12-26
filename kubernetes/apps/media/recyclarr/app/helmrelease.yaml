@@ -55,7 +55,7 @@ spec:
             key: RADARR__AUTH__APIKEY
 
     podAnnotations:
-      configmap.reloader.stakater.com/reload: recyclarr-config
+      configmap.reloader.stakater.com/reload: recyclarr
       secret.reloader.stakater.com/reload: sonarr-secret,sonarr-4k-secret,sonarr-anime-secret,radarr-secret,radarr-4k-secret
 
     podSecurityContext:
@@ -71,7 +71,6 @@ spec:
       config-file:
         enabled: true
         type: configMap
-        name: recyclarr-config
         globalMounts:
           - path: /config/recyclarr.yml
             subPath: recyclarr.yml
