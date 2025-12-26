@@ -92,3 +92,8 @@ spec:
         existingClaim: recyclarr-cache
         globalMounts:
           - path: /config/cache
+      tmp:
+        enabled: true
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
