@@ -105,6 +105,12 @@ spec:
         existingClaim: symlinks
         globalMounts:
           - path: /storage/symlinks
+      dsm1:
+        enabled: true
+        type: persistentVolumeClaim
+        existingClaim: dsm1-data
+        globalMounts:
+          - path: /storage/dsm1
       tmp:
         enabled: true
         type: emptyDir
