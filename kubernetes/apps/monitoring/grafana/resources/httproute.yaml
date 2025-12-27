@@ -6,8 +6,8 @@ metadata:
   namespace: monitoring
 spec:
   parentRefs:
-    - name: media-gateway
-      namespace: media
+    - name: monitoring-gateway
+      namespace: monitoring
       sectionName: https-grafana
   hostnames:
     - grafana.chillincool.net

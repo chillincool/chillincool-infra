@@ -217,19 +217,3 @@ spec:
           - kind: Secret
             name: tautulli-tls
             namespace: media
-    - name: https-grafana
-      protocol: HTTPS
-      port: 443
-      hostname: grafana.chillincool.net
-      allowedRoutes:
-        namespaces:
-          from: Selector
-          selector:
-            matchLabels:
-              kubernetes.io/metadata.name: monitoring
-      tls:
-        mode: Terminate
-        certificateRefs:
-          - kind: Secret
-            name: grafana-tls
-            namespace: monitoring
