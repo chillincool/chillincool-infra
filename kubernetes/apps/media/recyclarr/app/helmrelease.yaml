@@ -31,6 +31,8 @@ spec:
       port: 8080
 
     env:
+      - name: TMPDIR
+        value: /tmp
       - name: SONARR_API_KEY
         valueFrom:
           secretKeyRef:
@@ -86,6 +88,12 @@ spec:
         globalMounts:
           - path: /config
             subPath: recyclarr
+      cache:
+        enabled: true
+        type: persistentVolumeClaim
+        existingClaim: recyclarr-cache
+        globalMounts:
+          - path: /config/cache
       tmp:
         enabled: true
         type: emptyDir
