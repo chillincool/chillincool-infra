@@ -111,6 +111,12 @@ spec:
         existingClaim: dsm1-data
         globalMounts:
           - path: /storage/dsm1
+      dsm1-anime:
+        enabled: true
+        type: persistentVolumeClaim
+        existingClaim: dsm1-anime
+        globalMounts:
+          - path: /storage/dsm1-anime
       tmp:
         enabled: true
         type: emptyDir

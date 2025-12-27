@@ -5,6 +5,7 @@ resources:
   - ./namespace.yaml
   - ./shared-config-pvc.yaml
   - ./backups-pvc.yaml
+  - ./dsm1-anime-pv.yaml
   - ./dsm1-data-pv.yaml
   - ./config-manager-pod.yaml
   - ./realdebrid-rclone-secret-copy.yaml
