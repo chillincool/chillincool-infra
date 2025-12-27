@@ -78,6 +78,14 @@ spec:
       runAsGroup: 568
       readOnlyRootFilesystem: false
 
+    resources:
+      requests:
+        cpu: 100m
+        memory: 512Mi
+      limits:
+        cpu: 4
+        memory: 8Gi
+
     persistence:
       config:
         enabled: true
