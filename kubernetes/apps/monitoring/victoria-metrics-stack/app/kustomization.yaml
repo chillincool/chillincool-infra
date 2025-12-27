@@ -5,4 +5,4 @@ resources:
   - ./vmcluster.yaml
   - ./vmagent.yaml
   - ./vmnodescrape.yaml
-  - ./vmservicescrape-kubelet.yaml
+  - ./vmnodescrape-kubelet.yaml
