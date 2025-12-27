@@ -24,9 +24,24 @@ spec:
     hostNetwork: true
     hostPID: true
 
+    podLabels:
+      pod-security.kubernetes.io/enforce: privileged
+
     service:
       port: 9100
       targetPort: 9100
+
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 65534
+      fsGroup: 65534
+
+    containerSecurityContext:
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: true
+      capabilities:
+        drop:
+          - ALL
 
     resources:
       requests:
