@@ -3,6 +3,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - ./namespace.yaml
+  - ./gateway/ks.yaml
   - ./shared-config-pvc.yaml
   - ./backups-pvc.yaml
   - ./dsm1-anime-pv.yaml

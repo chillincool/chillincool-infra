@@ -6,4 +6,5 @@ resources:
   - ./referencegrant/ks.yaml
   - ./victoria-metrics-operator/ks.yaml
   - ./victoria-metrics-stack/ks.yaml
+  - ./node-exporter/ks.yaml
   - ./grafana/ks.yaml

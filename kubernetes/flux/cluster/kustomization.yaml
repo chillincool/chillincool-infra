@@ -10,6 +10,7 @@ resources:
   - ./helmrepository-cilium.yaml
   - ./helmrepository-grafana.yaml
   - ./helmrepository-longhorn.yaml
+  - ./helmrepository-prometheus-community.yaml
   - ./helmrepository-stakater.yaml
   - ./helmrepository-victoria-metrics.yaml
   - ./ks-onepassword-connect.yaml
