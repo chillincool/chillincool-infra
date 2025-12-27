@@ -13,7 +13,7 @@ data:
     sonarr:
       sonarr-main:
         base_url: http://sonarr.media.svc.cluster.local:8989
-        api_key: !env SONARR_API_KEY
+        api_key: !env_var SONARR_API_KEY
 
         quality_definition:
           type: series
@@ -71,7 +71,7 @@ data:
 
       sonarr-4k:
         base_url: http://sonarr-4k.media.svc.cluster.local:8989
-        api_key: !env SONARR_4K_API_KEY
+        api_key: !env_var SONARR_4K_API_KEY
 
         quality_definition:
           type: series
@@ -140,7 +140,7 @@ data:
 
       sonarr-anime:
         base_url: http://sonarr-anime.media.svc.cluster.local:8989
-        api_key: !env SONARR_ANIME_API_KEY
+        api_key: !env_var SONARR_ANIME_API_KEY
 
         quality_definition:
           type: anime
@@ -235,7 +235,7 @@ data:
     radarr:
       radarr-main:
         base_url: http://radarr.media.svc.cluster.local:7878
-        api_key: !env RADARR_API_KEY
+        api_key: !env_var RADARR_API_KEY
 
         quality_definition:
           type: anime
@@ -393,7 +393,7 @@ data:
 
       radarr-4k:
         base_url: http://radarr-4k.media.svc.cluster.local:7878
-        api_key: !env RADARR_4K_API_KEY
+        api_key: !env_var RADARR_4K_API_KEY
 
         quality_definition:
           type: anime
