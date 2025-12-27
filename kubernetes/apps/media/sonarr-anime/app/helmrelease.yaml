@@ -24,6 +24,8 @@ spec:
       retries: 3
       remediateLastFailure: true
   values:
+    nameOverride: sonarr-anime
+
     httpRoute:
       enabled: true
       parentRefs:

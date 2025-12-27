@@ -24,6 +24,8 @@ spec:
       retries: 3
       remediateLastFailure: true
   values:
+    nameOverride: sonarr-4k
+
     httpRoute:
       enabled: true
       parentRefs:

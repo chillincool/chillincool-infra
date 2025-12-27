@@ -23,6 +23,8 @@ spec:
     cleanupOnFail: true
     crds: CreateReplace
   values:
+    nameOverride: radarr-4k
+
     httpRoute:
       enabled: true
       parentRefs:
