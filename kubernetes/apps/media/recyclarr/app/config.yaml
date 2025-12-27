@@ -92,7 +92,7 @@ data:
                   - WEBRip-2160p
               - name: HDTV-2160p
               - name: Bluray-2160p
-              - name: Remux-2160p
+              - name: Bluray-2160p Remux
 
         custom_formats:
           - trash_ids:
@@ -275,7 +275,7 @@ data:
                   - WEBRip-1080p
 
         custom_formats:
-          # Regular movie formats
+          # Shared formats used by both profiles
           - trash_ids:
               - cae4ca30163749b891686f95532519bd  # AV1
               - a570d4a0e56a2874b64e5bfa55202a1b  # FLAC
@@ -304,8 +304,9 @@ data:
               - dc98083864ea246d05a42df0d05f81cc  # x265 (HD)
             assign_scores_to:
               - name: HD Bluray + WEB
+              - name: Anime-Remux
 
-          # Anime formats
+          # Anime-specific formats
           - trash_ids:
               - fb3ccc5d5cc8f77c9055d4cb4561dded  # Anime BD Tier 01 (Top SeaDex Muxers)
               - 66926c8fa9312bc74ab71bf69aae4f4a  # Anime BD Tier 02 (SeaDex Muxers)
@@ -329,31 +330,6 @@ data:
               - 064af5f084a0a24458cc8ecd3220f93f  # Uncensored
               - a5d148168c4506b55cf53984107c396e  # 10bit
               - b23eae459cc960816f2d6ba84af45055  # Dubs Only
-              - cae4ca30163749b891686f95532519bd  # AV1
-              - a570d4a0e56a2874b64e5bfa55202a1b  # FLAC
-              - e7c2fcae07cbada050a0af3357491d7b  # PCM
-              - 0d91270a7255a1e388fa85e959f359d8  # FreeLeech
-              - ed27ebfef2f323e964fb1f61391bcb35  # HD Bluray Tier 01
-              - c20c8647f2746a1f4c4262b0fbbeeeae  # HD Bluray Tier 02
-              - e204b80c87be9497a8a6eaff48f72905  # LQ (Release Title)
-              - 90a6f9a284dff5103f6346090e6280c8  # LQ
-              - 6ba9033150e7896bdc9ec4b44f2b230f  # MP3
-              - a061e2e700f81932daf888599f8a8273  # Opus
-              - 0a3f082873eb454bde444150b70253cc  # Extras
-              - 3a3ff47579026e76d6504ebea39390de  # Remux Tier 01
-              - 9f98181fe5a3fbeb0cc29340da2a468a  # Remux Tier 02
-              - 570bc9ebecd92723d2d21500f4be314c  # Remaster
-              - e0c07d59beb37348e975a930d5e50319  # Criterion Collection
-              - 9d27d9d2181838f76dee150882bdc58c  # Masters of Cinema
-              - 957d0f44b592285f26449575e8b1167e  # Special Edition
-              - eecf3a857724171f968a66cb5719e152  # IMAX
-              - 9f6cbff8cfe4ebbc1bde14c7b7bec0de  # IMAX Enhanced
-              - ed38b889b31be83fda192888e2286d83  # BR-DISK
-              - bfd8eb01832d646a0a89c4deb46f8564  # Upscaled
-              - c20f169ef63c5f40c2def54abaf4438e  # WEB Tier 01
-              - 403816d65392c79236dcb6dd591aeda4  # WEB Tier 02
-              - af94e0fe497124d1f9ce732069ec8c3b  # WEB Tier 03
-              - dc98083864ea246d05a42df0d05f81cc  # x265 (HD)
             assign_scores_to:
               - name: Anime-Remux
 
