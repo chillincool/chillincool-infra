@@ -69,17 +69,21 @@ spec:
 
     dashboards:
       default:
-        kubernetes-global:
-          gnetId: 15760
-          revision: 16
+        victoriametrics-cluster:
+          gnetId: 11176
+          revision: 44
           datasource: VictoriaMetrics
-        kubernetes-cluster:
-          gnetId: 15757
-          revision: 37
-          datasource: VictoriaMetrics
-        kubernetes-pods:
-          gnetId: 6417
+        k8s-cluster-metrics:
+          gnetId: 11663
           revision: 1
+          datasource: VictoriaMetrics
+        k8s-resources-namespace:
+          gnetId: 15398
+          revision: 11
+          datasource: VictoriaMetrics
+        k8s-resources-pod:
+          gnetId: 15399
+          revision: 11
           datasource: VictoriaMetrics
         node-exporter:
           gnetId: 1860
