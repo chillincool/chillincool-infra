@@ -86,12 +86,6 @@ spec:
         globalMounts:
           - path: /config
             subPath: recyclarr
-      cache:
-        enabled: true
-        type: persistentVolumeClaim
-        existingClaim: recyclarr-cache
-        globalMounts:
-          - path: /config/cache
       tmp:
         enabled: true
         type: emptyDir
