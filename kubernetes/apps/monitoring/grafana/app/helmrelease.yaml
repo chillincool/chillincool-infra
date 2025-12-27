@@ -23,23 +23,6 @@ spec:
   values:
     replicas: 1
 
-    httpRoute:
-      enabled: true
-      parentRefs:
-        - name: media-gateway
-          namespace: media
-          sectionName: https-grafana
-      hostnames:
-        - grafana.chillincool.net
-      rules:
-        - matches:
-            - path:
-                type: PathPrefix
-                value: /
-          backendRefs:
-            - name: grafana
-              port: 80
-
     service:
       type: ClusterIP
       port: 80
