@@ -1,0 +1,30 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: kube-system-gateway
+  namespace: kube-system
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-dns01
+spec:
+  gatewayClassName: eg
+  listeners:
+    - name: http
+      protocol: HTTP
+      port: 80
+      allowedRoutes:
+        namespaces:
+          from: Same
+    - name: https-hubble
+      protocol: HTTPS
+      port: 443
+      hostname: hubble.chillincool.net
+      allowedRoutes:
+        namespaces:
+          from: Same
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: hubble-tls
+            namespace: kube-system

@@ -64,6 +64,7 @@ spec:
       type: LoadBalancer
       port: 32400
       targetPort: http
+      allocateLoadBalancerNodePorts: false
 
     podAnnotations:
       configmap.reloader.stakater.com/reload: decypharr-values

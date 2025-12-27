@@ -46,11 +46,27 @@ spec:
     enableIPv6: false
 
     hubble:
-      enabled: false
+      enabled: true
+      metrics:
+        enabled:
+          - dns:query
+          - drop
+          - tcp
+          - flow
+          - port-distribution
+          - icmp
+          - httpV2:exemplars=true;labelsContext=source_ip,source_namespace,source_workload,destination_ip,destination_namespace,destination_workload,traffic_direction
+        enableOpenMetrics: true
+        serviceMonitor:
+          enabled: false  # Enable if you want VictoriaMetrics to scrape Hubble metrics
       relay:
-        enabled: false
+        enabled: true
+        rollOutPods: true
       ui:
-        enabled: false
+        enabled: true
+        rollOutPods: true
+        ingress:
+          enabled: false  # We'll create HTTPRoute instead
 
     bpf:
       masquerade: true

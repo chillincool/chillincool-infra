@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - ./helmrelease.yaml
   - ./networks.yaml
+  - ../resources/hubble-httproute.yaml
