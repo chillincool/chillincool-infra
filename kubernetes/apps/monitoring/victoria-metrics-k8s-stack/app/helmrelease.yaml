@@ -12,7 +12,7 @@ spec:
       version: "0.x.x"
       sourceRef:
         kind: HelmRepository
-        name: victoriametrics
+        name: victoria-metrics
         namespace: flux-system
   install:
     crds: Create
