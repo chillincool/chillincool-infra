@@ -5,6 +5,8 @@ metadata:
   name: node-exporter
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: victoria-metrics-stack
   interval: 30m
   path: ./kubernetes/apps/monitoring/node-exporter/app
   prune: true
