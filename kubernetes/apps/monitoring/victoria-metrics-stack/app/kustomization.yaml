@@ -6,3 +6,4 @@ resources:
   - ./vmagent.yaml
   - ./vmnodescrape.yaml
   - ./vmnodescrape-kubelet.yaml
+  - ../resources/vmagent-rbac.yaml
