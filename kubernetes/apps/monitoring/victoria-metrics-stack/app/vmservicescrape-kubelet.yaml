@@ -1,0 +1,39 @@
+---
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMServiceScrape
+metadata:
+  name: kubelet
+  namespace: monitoring
+spec:
+  endpoints:
+    - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+      honorLabels: true
+      port: https-metrics
+      relabelConfigs:
+        - sourceLabels:
+            - __metrics_path__
+          targetLabel: metrics_path
+      scheme: https
+      tlsConfig:
+        caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+        insecureSkipVerify: true
+    - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+      honorLabels: true
+      honorTimestamps: false
+      path: /metrics/cadvisor
+      port: https-metrics
+      relabelConfigs:
+        - sourceLabels:
+            - __metrics_path__
+          targetLabel: metrics_path
+      scheme: https
+      tlsConfig:
+        caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+        insecureSkipVerify: true
+  jobLabel: kubelet
+  namespaceSelector:
+    matchNames:
+      - kube-system
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: kubelet

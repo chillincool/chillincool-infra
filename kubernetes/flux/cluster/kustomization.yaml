@@ -10,8 +10,10 @@ resources:
   - ./helmrepository-cilium.yaml
   - ./helmrepository-longhorn.yaml
   - ./helmrepository-stakater.yaml
+  - ./helmrepository-victoria-metrics.yaml
   - ./ks-onepassword-connect.yaml
   - ./ks-infrastructure-apps.yaml
   - ./ks-kube-system-apps.yaml
   - ./ks-media-apps.yaml
+  - ./ks-monitoring-apps.yaml
   - ./ks-storage-apps.yaml
