@@ -8,6 +8,7 @@ resources:
   - ./helmrepository-envoy-gateway.yaml
   - ./helmrepository-chillincool.yaml
   - ./helmrepository-cilium.yaml
+  - ./helmrepository-grafana.yaml
   - ./helmrepository-longhorn.yaml
   - ./helmrepository-stakater.yaml
   - ./helmrepository-victoria-metrics.yaml

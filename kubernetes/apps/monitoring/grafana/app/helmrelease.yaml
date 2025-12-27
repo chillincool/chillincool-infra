@@ -1,0 +1,106 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: grafana
+  namespace: monitoring
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: grafana
+      version: "8.x.x"
+      sourceRef:
+        kind: HelmRepository
+        name: grafana
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  values:
+    replicas: 1
+
+    httpRoute:
+      enabled: true
+      parentRefs:
+        - name: media-gateway
+          namespace: media
+          sectionName: https-grafana
+      hostnames:
+        - grafana.chillincool.net
+      rules:
+        - matches:
+            - path:
+                type: PathPrefix
+                value: /
+          backendRefs:
+            - name: grafana
+              port: 80
+
+    service:
+      type: ClusterIP
+      port: 80
+
+    resources:
+      requests:
+        cpu: 50m
+        memory: 128Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi
+
+    persistence:
+      enabled: true
+      storageClassName: longhorn
+      size: 5Gi
+
+    adminUser: admin
+    adminPassword: admin
+
+    datasources:
+      datasources.yaml:
+        apiVersion: 1
+        datasources:
+          - name: VictoriaMetrics
+            type: prometheus
+            url: http://vmselect-vmcluster.monitoring.svc:8481/select/0/prometheus
+            access: proxy
+            isDefault: true
+            editable: true
+
+    dashboardProviders:
+      dashboardproviders.yaml:
+        apiVersion: 1
+        providers:
+          - name: 'default'
+            orgId: 1
+            folder: ''
+            type: file
+            disableDeletion: false
+            editable: true
+            options:
+              path: /var/lib/grafana/dashboards/default
+
+    dashboards:
+      default:
+        kubernetes-cluster:
+          gnetId: 7249
+          revision: 1
+          datasource: VictoriaMetrics
+        kubernetes-pods:
+          gnetId: 6417
+          revision: 1
+          datasource: VictoriaMetrics
+        node-exporter:
+          gnetId: 1860
+          revision: 31
+          datasource: VictoriaMetrics
+
+    grafana.ini:
+      server:
+        root_url: https://grafana.chillincool.net
+      security:
+        allow_embedding: true
