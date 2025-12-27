@@ -61,9 +61,11 @@ spec:
           - name: config
             mountPath: /config
     service:
-      type: ClusterIP
+      type: LoadBalancer
       port: 32400
       targetPort: http
+      annotations:
+        io.cilium/lb-ipam-ips: 172.16.60.10
 
     podAnnotations:
       configmap.reloader.stakater.com/reload: decypharr-values
