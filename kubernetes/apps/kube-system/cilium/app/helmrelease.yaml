@@ -69,7 +69,7 @@ spec:
           enabled: false  # We'll create HTTPRoute instead
 
     bpf:
-      masquerade: true
+      masquerade: false  # Required for Istio Ambient - eBPF masq breaks health probes
       hostRouting: true
 
     autoDirectNodeRoutes: true
