@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./gateway/ks.yaml
+  - ./istio-gateway
   - ./waypoint/ks.yaml
   - ./authz-policy
   - ./shared-config-pvc.yaml

@@ -1,0 +1,23 @@
+---
+# Test Istio Gateway - runs alongside Envoy Gateway for migration testing
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: istio-test-gateway
+  namespace: media
+spec:
+  gatewayClassName: istio
+  listeners:
+    - name: http
+      hostname: "*.test.chillincool.net"
+      port: 80
+      protocol: HTTP
+    - name: https
+      hostname: "*.test.chillincool.net"
+      port: 443
+      protocol: HTTPS
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: chillincool-net-tls
+            kind: Secret
