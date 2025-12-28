@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 30m
-  path: ./kubernetes/apps/media/waypoint/app
+  path: ./kubernetes/apps/media/waypoint
   prune: true
   sourceRef:
     kind: GitRepository
