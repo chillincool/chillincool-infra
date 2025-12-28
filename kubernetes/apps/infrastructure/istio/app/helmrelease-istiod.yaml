@@ -25,6 +25,8 @@ spec:
       retries: 3
   values:
     pilot:
+      env:
+        PILOT_ENABLE_AMBIENT: "true"
       resources:
         requests:
           cpu: 100m
