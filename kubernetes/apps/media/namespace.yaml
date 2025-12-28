@@ -6,3 +6,4 @@ metadata:
   labels:
     name: media
     kubernetes.io/metadata.name: media
+    istio.io/dataplane-mode: ambient
