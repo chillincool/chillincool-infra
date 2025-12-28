@@ -6,7 +6,7 @@ metadata:
   namespace: media
 spec:
   parentRefs:
-    - name: media-gateway
+    - name: media-gateway-istio
       namespace: media
       sectionName: http
   hostnames:

@@ -27,7 +27,7 @@ spec:
     httpRoute:
       enabled: true
       parentRefs:
-        - name: media-gateway
+        - name: media-gateway-istio
           namespace: media
           sectionName: https-suggestarr
       hostnames:

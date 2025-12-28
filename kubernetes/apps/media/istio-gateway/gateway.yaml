@@ -1,23 +1,131 @@
 ---
-# Test Istio Gateway - runs alongside Envoy Gateway for migration testing
+# Istio Gateway for media namespace ingress
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
-  name: istio-test-gateway
+  name: media-gateway-istio
   namespace: media
 spec:
   gatewayClassName: istio
   listeners:
     - name: http
-      hostname: "*.test.chillincool.net"
+      hostname: "*.chillincool.net"
       port: 80
       protocol: HTTP
-    - name: https-tautulli
-      hostname: tautulli.test.chillincool.net
+    - name: https-decypharr
+      hostname: decypharr.chillincool.net
       port: 443
       protocol: HTTPS
       tls:
         mode: Terminate
         certificateRefs:
-          - name: tautulli-test-tls
+          - name: decypharr-tls
+            kind: Secret
+    - name: https-huntarr
+      hostname: huntarr.chillincool.net
+      port: 443
+      protocol: HTTPS
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: huntarr-tls
+            kind: Secret
+    - name: https-lidarr
+      hostname: lidarr.chillincool.net
+      port: 443
+      protocol: HTTPS
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: lidarr-tls
+            kind: Secret
+    - name: https-overseerr
+      hostname: overseerr.chillincool.net
+      port: 443
+      protocol: HTTPS
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: overseerr-tls
+            kind: Secret
+    - name: https-plex
+      hostname: plex.chillincool.net
+      port: 443
+      protocol: HTTPS
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: plex-tls
+            kind: Secret
+    - name: https-prowlarr
+      hostname: prowlarr.chillincool.net
+      port: 443
+      protocol: HTTPS
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: prowlarr-tls
+            kind: Secret
+    - name: https-radarr
+      hostname: radarr.chillincool.net
+      port: 443
+      protocol: HTTPS
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: radarr-tls
+            kind: Secret
+    - name: https-radarr-4k
+      hostname: radarr-4k.chillincool.net
+      port: 443
+      protocol: HTTPS
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: radarr-4k-tls
+            kind: Secret
+    - name: https-sonarr
+      hostname: sonarr.chillincool.net
+      port: 443
+      protocol: HTTPS
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: sonarr-tls
+            kind: Secret
+    - name: https-sonarr-4k
+      hostname: sonarr-4k.chillincool.net
+      port: 443
+      protocol: HTTPS
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: sonarr-4k-tls
+            kind: Secret
+    - name: https-sonarr-anime
+      hostname: sonarr-anime.chillincool.net
+      port: 443
+      protocol: HTTPS
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: sonarr-anime-tls
+            kind: Secret
+    - name: https-suggestarr
+      hostname: suggestarr.chillincool.net
+      port: 443
+      protocol: HTTPS
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: suggestarr-tls
+            kind: Secret
+    - name: https-tautulli
+      hostname: tautulli.chillincool.net
+      port: 443
+      protocol: HTTPS
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: tautulli-tls
             kind: Secret
