@@ -12,12 +12,12 @@ spec:
       hostname: "*.test.chillincool.net"
       port: 80
       protocol: HTTP
-    - name: https
-      hostname: "*.test.chillincool.net"
+    - name: https-tautulli
+      hostname: tautulli.test.chillincool.net
       port: 443
       protocol: HTTPS
       tls:
         mode: Terminate
         certificateRefs:
-          - name: chillincool-net-tls
+          - name: tautulli-test-tls
             kind: Secret
