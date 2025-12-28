@@ -7,3 +7,6 @@ resources:
   - ./helmrelease-cni.yaml
   - ./helmrelease-istiod.yaml
   - ./helmrelease-ztunnel.yaml
+  - ../resources/vmservicescrape-istiod.yaml
+  - ../resources/vmservicescrape-ztunnel.yaml
+  - ../resources/vmpodscrape-waypoint.yaml

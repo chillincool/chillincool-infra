@@ -1,0 +1,26 @@
+---
+# VMPodScrape for Istio Ambient waypoint proxies
+# Waypoint proxies provide L7 HTTP/gRPC metrics when deployed
+# Provides istio_requests_total, istio_request_duration_milliseconds, istio_request_bytes, istio_response_bytes
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMPodScrape
+metadata:
+  name: waypoint
+  namespace: istio-system
+spec:
+  namespaceSelector:
+    any: true
+  selector:
+    matchLabels:
+      gateway.networking.k8s.io/gateway-name: ""
+  podMetricsEndpoints:
+    - port: http-envoy-prom
+      path: /stats/prometheus
+      interval: 15s
+      relabelConfigs:
+        - sourceLabels: [__meta_kubernetes_pod_name]
+          targetLabel: pod_name
+        - sourceLabels: [__meta_kubernetes_namespace]
+          targetLabel: namespace
+        - sourceLabels: [__meta_kubernetes_pod_label_gateway_networking_k8s_io_gateway_name]
+          targetLabel: gateway_name
