@@ -1,0 +1,13 @@
+---
+# Temporary allow-all AuthorizationPolicy to force L7 processing through waypoint
+# This enables HTTP metrics collection in Kiali for ingress traffic analysis
+# TODO: Replace with specific policies based on observed traffic patterns
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: allow-all
+  namespace: envoy-gateway-system
+spec:
+  action: ALLOW
+  rules:
+  - {}
