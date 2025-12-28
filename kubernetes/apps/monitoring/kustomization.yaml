@@ -5,4 +5,5 @@ resources:
   - ./namespace.yaml
   - ./gateway/ks.yaml
   - ./kiali-operator/ks.yaml
+  - ./kiali-operator/resources/ks.yaml
   - ./victoria-metrics-k8s-stack/ks.yaml
