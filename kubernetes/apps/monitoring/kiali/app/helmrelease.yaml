@@ -33,6 +33,7 @@ spec:
         root_namespace: istio-system
       prometheus:
         url: http://vmselect-victoria-metrics-k8s-stack.monitoring.svc:8481/select/0/prometheus
+        health_check_url: http://vmselect-victoria-metrics-k8s-stack.monitoring.svc:8481/health
 
     istio_namespace: istio-system
 
