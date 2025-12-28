@@ -126,3 +126,12 @@ spec:
       enabled: true
     externalIPs:
       enabled: true
+
+    # Disable Cilium's beta mutual authentication - using Istio Ambient for mTLS instead
+    authentication:
+      enabled: false
+      mutual:
+        spire:
+          enabled: false
+          install:
+            enabled: false
