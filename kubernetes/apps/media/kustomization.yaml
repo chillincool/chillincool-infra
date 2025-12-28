@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./gateway/ks.yaml
+  - ./waypoint/ks.yaml
   - ./shared-config-pvc.yaml
   - ./backups-pvc.yaml
   - ./dsm1-anime-pv.yaml
