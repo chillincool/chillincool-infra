@@ -5,7 +5,7 @@ resources:
   - ./namespace.yaml
   - ./gateway/ks.yaml
   - ./waypoint/ks.yaml
-  - ./authz-policy/kustomization.yaml
+  - ./authz-policy
   - ./shared-config-pvc.yaml
   - ./backups-pvc.yaml
   - ./dsm1-anime-pv.yaml
