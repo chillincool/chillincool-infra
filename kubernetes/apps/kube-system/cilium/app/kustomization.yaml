@@ -4,4 +4,5 @@ kind: Kustomization
 resources:
   - ./helmrelease.yaml
   - ./networks.yaml
+  - ../resources/cilium-spire-namespace.yaml
   - ../resources/hubble-httproute.yaml
