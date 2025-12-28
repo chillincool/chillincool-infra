@@ -23,6 +23,8 @@ spec:
     remediation:
       retries: 3
   values:
+    profile: ambient
+
     cni:
       excludeNamespaces:
         - istio-system

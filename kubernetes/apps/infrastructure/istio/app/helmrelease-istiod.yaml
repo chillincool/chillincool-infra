@@ -24,9 +24,9 @@ spec:
     remediation:
       retries: 3
   values:
+    profile: ambient
+
     pilot:
-      env:
-        PILOT_ENABLE_AMBIENT: "true"
       resources:
         requests:
           cpu: 100m
@@ -34,8 +34,3 @@ spec:
         limits:
           cpu: 1
           memory: 1Gi
-
-    global:
-      # Disable sidecar injection by default (we're using Ambient mode)
-      proxy:
-        autoInject: disabled
