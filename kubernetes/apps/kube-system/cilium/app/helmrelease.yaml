@@ -105,23 +105,6 @@ spec:
 
     policyEnforcementMode: default
 
-    # Enable mTLS with SPIRE for pod-to-pod authentication
-    authentication:
-      enabled: true
-      mutual:
-        spire:
-          enabled: true
-          install:
-            enabled: true
-            namespace: cilium-spire
-            server:
-              dataStorage:
-                enabled: true
-                storageClass: longhorn
-                size: 1Gi
-            namespaceLabels:
-              pod-security.kubernetes.io/enforce: privileged
-
     resources:
       limits:
         cpu: 4000m
