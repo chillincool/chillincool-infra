@@ -127,9 +127,9 @@ spec:
     externalIPs:
       enabled: true
 
-    # Disable Cilium's beta mutual authentication - using Istio Ambient for mTLS instead
+    # Disable Cilium's beta SPIRE-based mutual authentication - using Istio Ambient for mTLS instead
+    # Keep authentication.enabled=true for Hubble internal auth, just disable mutual/SPIRE
     authentication:
-      enabled: false
       mutual:
         spire:
           enabled: false
