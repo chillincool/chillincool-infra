@@ -28,3 +28,16 @@ spec:
           - kind: Secret
             name: grafana-tls
             namespace: monitoring
+    - name: https-kiali
+      protocol: HTTPS
+      port: 443
+      hostname: kiali.chillincool.net
+      allowedRoutes:
+        namespaces:
+          from: Same
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: kiali-tls
+            namespace: monitoring
