@@ -4,6 +4,8 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./gateway/ks.yaml
+  - ./istio-gateway/ks.yaml
+  - ./waypoint/ks.yaml
   - ./kiali-operator/ks.yaml
   - ./kiali-operator/resources/ks.yaml
   - ./victoria-metrics-k8s-stack/ks.yaml

@@ -4,4 +4,8 @@ kind: Namespace
 metadata:
   name: monitoring
   labels:
+    name: monitoring
+    kubernetes.io/metadata.name: monitoring
     pod-security.kubernetes.io/enforce: privileged
+    istio.io/dataplane-mode: ambient
+    istio.io/use-waypoint: monitoring-waypoint

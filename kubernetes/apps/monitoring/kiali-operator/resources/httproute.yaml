@@ -6,8 +6,9 @@ metadata:
   namespace: monitoring
 spec:
   parentRefs:
-    - name: monitoring-gateway
+    - name: monitoring-gateway-istio
       namespace: monitoring
+      sectionName: https-kiali
   hostnames:
     - kiali.chillincool.net
   rules:

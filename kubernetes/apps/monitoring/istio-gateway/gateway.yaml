@@ -1,0 +1,32 @@
+---
+# Istio Gateway for monitoring namespace ingress
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: monitoring-gateway-istio
+  namespace: monitoring
+spec:
+  gatewayClassName: istio
+  listeners:
+    - name: http
+      hostname: "*.chillincool.net"
+      port: 80
+      protocol: HTTP
+    - name: https-grafana
+      hostname: grafana.chillincool.net
+      port: 443
+      protocol: HTTPS
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: grafana-tls
+            kind: Secret
+    - name: https-kiali
+      hostname: kiali.chillincool.net
+      port: 443
+      protocol: HTTPS
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: kiali-tls
+            kind: Secret
