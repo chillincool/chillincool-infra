@@ -7,4 +7,3 @@ resources:
   - ./helmrelease-cni.yaml
   - ./helmrelease-istiod.yaml
   - ./helmrelease-ztunnel.yaml
-  - ../resources/cilium-allow-health-probes.yaml
