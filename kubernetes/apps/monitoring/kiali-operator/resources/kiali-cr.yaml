@@ -15,7 +15,6 @@ spec:
   deployment:
     accessible_namespaces:
     - "**"
-    image_version: v2.2.0
     namespace: monitoring
 
   external_services:
