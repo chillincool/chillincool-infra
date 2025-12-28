@@ -9,6 +9,8 @@ resources:
   - ./helmrepository-chillincool.yaml
   - ./helmrepository-cilium.yaml
   - ./helmrepository-grafana.yaml
+  - ./helmrepository-istio.yaml
+  - ./helmrepository-kiali.yaml
   - ./helmrepository-longhorn.yaml
   - ./helmrepository-prometheus-community.yaml
   - ./helmrepository-stakater.yaml
