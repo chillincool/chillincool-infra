@@ -119,6 +119,8 @@ spec:
                 enabled: true
                 storageClass: longhorn
                 size: 1Gi
+            namespaceLabels:
+              pod-security.kubernetes.io/enforce: privileged
 
     resources:
       limits:
