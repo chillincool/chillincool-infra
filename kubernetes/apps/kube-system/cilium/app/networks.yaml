@@ -75,5 +75,12 @@ spec:
           - LoadBalancerIP
       selector:
         matchLabels:
+          gateway.istio.io/managed: istio.io-gateway-controller
+    - advertisementType: Service
+      service:
+        addresses:
+          - LoadBalancerIP
+      selector:
+        matchLabels:
           app.kubernetes.io/managed-by: Helm
           app.kubernetes.io/name: plex
