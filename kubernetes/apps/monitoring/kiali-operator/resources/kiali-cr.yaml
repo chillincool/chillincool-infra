@@ -19,9 +19,6 @@ spec:
   external_services:
     istio:
       root_namespace: istio-system
-      gateway_api_classes:
-        - class_name: eg
-          name: Envoy Gateway
     prometheus:
       url: http://vmselect-victoria-metrics-k8s-stack.monitoring.svc:8481/select/0/prometheus
       health_check_url: http://vmselect-victoria-metrics-k8s-stack.monitoring.svc:8481/health
@@ -32,13 +29,3 @@ spec:
 
   server:
     web_root: /
-
-
-
-
-
-
-
-
-
-
