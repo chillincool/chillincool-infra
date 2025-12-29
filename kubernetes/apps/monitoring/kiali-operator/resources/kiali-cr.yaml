@@ -13,9 +13,8 @@ spec:
     strategy: anonymous
 
   deployment:
-    accessible_namespaces:
-    - "**"
     namespace: monitoring
+    cluster_wide_access: true
 
   external_services:
     istio:
@@ -33,3 +32,13 @@ spec:
 
   server:
     web_root: /
+
+
+
+
+
+
+
+
+
+
