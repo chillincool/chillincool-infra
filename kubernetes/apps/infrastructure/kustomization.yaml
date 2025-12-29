@@ -5,7 +5,5 @@ resources:
   - ./cert-manager/ks.yaml
   - ./cert-manager/ks-rbac.yaml
   - ./cert-manager/issuers/ks.yaml
-  - ./envoy-gateway/ks.yaml
-  - ./envoy-gateway-waypoint/ks.yaml
   - ./istio/ks.yaml
   - ./reloader/ks.yaml

@@ -5,7 +5,6 @@ resources:
   - ./namespace.yaml
   - ./helmrepository-1password.yaml
   - ./helmrepository-cert-manager.yaml
-  - ./helmrepository-envoy-gateway.yaml
   - ./helmrepository-chillincool.yaml
   - ./helmrepository-cilium.yaml
   - ./helmrepository-grafana.yaml
@@ -20,4 +19,3 @@ resources:
   - ./ks-kube-system-apps.yaml
   - ./ks-media-apps.yaml
   - ./ks-monitoring-apps.yaml
-  - ./ks-storage-apps.yaml
