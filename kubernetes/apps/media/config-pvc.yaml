@@ -2,13 +2,12 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: shared-app-config
+  name: config
   namespace: media
 spec:
   accessModes:
     - ReadWriteMany
   storageClassName: longhorn
-  volumeName: pvc-4418f629-c1bb-4f5a-b41f-d142864eb954
   resources:
     requests:
       storage: 10Gi

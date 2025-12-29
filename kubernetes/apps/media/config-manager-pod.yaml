@@ -43,7 +43,7 @@ spec:
   volumes:
     - name: config
       persistentVolumeClaim:
-        claimName: shared-app-config
+        claimName: config
     - name: backups
       persistentVolumeClaim:
         claimName: backups
