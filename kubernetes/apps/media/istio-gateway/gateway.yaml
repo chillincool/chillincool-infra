@@ -8,10 +8,6 @@ metadata:
 spec:
   gatewayClassName: istio
   listeners:
-    - name: http
-      hostname: "*.chillincool.net"
-      port: 80
-      protocol: HTTP
     - name: https-decypharr
       hostname: decypharr.chillincool.net
       port: 443
