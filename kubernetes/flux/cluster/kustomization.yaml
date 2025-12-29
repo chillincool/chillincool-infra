@@ -19,3 +19,4 @@ resources:
   - ./ks-kube-system-apps.yaml
   - ./ks-media-apps.yaml
   - ./ks-monitoring-apps.yaml
+  - ./ks-storage-apps.yaml
