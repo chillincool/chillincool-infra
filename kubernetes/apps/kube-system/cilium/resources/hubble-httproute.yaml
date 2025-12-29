@@ -6,7 +6,7 @@ metadata:
   namespace: kube-system
 spec:
   parentRefs:
-    - name: kube-system-gateway
+    - name: kube-system-gateway-istio
       namespace: kube-system
       sectionName: https-hubble
   hostnames:
