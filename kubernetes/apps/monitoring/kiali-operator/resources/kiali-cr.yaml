@@ -26,6 +26,13 @@ spec:
         enabled: true
         retention_period: "7d"
         scrape_interval: "15s"
+    grafana:
+      enabled: true
+      in_cluster_url: http://victoria-metrics-k8s-stack-grafana.monitoring.svc:80
+      url: https://grafana.chillincool.net
+      auth:
+        type: bearer
+        token: secret:grafana-api-token:password
 
   server:
     web_root: /
