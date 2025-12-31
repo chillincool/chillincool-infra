@@ -11,6 +11,6 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./kubernetes/apps/keycloak
+  path: ./kubernetes/apps/infrastructure/keycloak
   prune: true
   wait: true
