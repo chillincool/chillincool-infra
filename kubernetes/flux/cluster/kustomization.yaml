@@ -17,6 +17,7 @@ resources:
   - ./ks-onepassword-connect.yaml
   - ./ks-infrastructure-apps.yaml
   - ./ks-istio-egress-apps.yaml
+  - ./ks-keycloak.yaml
   - ./ks-kube-system-apps.yaml
   - ./ks-media-apps.yaml
   - ./ks-monitoring-apps.yaml
