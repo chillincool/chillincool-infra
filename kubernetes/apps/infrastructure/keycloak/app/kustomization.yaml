@@ -8,6 +8,7 @@ spec:
   prune: true
   wait: true
   resources:
-    - kustomization-crds.yaml
-    - kustomization-operator.yaml
-    - kustomization-instance.yaml
+    - ../namespace.yaml
+    - ./kustomization-crds.yaml
+    - ./kustomization-operator.yaml
+    - ./kustomization-instance.yaml
