@@ -5,7 +5,7 @@ metadata:
   name: media-waypoint
   namespace: media
   labels:
-    istio.io/waypoint-for: workload
+    istio.io/waypoint-for: service
 spec:
   gatewayClassName: istio-waypoint
   listeners:
