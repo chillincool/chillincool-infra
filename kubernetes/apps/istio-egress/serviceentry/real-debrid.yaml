@@ -1,0 +1,17 @@
+---
+apiVersion: networking.istio.io/v1
+kind: ServiceEntry
+metadata:
+  name: real-debrid-api
+  namespace: istio-egress
+  labels:
+    istio.io/use-waypoint: egress-waypoint
+spec:
+  hosts:
+  - api.real-debrid.com
+  location: MESH_EXTERNAL
+  ports:
+  - number: 443
+    name: https
+    protocol: HTTPS
+  resolution: DNS

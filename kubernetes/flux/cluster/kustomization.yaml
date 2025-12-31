@@ -16,6 +16,7 @@ resources:
   - ./helmrepository-victoria-metrics.yaml
   - ./ks-onepassword-connect.yaml
   - ./ks-infrastructure-apps.yaml
+  - ./ks-istio-egress-apps.yaml
   - ./ks-kube-system-apps.yaml
   - ./ks-media-apps.yaml
   - ./ks-monitoring-apps.yaml

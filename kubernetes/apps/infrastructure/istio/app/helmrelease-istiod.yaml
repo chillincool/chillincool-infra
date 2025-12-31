@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: istiod
-      version: 1.24.x
+      version: 1.28.x
       sourceRef:
         kind: HelmRepository
         name: istio
@@ -27,6 +27,8 @@ spec:
     profile: ambient
 
     pilot:
+      env:
+        PILOT_ENABLE_IP_AUTOALLOCATE: "true"
       resources:
         requests:
           cpu: 100m
