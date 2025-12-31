@@ -6,7 +6,6 @@ resources:
   - ./istio-gateway
   - ./waypoint/ks.yaml
   - ./authz-policy
-  - ./serviceentry
   - ./config-pvc.yaml
   - ./backups-pvc.yaml
   - ./dsm1-anime-pv.yaml

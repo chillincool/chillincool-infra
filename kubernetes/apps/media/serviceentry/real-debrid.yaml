@@ -1,14 +1,12 @@
 ---
 # ServiceEntry for Real-Debrid API
-# DNS capture automatically routes traffic through media-waypoint
-# Provides hostname visibility in Kiali
+# DNS capture provides hostname visibility in Kiali
+# No waypoint for HTTPS passthrough (L4 only, no TLS inspection)
 apiVersion: networking.istio.io/v1
 kind: ServiceEntry
 metadata:
   name: real-debrid-api
   namespace: media
-  labels:
-    istio.io/use-waypoint: media-waypoint
 spec:
   hosts:
   - api.real-debrid.com
@@ -16,5 +14,5 @@ spec:
   ports:
   - number: 443
     name: https
-    protocol: HTTPS
+    protocol: TLS
   resolution: DNS
