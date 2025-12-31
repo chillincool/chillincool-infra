@@ -13,6 +13,6 @@ spec:
   location: MESH_EXTERNAL
   ports:
   - number: 443
-    name: https
+    name: tls
     protocol: TLS
   resolution: DNS
