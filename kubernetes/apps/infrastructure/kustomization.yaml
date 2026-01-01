@@ -7,5 +7,5 @@ resources:
   - ./cert-manager/issuers/ks.yaml
   - ./istio/ks.yaml
   - ./keycloak/ks.yaml
-  - ./oauth2-proxy/ks.yaml
+  # - ./oauth2-proxy/ks.yaml
   - ./reloader/ks.yaml
