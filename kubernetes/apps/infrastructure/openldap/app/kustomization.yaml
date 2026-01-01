@@ -6,7 +6,6 @@ resources:
   - ../cert-manager-rbac.yaml
   - ../onepassworditem.yaml
   - ./helmrelease.yaml
-  - ./helmrelease-lam.yaml
   - ./httproute.yaml
   - ../istio-gateway/gateway.yaml
   - ../istio-gateway/certificates.yaml

@@ -11,6 +11,7 @@ resources:
   - ./helmrepository-cloudnative-pg.yaml
   - ./helmrepository-grafana.yaml
   - ./helmrepository-istio.yaml
+  - ./helmrepository-jp-gouin.yaml
   - ./helmrepository-kiali.yaml
   - ./helmrepository-longhorn.yaml
   - ./helmrepository-oauth2-proxy.yaml

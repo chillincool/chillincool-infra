@@ -8,11 +8,11 @@ spec:
   interval: 30m
   chart:
     spec:
-      chart: openldap
-      version: 2.x.x
+      chart: openldap-stack-ha
+      version: 4.x.x
       sourceRef:
         kind: HelmRepository
-        name: bitnami
+        name: jp-gouin
         namespace: flux-system
   install:
     remediation:
@@ -21,22 +21,27 @@ spec:
     remediation:
       retries: 3
   values:
+    # Global LDAP configuration
     global:
       ldapDomain: chillincool.net
-      # Admin password from 1Password
-      # Create item in 1Password: vaults/Homelab/items/openldap-admin
-      # Required fields: admin-password, config-password
+      # Use 1Password secret for credentials
+      # Secret must contain fields: LDAP_ADMIN_PASSWORD, LDAP_CONFIG_ADMIN_PASSWORD
+      # Create in 1Password: vaults/talos/items/openldap-admin
       existingSecret: openldap-admin
+      adminUser: admin
+      configUser: admin
 
+    # OpenLDAP server configuration
     replicaCount: 1
 
-    # Persistence for LDAP data
+    # Persistence
     persistence:
       enabled: true
       storageClass: longhorn
       size: 2Gi
+      accessMode: ReadWriteOnce
 
-    # Base organizational structure - managed by GitOps
+    # Custom LDIF for base organizational structure
     # Users/groups will be managed via Terraform
     customLdifFiles:
       00-base-structure.ldif: |
@@ -58,22 +63,34 @@ spec:
         ou: services
         description: Service accounts container (Keycloak, readonly, etc.)
 
-    # Enable TLS/LDAPS
-    tls:
+    # TLS/LDAPS configuration
+    # Using self-signed certs initially, can switch to cert-manager later
+    initTLSSecret:
+      tls_enabled: true
+      # Leave empty to auto-generate self-signed cert
+      # For cert-manager: create secret and reference here
+      secret: ""
+
+    # phpLDAPadmin web UI
+    phpldapadmin:
       enabled: true
-      # Use cert-manager to generate certificates
-      certificatesSecret: ""  # Auto-generate self-signed cert
-      # For production, use cert-manager:
-      # certificatesSecret: openldap-tls
+      ingress:
+        enabled: false  # We'll use HTTPRoute instead
+      env:
+        PHPLDAPADMIN_LDAP_CLIENT_TLS_REQCERT: never  # Allow self-signed certs
+      resources:
+        requests:
+          cpu: 50m
+          memory: 128Mi
+        limits:
+          cpu: 200m
+          memory: 256Mi
 
-    # Service configuration
-    service:
-      type: ClusterIP
-      ports:
-        ldap: 389
-        ldaps: 636
+    # Self-service password tool (optional, disable for now)
+    ltb-passwd:
+      enabled: false
 
-    # Resources
+    # Resource limits for OpenLDAP
     resources:
       requests:
         cpu: 100m
@@ -81,7 +98,3 @@ spec:
       limits:
         cpu: 500m
         memory: 512Mi
-
-    # Enable metrics for monitoring (optional)
-    metrics:
-      enabled: false
