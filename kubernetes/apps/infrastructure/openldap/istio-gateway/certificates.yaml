@@ -47,9 +47,9 @@ spec:
     - key encipherment     # Required for RSA key exchange in TLS
     - server auth          # Server authentication (primary use)
     - client auth          # Client authentication (for mutual TLS if needed)
-  # Duration and renewal
-  duration: 2160h # 90 days
-  renewBefore: 720h # 30 days
+  # Duration and renewal - adjusted for step-ca max 24h limit
+  duration: 24h          # Maximum allowed by step-ca
+  renewBefore: 8h        # Renew 8 hours before expiry
   # Key configuration
   privateKey:
     algorithm: RSA
