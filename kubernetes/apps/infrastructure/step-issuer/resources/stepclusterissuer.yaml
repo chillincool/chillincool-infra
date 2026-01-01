@@ -15,4 +15,5 @@ spec:
     kid: 5cTlEQF4KuPEWMh-UiosM58oX4M6tBnphMUMqzSMyHo
     passwordRef:
       name: step-ca-provisioner
+      namespace: cert-manager
       key: password
