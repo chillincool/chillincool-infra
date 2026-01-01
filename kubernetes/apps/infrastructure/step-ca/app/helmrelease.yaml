@@ -1,126 +1,112 @@
----
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: step-ca
-  namespace: step-ca
+    name: step-ca
+    namespace: step-ca
 spec:
-  interval: 30m
-  chart:
-    spec:
-      chart: step-certificates
-      version: 1.x.x
-      sourceRef:
-        kind: HelmRepository
-        name: smallstep
-        namespace: flux-system
-  install:
-    remediation:
-      retries: 3
-  upgrade:
-    remediation:
-      retries: 3
-  valuesFrom:
-    - kind: Secret
-      name: step-ca-secrets
-      valuesKey: ca_password
-      targetPath: inject.secrets.ca_password
-    - kind: Secret
-      name: step-ca-secrets
-      valuesKey: provisioner_password
-      targetPath: inject.secrets.provisioner_password
-    - kind: Secret
-      name: step-ca-secrets
-      valuesKey: intermediate_ca_key
-      targetPath: inject.secrets.x509.intermediate_ca_key
-    - kind: Secret
-      name: step-ca-secrets
-      valuesKey: root_ca_key
-      targetPath: inject.secrets.x509.root_ca_key
-    - kind: Secret
-      name: step-ca-secrets
-      valuesKey: intermediate_ca_cert
-      targetPath: inject.certificates.intermediate_ca
-    - kind: Secret
-      name: step-ca-secrets
-      valuesKey: root_ca_cert
-      targetPath: inject.certificates.root_ca
-    - kind: Secret
-      name: step-ca-secrets
-      valuesKey: ca_fingerprint
-      targetPath: inject.config.files.defaults\.json.fingerprint
-    - kind: Secret
-      name: step-ca-secrets
-      valuesKey: provisioner_jwk
-      targetPath: inject.config.files.ca\.json.authority.provisioners[0]
-  values:
-    inject:
-      enabled: true
-      config:
-        files:
-          ca.json:
-            root: /home/step/certs/root_ca.crt
-            federateRoots: []
-            crt: /home/step/certs/intermediate_ca.crt
-            key: /home/step/secrets/intermediate_ca_key
-            address: :443
-            dnsNames:
-              - pki.chillincool.net
-              - step-ca.step-ca.svc.cluster.local
-            logger:
-              format: json
-            db:
-              type: badgerv2
-              dataSource: /home/step/db
-            authority:
-              enableAdmin: false
-              provisioners: []  # Injected from 1Password
-            tls:
-              cipherSuites:
-                - TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256
-                - TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
-              minVersion: 1.2
-              maxVersion: 1.3
-              renegotiation: false
-
-          defaults.json:
-            ca-url: https://pki.chillincool.net
-            ca-config: /home/step/config/ca.json
-            fingerprint: ""  # Injected from 1Password
-            root: /home/step/certs/root_ca.crt
-
-      certificates:
-        # Certificates injected from 1Password
-        intermediate_ca: ""
-        root_ca: ""
-
-      secrets:
-        # All secrets (passwords and private keys) injected from 1Password via valuesFrom
-        ca_password: ""
-        provisioner_password: ""
-
-        x509:
-          intermediate_ca_key: ""
-          root_ca_key: ""
-
-    # Persistence for CA database
-    persistence:
-      enabled: true
-      storageClass: longhorn
-      size: 1Gi
-      accessMode: ReadWriteOnce
-
-    # Resources
-    resources:
-      requests:
-        cpu: 100m
-        memory: 128Mi
-      limits:
-        cpu: 500m
-        memory: 256Mi
-
-    # Service configuration
-    service:
-      type: ClusterIP
-      port: 443
-      targetPort: 443
+    interval: 30m
+    chart:
+        spec:
+            chart: step-certificates
+            version: 1.x.x
+            sourceRef:
+                kind: HelmRepository
+                name: smallstep
+                namespace: flux-system
+    install:
+        remediation:
+            retries: 3
+    upgrade:
+        remediation:
+            retries: 3
+    values:
+        inject:
+            enabled: ENC[AES256_GCM,data:cZUnOA==,iv:ftB9LcRKGKLfC/dpM5D6ey9k52pX4P9N3J7IT4gnoc4=,tag:GlGGoVOCg0a3K4yRfGmgJA==,type:bool]
+            config:
+                files:
+                    ca.json:
+                        root: ENC[AES256_GCM,data:CCKGVzZQvAXIE8UheuHi7UY/MRRZtnhwH9aVAg==,iv:fDPRSpA6ZKxHNdBwp5fj4xtE4GZa6Cx8DFVcQo0OaUg=,tag:RMJd2UMnHc3SY/7Cv+81cA==,type:str]
+                        federateRoots: []
+                        crt: ENC[AES256_GCM,data:Au3Tlscn8Hp5MFAvOkJwgxRWZ7BppmqNyvaneA7xpGCUnL35,iv:511chLCttMQCZjVvYpwSettA5gEE3WsYNhCzQJn8oVE=,tag:d9Yk11a4Qouq5ELFQF6+dQ==,type:str]
+                        key: ENC[AES256_GCM,data:YLwyxujoosWlE+d494reg5RNgy25ilfOt2j4lFYctzIN3R5goEk=,iv:cc1Eez1XHDxE3p/BKxkUGGzC9j03Oo8hcyYYm6XRLH0=,tag:GvSErB3Lfno3Aok4LK5VaQ==,type:str]
+                        address: ENC[AES256_GCM,data:iRGQUw==,iv:NnbLPbZ/JJ1FoGAvmXkgHr3yEUf6dnPZBAjf49Npe6k=,tag:P+JR6nT86accYKBu1Lj5/Q==,type:str]
+                        dnsNames:
+                            - ENC[AES256_GCM,data:jMhTMvIZMMmjlIfqgpAmdV16jw==,iv:yj1ddadtt+qPgNAHKMiprvo0F3LzsXNrQ51KPJdzHkU=,tag:81cvVRdXsaifVTG+zQlGeQ==,type:str]
+                            - ENC[AES256_GCM,data:/S5FRyRfiOfVzt8TQQyduRf7VEYQhY7NWNV+J4LiVxYlIDTZlGx+ww7EsqxabtbySe1Y,iv:uSJHy+7rFJxgxja9uDo+HtPdhJ5ybTMg+sMAZEL6R4Q=,tag:EfhZOAmo9T9BwvmzDiL47w==,type:str]
+                        logger:
+                            format: ENC[AES256_GCM,data:DClJEg==,iv:q6t1aBoWwYwI7aykqdpP/Hw8OEh715SgJpU+zTHoKtg=,tag:cEQFcazFNhlCCUIY+qjB9w==,type:str]
+                        db:
+                            type: ENC[AES256_GCM,data:ucFOc3Dp/M4=,iv:IfE3CSyQsdnNQabWTM7vlbGr+jq7SJ7G857aBIZCye8=,tag:7ActNFZzG/rppdKCdlj/NQ==,type:str]
+                            dataSource: ENC[AES256_GCM,data:OEpWtI3z3sqOXabjLA==,iv:rv2BD1XgsbaWRBnI5mGf4ulBs5QOF119Mnc6gQtSNjU=,tag:cAzEK5SbocE5ci9BMLDDxQ==,type:str]
+                        authority:
+                            enableAdmin: ENC[AES256_GCM,data:d4haWrY=,iv:KH/xGnJkTvNtPnJVXUFoG6zlF52Ewzd2+MVyepBqATI=,tag:UPx5BoA+0nDT14CpZ/+Wcw==,type:bool]
+                            provisioners:
+                                - type: ENC[AES256_GCM,data:xGqs,iv:lu1Uc3yxDbRjbnY0pOP272cHqr5dxL42nRz1ptKau1w=,tag:I6BFigB94J2Z/w0YvM2QJA==,type:str]
+                                  name: ENC[AES256_GCM,data:ZaYCePRKvetRZAEgpD6h+smRJT3u,iv:UYzbY8/LNjoKwa3NgHh2XMB05F567o9ZfJ3sfPPepCc=,tag:KHWtCcg6U0zPaXLb4lW0Kw==,type:str]
+                                  key:
+                                    use: ENC[AES256_GCM,data:GcN0,iv:Q0fyBj2e/Nb5FGD5PL63BYzpHcYtsCnMdLDqvk7d94w=,tag:vxM409zePEFu7vBxe9OQGA==,type:str]
+                                    kty: ENC[AES256_GCM,data:hqM=,iv:t7mVRXJyB4N0eE2RCpPXIuz3yogWq67e3nfjWAia/rs=,tag:/uSVNZnweP1hIg3WhQhLpg==,type:str]
+                                    kid: ENC[AES256_GCM,data:a0XrQqPfNlaOY+/8YtdGTrFGWY4h5lzo6C0+qpIAc8lydKKAZUp0E/gNPQ==,iv:Y0ihjDe/dmks90wsTS+NShRofKKXELgAoog4255yy8g=,tag:f+ULx9WfJVOsE+1BD47FPw==,type:str]
+                                    crv: ENC[AES256_GCM,data:ZeLP/MU=,iv:1fxDpfY9duc24GlixXcbo6TfJ0SoIDJ7LaM1Uv0/vLI=,tag:tCc+lo5NmaWOO8QoWnLTnA==,type:str]
+                                    alg: ENC[AES256_GCM,data:ZrPrYAM=,iv:GXUtnO/ubRU/kea6JvQ5oVg74Mk/VJr12Dlt/4Y3nKo=,tag:1xkEWQZNP2FBes4mIPSyQw==,type:str]
+                                    x: ENC[AES256_GCM,data:vChe90bfhpAiLJf7Cf/cR90nbIiXzzYPOlxjdnc5ouwAyldTfpCeS1D/gw==,iv:wbmR18Ik4apokeUfF/yVc8/2NXmA8acRoZ1c2Uj7rB4=,tag:40ekWTs21ZnHuSaYhxQUXw==,type:str]
+                                    "y": ENC[AES256_GCM,data:C/jyL2IyWyh/TXsugC6Uyg9Z32lusHQyoAVoshpquBbL4Pg8H+g6i0/u8g==,iv:lG8VOVmoKyJ6ROftPh/fW78TbAFWUTU+F004cLEdgb0=,tag:3p+RcmWzFBecM0esuD05YQ==,type:str]
+                                  encryptedKey: ENC[AES256_GCM,data:2WGbE/fFm4FTPDK+4Tylw8ZzcwqUoybMPfhSYb0xj2+FMdVEwEC/TQ0B8Du7f4XEQBSKvRWgGTnW+QcKBgGsg+u93/7tAh4Qk+bpCmeNf9w0sp1IfJHe6l8L0Xcg2vKRMsf4IM7UNoDdwslhPYR1sG6UFgo8zuj1tnajVwejcoWkTrUNTVu2FpEkh4787DfIwQHbDHZBKvS6QCIAm3RrOUiBFXPFtMz7gEXb50duOw6UcAiFXcSQMCirw9c7GA/CY5TSNrA73EjEVc5L9AcIhObGSasJiYPXkCaakFcLcBRkK397stUepU5Ti4Lh3a7azLCkCj2aKCMcGFpF4y/csohPaCHeSaBxaa4IbJ5k9ueeAuoSFVRvOkCFgv9qkCF8FyBC/h0kn6DNJV4Tpx6/JF0SjEtJn9jhmMlCmvzAH+8wiUmcQdlvMExl6P7wKab9WSXsDlelKzCgr6bz6yv9HhLiEBglsf31i4ugiyzK0n5HzIqf29Uk86YOPD4BkR8s3amDlP9iSL3/h8U8QvwI1bExZid5YrqrVZ4dyqRTEzWX/fF6TxlAxyRQc1kDzBnXywb9zVE8NBN44TRtVhlSUH5OCBbClZPiNwtS46orjW8tMnaIzD6qf5quKPODptg3LdVJVtkA4ajUDiAP+r6F2u7MJ/7A61WVmXiAVygQHQ2L61o4G/GqZdfT3jFBY9YUuSSrs7315yCxXVKwuPG3/kzP/kqgq545gvqFeoEHWSgw+VtKpyG2v/2b14+KGlU=,iv:tf+RNZHpQq0iwR1WqmnbOn76iI2C70uTzeylNbeZ5lY=,tag:ryx0Tu16bK6NR8hhudVLUw==,type:str]
+                                  options:
+                                    x509: {}
+                                    ssh: {}
+                        tls:
+                            cipherSuites:
+                                - ENC[AES256_GCM,data:XjmE30wm67eWrxnG68gAaEjiNknsDeNg4FunJwftnpYsGtOL/9hmsjNgQNEU,iv:Ej4yEoiVhqJk9Xhpco+BGqXWGjXc5eyN0IJbXIcyktw=,tag:Wm3IoPw50se/5KuN05NPIg==,type:str]
+                                - ENC[AES256_GCM,data:hPN+P860SNxRIWFn4F8P7BxsXsI8Grl7HJqsWpFE0+koiFHS+78i,iv:mFR3MTwXDGLgWCrygUFXEpYzPBjAOcMJumoo9JRoqWw=,tag:9UPtxUag94DhSa9hpoJA1g==,type:str]
+                            minVersion: ENC[AES256_GCM,data:WRAx,iv:D9wc9ABCa/RP8qgYdE9d0kKsBGeCmA+G/dDB+zMaE24=,tag:PRG4k61RJOHp4pkj8XNjAA==,type:float]
+                            maxVersion: ENC[AES256_GCM,data:s5+1,iv:tCOVqG4ePFj+JAIFIkWgwq6AyCTrYVGXOPfRYNJVSa0=,tag:ibQUmBB+06iPoDz7Q1DWNQ==,type:float]
+                            renegotiation: ENC[AES256_GCM,data:aplTOlI=,iv:iCHMSjwJNNGHr4y4U2DAEGpT7WjgoRPbOyAkoRlWHMw=,tag:z5aT850h1CTOIcQ2vtbXHw==,type:bool]
+                    defaults.json:
+                        ca-url: ENC[AES256_GCM,data:EU80Wvl683B5nvew44k5hDhTg90myKCFKqFK,iv:mi93WcUj4P8AP7w0e4tg3kOL/4CmOjDCthO/888ITSY=,tag:UhikFQvzJ6Pl1a19gzwW7Q==,type:str]
+                        ca-config: ENC[AES256_GCM,data:K8fg06a+nw2bx2MCNK6CcFVkmhYtfSLPpg==,iv:o0vRok2+FdCmQNdcbXoYKhV0pq/Lavg6DwZm97Jxjbc=,tag:i6K7BaelgjtGf6ipETstmw==,type:str]
+                        fingerprint: ENC[AES256_GCM,data:4j4yjJj+0/tc/LotI8gzqw45y3YegVvOcg3BBE8LuWWiCbJsnL7DECmVRIGQ8FZm8/OXORiUJqsmEbk208fPsA==,iv:USXnAw3Cylvw83FMEcPbuxAknXNwnt3kKmGP6h8YNJ0=,tag:iuPaCCSHjqP3aX6p5x9pVw==,type:str]
+                        root: ENC[AES256_GCM,data:EtY6dUe43Zd0lH6nRkHh28gHxljFY3lXumSijA==,iv:hWJVr+dYdUayVG3rYJ03qkDIhSLTSl9tQheDgcFFlyI=,tag:TILG+j6JDxM87VA8TkZxsA==,type:str]
+            certificates:
+                intermediate_ca: ENC[AES256_GCM,data:pe624/5mWqYVI943lwQyXD3mDsblfIFG0WCC+b7xLCZTdwnKaVIE48mVBS6RNRQzzNRkHwwAgu4VsG/A5dJkVLjdyDGzSXQ0hiLPBA8lhgwT+1ealx8i+uVGOrMc1y86F3WY+81DMcolm7nbRCotFopmfd3Rp9o73MVyo+j2CZ4W0uT3V3AFowXfM5FLYrJC4Kl83/qx3ofYYCTuA+dX9rUGA/yy1Yd7crgPvnik+DbZmAmkU4ANW5T//4PZq90BkEP0Vj7CK6JyokHYcgomPVMszymW3f1eBw3RY4Hfudw6pmDwiPTITKeLkWwmeMCVnYKWH2AMWeds7/CT52SV2SXPRUhW+I31AYd4J/tDCQmqpT1Ltd2QhXJKZIydPf12+28mIDOg3fB/T9fNw4b7aSvpajqnU1OGNevaEF2iPirAsfkH5DIitVLlyNo8BPHi3yj+Rsm9o/g7po0KjY7n+9F+cJuXMZZ3joALguwE7+Zrtm8uAbKdY2Pjp4WhYBRnkpQ/DsqDmFTFLRSGzLrPS/rZug3rLwMfGR5Zxkq0RAzx/6eVG1NB8oIzkFnGkbs/RuN0rn1agukPKOPSPmNOoeFmJu4ZIvkqXJmUdus+q2lzIKOoR4BJWV0UZVW9l/7/PjeWWgCpEMCo9h6vyh8HbiaLOUvgaiM3cVRZwPaYH14RblLn/WCtWR85XBABOUNY41ffdnf7MzLDqjNGMDuABC3R6XuuyqF9Tg+UPgpsNC+VOrQIeKUf4ZssQDIMzYyFluzuX53ddoGrwYff+JM4+7DM8AirTwNmb1caiHFaALX3W0enjoAj0h/UimVcEvvUPMVhuupSU9i4QDVRoy4l4J2Ahestm457dyLa3m87va7FPeCtcD9vARdcLZd5EqtE9HkcYW57Bm0K1uukNMh5M3bEmtY=,iv:OwNHu4LS9NX8N1ZSB1DsHHwurAUMdguX12nkzvrlT4o=,tag:fglj1jzD9qdAOQ4HIGpV/g==,type:str]
+                root_ca: ENC[AES256_GCM,data:Da5bVktzdfm2l7IQFX5q6O36k6VcR47e5FU+ZkV6EgH7iztyGrNYhIImbCzAiXiaelg24CwW5j9efzyCnActkrul1mj2E6g+KBJEKBa7bUtaAVfjzrAsnJIG8/Lk6REOVVuOgNfb0IPLf6Wb+HLDcq+YibJtXt+SgIB/KbqX/QWQ93osDndrvI/mcxy28+R2b+kPS7cFxv+q4hOs9gOSuFSWGuDr/VQY4BcZdXjTr3iEQIB1s4+GUwUP6jgdGfXDYh6me74cmV/BsoxbrlZJmWyfxyBSWd67SsJj8vl296gLqLtDOzj3RnvWXwbdQufI1D3HxtVusVnFm6u7FcX9gYtlsOPP3UVk1+A127qoXNanmqH667tjDPDcHe6tSIXyi3WlVl9TmW0I9u9QiMtx/6gSgIdFdlg6M72iLs8Jqhi8MQWv+3P0dHyPYJ/j7iJVlGfgkoSguqeLmbo+JAYD7vDJtRnXRb+LNKCcQCBxSNu4GZpCkDDvxy9/eRtAE1gFTK8tVYpUW/gtB9cbgd7z/c+xVpOHFvPwxJJR1sw9ka4PYG3OgcNJ2n7w5WayorOXW9XwvYsIeyF5Wv0XE6Al0W3Cm6Svy5iw7dqGShQGq8LTzbtLTolp+9MMfIqhV5U+D1fE0vBZo1KdLjWdxRmlZHjO9D24GXgJN/y3e81dbUef8ECJilvWOufWI0W9oo7XbMwoq1kpE4Nv3In2CY319naCjbcNTSbCmv+s82bAhMtSvkKNsLulZMyfBa19dyrCbI2rHbYPjB2dOZOnjktl2wkgyUpSE4O9I9eQxxHsBZxwqCn2offSutY7op3Olr0ACAlL5NKtJhMqIH8d4RRO,iv:PnRtORD6IexVaHy1yJm1J09LOGTHK20PgjSnqwWLQ0I=,tag:P1qK5sI60QmWTssq0Y2ZRg==,type:str]
+            secrets:
+                ca_password: ENC[AES256_GCM,data:Bhmy0xt0e738EjFPWNKKS4T/7h899kGiJZ3jxKRRLgs=,iv:UMEoNUsvGObyMXmGZRqlyPGnSb84r3uTpAjup7ICZi8=,tag:bYbAdplkRdzVehzVH37kcw==,type:str]
+                provisioner_password: ENC[AES256_GCM,data:0k9K0Kp3lNhWmCVdBJBvehNPQ13kpDVcf8LxXSzLHRQ=,iv:I8qRxyKuE5jHXAwytEos9IQFN+Hl4u+qbbVywcXFK2w=,tag:y3G1ZRVq3gXpuP2QIX/raw==,type:str]
+                x509:
+                    intermediate_ca_key: ENC[AES256_GCM,data:1EJhwhoPe8iE7DTcYvkiNJrRb4e2zwXdt/DSbJnx6QQmcY79kaatPsIaZJhu8PqhldDom9pbnSIhyoGuMYExGk6HtQ3rY5BShqE66VTh7a2mr8+rhB8q4aMtzzN86VwnTKcrjXY4OTo6JPqlv7eVcYk6rOLHwwZuVeIrwlUV2N86Avur/hbpAF2gh81OYXOxUlTjU3e0NrlKUktvg9ZNhsfcmQzZ3FIMVIeVFyTZ40W/FFGoAdED59jk6SiPP8SP8K0WFcPtEb2Xb1fohyvZHIE9/JOcCsLmzqgCnXC34jh4/IAgmhwBRlZ370l82W9+lksltzcLLunAOSxK5QsldVCFzaJy61lklsOkEwNGw+JOHT3IAmCcuIZqMwKVGQW/EKpZpgGu8PVOpyz2mvkpRyuQmU4TiGQ6HiA=,iv:6fxT20lVqLZg27sfK9Cu04JlmPccjtnYrhPRDQIZSlo=,tag:uvdowactujJW5TCiskTBpA==,type:str]
+                    root_ca_key: ENC[AES256_GCM,data:gEl/Ac3ms3Y0Y8zRZ2z8cDwKDbuLhdnkQnm7zSJiuVvQULQ9P1yJgA/Aw/wmK3nonNXrc9bijRIBUePNHB0D07+8ktxtn4w0eEdpNEFJI8UeUF1qz0Xf3VJ6fCHPDl5Trn+NWyBIx7GubXrJjLMfYfsHXU78iH3CaeeeLkw7oauh8xh6pOt+c1bQbFfJc3TiElOEhOV8YAn/h8jWfWwdk2HVa9G+oNNm46gzzZcrWWbfpjNTPo1WY5uAxGbs6oknL6NaO1WvDerK6/sJof8Sx/edRCxhiNbBRWak3LdwhoyXs9vIt9OOWaSLVW9ryGZTKAQpcoWGkw+ptt6plGtkEEFYRPaY4fhdiY1AQfjnKU4RZ8Cr7WnCadl3InPMd5PLOw+t8DaMwJwljxVoHUw6UIGVuV6dyXmmtag=,iv:IWlrKCs3erMlEVGGuwCRhQ3mh0tf1qmPT5evnmUnbdc=,tag:RrAWuWeaceh0QQsqJJ/6VA==,type:str]
+        # Persistence for CA database
+        persistence:
+            enabled: true
+            storageClass: longhorn
+            size: 1Gi
+            accessMode: ReadWriteOnce
+        # Resources
+        resources:
+            requests:
+                cpu: 100m
+                memory: 128Mi
+            limits:
+                cpu: 500m
+                memory: 256Mi
+        # Service configuration
+        service:
+            type: ClusterIP
+            port: 443
+            targetPort: 443
+sops:
+    age:
+        - recipient: age145240rs7s8y8e5tvz747ccxj9504hqhvrw4m5zy8y9zc9sjarpcq6ptf98
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBzdGY2c0dOelhZRDBoQ3FW
+            dERpaTIyMzVoY2N3eC9Fcm9ETm1JTm9nV24wClpJOHQ0cjV0allkRWVUemRkQTVM
+            NlM4ZndrdXV2ZnlJeTdXWkRFaFhiTDAKLS0tIHQzc0UxSGllRHNGSXp2a0hKTk1T
+            NE5SN0RTRDZuei9sQ3REVzlBaTIrdm8Kh/DpJiJwYmvO9RWg6JbrgNSXjGd6grhi
+            6yERwGfsE02PJO844FF3aTf47WBne1g0iNNSPPhZb7yz+7jHxOpGIg==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2026-01-01T22:26:47Z"
+    mac: ENC[AES256_GCM,data:Zk3Gp7N55a9M9pqzJQx70/QZqqEOwUq//pu9jOxmIJwpzB7TFShjMHonG6m1FuEon/iEYOf+WkPicGqPpoiOCbMJbLj1bxDie21DY6XRpAxmjYeiAAmUW5z+nwnhoJlH7AbpDYVKy6HPi+QYujUn4yYZdPnvje0H/GfPWGriC5c=,iv:iS8vtgrl0MI69bdIxKy0dBUUjVi52oeG3h9dAWw8lr8=,tag:FkQRxvKYEaNCaUGHirZspQ==,type:str]
+    encrypted_regex: ^(inject)$
+    version: 3.11.0
