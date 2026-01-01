@@ -64,12 +64,9 @@ spec:
         description: Service accounts container (Keycloak, readonly, etc.)
 
     # TLS/LDAPS configuration
-    # Using self-signed certs initially, can switch to cert-manager later
+    # Disabled for now - will enable with step-ca certificates later
     initTLSSecret:
-      tls_enabled: true
-      # Leave empty to auto-generate self-signed cert
-      # For cert-manager: create secret and reference here
-      secret: ""
+      tls_enabled: false
 
     # phpLDAPadmin web UI
     phpldapadmin:
