@@ -1,4 +1,5 @@
 ---
+# Certificate for HTTPS/HTTPRoute (web UI)
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
@@ -11,3 +12,51 @@ spec:
     kind: ClusterIssuer
   dnsNames:
     - ldap.chillincool.net
+---
+# Certificate for LDAPS (OpenLDAP server TLS)
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: openldap-tls
+  namespace: openldap
+spec:
+  secretName: openldap-tls
+  issuerRef:
+    name: step-ca
+    kind: StepClusterIssuer
+    group: certmanager.step.sm
+  # Common name should match the service name
+  commonName: openldap.openldap.svc.cluster.local
+  dnsNames:
+    # Primary service name (what clients will use)
+    - openldap.openldap.svc.cluster.local
+    - openldap.openldap.svc
+    - openldap.openldap
+    - openldap
+    # Headless service for replication (if using multi-master)
+    - openldap-headless.openldap.svc.cluster.local
+    - openldap-headless.openldap.svc
+    # Individual pod names for replication
+    - openldap-0.openldap-headless.openldap.svc.cluster.local
+    - "*.openldap-headless.openldap.svc.cluster.local"
+    # External DNS name (if applicable)
+    - ldaps.chillincool.net
+  # LDAPS certificate usages
+  usages:
+    - digital signature    # Required for TLS handshake
+    - key encipherment     # Required for RSA key exchange in TLS
+    - server auth          # Server authentication (primary use)
+    - client auth          # Client authentication (for mutual TLS if needed)
+  # Duration and renewal
+  duration: 2160h # 90 days
+  renewBefore: 720h # 30 days
+  # Key configuration
+  privateKey:
+    algorithm: RSA
+    size: 2048
+  # Explicitly mark as end-entity cert (not a CA)
+  isCA: false
+  # Subject fields for better certificate identification
+  subject:
+    organizations:
+      - chillincool

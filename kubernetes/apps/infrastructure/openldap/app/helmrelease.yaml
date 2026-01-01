@@ -70,9 +70,21 @@ spec:
         description: Service accounts container (Keycloak, readonly, etc.)
 
     # TLS/LDAPS configuration
-    # Disabled for now - will enable with step-ca certificates later
+    # Enabled with step-ca certificates
     initTLSSecret:
-      tls_enabled: false
+      tls_enabled: true
+      secret: openldap-tls
+
+    # Additional LDAP environment variables for TLS security
+    env:
+      # Enforce minimum TLS version (disable older protocols)
+      LDAP_TLS_PROTOCOL_MIN: "3.3"  # TLS 1.2+
+      # TLS cipher suite configuration (strong ciphers only)
+      LDAP_TLS_CIPHER_SUITE: "HIGH:!aNULL:!MD5:!RC4:!DHE"
+      # TLS verification - require valid certs for replication
+      LDAP_TLS_VERIFY_CLIENT: "try"  # Options: never, allow, try, demand
+      # Log level (stats, recommended for production)
+      LDAP_LOGLEVEL: "256"  # 256 = stats, 0 = none, -1 = everything
 
     # phpLDAPadmin web UI
     phpldapadmin:
@@ -80,8 +92,10 @@ spec:
       ingress:
         enabled: false  # We'll use HTTPRoute instead
       env:
-        PHPLDAPADMIN_LDAP_CLIENT_TLS_REQCERT: never
-        # PHPLDAPADMIN_LDAP_HOSTS: "#PYTHON2BASH:[{ 'openldap.openldap': [{'server': [{'tls': False},{'port':389}]},{'login': [{'bind_id': 'cn=admin,dc=chillincool,dc=net'}]}]}]"
+        # Configure phpldapadmin to use LDAPS
+        PHPLDAPADMIN_LDAP_CLIENT_TLS_REQCERT: try
+        # Connect to LDAPS port with TLS enabled
+        PHPLDAPADMIN_LDAP_HOSTS: "#PYTHON2BASH:[{ 'openldap.openldap': [{'server': [{'tls': True},{'port':636}]},{'login': [{'bind_id': 'cn=admin,dc=chillincool,dc=net'}]}]}]"
       resources:
         requests:
           cpu: 50m
