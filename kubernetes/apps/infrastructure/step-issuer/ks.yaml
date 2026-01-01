@@ -13,3 +13,7 @@ spec:
     name: flux-system
   wait: false
   targetNamespace: cert-manager
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
