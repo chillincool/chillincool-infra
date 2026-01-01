@@ -14,3 +14,7 @@ spec:
   wait: true
   timeout: 10m
   targetNamespace: step-ca
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
