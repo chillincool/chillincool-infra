@@ -15,4 +15,5 @@ spec:
   timeout: 10m
   dependsOn:
     - name: cert-manager
+    - name: cert-manager-rbac
     - name: cloudnative-pg
