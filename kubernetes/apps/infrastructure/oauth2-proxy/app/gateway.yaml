@@ -1,0 +1,39 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: oauth2-proxy-gateway-istio
+  namespace: oauth2-proxy
+spec:
+  gatewayClassName: istio
+  listeners:
+    - name: https-oauth2-proxy
+      hostname: auth.chillincool.net
+      port: 443
+      protocol: HTTPS
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: oauth2-proxy-tls
+            kind: Secret
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: oauth2-proxy
+  namespace: oauth2-proxy
+spec:
+  parentRefs:
+    - name: oauth2-proxy-gateway-istio
+      namespace: oauth2-proxy
+      sectionName: https-oauth2-proxy
+  hostnames:
+    - auth.chillincool.net
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /oauth2
+      backendRefs:
+        - name: oauth2-proxy
+          port: 4180
