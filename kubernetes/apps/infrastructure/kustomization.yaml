@@ -10,3 +10,4 @@ resources:
   # - ./oauth2-proxy/ks.yaml
   - ./openldap/ks.yaml
   - ./reloader/ks.yaml
+  - ./step-ca/ks.yaml

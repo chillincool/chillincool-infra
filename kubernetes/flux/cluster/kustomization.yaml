@@ -16,6 +16,7 @@ resources:
   - ./helmrepository-longhorn.yaml
   - ./helmrepository-oauth2-proxy.yaml
   - ./helmrepository-prometheus-community.yaml
+  - ./helmrepository-smallstep.yaml
   - ./helmrepository-stakater.yaml
   - ./helmrepository-victoria-metrics.yaml
   - ./ks-onepassword-connect.yaml

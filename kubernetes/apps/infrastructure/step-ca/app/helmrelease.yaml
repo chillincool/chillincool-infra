@@ -1,0 +1,126 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: step-ca
+  namespace: step-ca
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: step-certificates
+      version: 1.x.x
+      sourceRef:
+        kind: HelmRepository
+        name: smallstep
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  valuesFrom:
+    - kind: Secret
+      name: step-ca-secrets
+      valuesKey: ca_password
+      targetPath: inject.secrets.ca_password
+    - kind: Secret
+      name: step-ca-secrets
+      valuesKey: provisioner_password
+      targetPath: inject.secrets.provisioner_password
+    - kind: Secret
+      name: step-ca-secrets
+      valuesKey: intermediate_ca_key
+      targetPath: inject.secrets.x509.intermediate_ca_key
+    - kind: Secret
+      name: step-ca-secrets
+      valuesKey: root_ca_key
+      targetPath: inject.secrets.x509.root_ca_key
+    - kind: Secret
+      name: step-ca-secrets
+      valuesKey: intermediate_ca_cert
+      targetPath: inject.certificates.intermediate_ca
+    - kind: Secret
+      name: step-ca-secrets
+      valuesKey: root_ca_cert
+      targetPath: inject.certificates.root_ca
+    - kind: Secret
+      name: step-ca-secrets
+      valuesKey: ca_fingerprint
+      targetPath: inject.config.files.defaults\.json.fingerprint
+    - kind: Secret
+      name: step-ca-secrets
+      valuesKey: provisioner_jwk
+      targetPath: inject.config.files.ca\.json.authority.provisioners[0]
+  values:
+    inject:
+      enabled: true
+      config:
+        files:
+          ca.json:
+            root: /home/step/certs/root_ca.crt
+            federateRoots: []
+            crt: /home/step/certs/intermediate_ca.crt
+            key: /home/step/secrets/intermediate_ca_key
+            address: :443
+            dnsNames:
+              - pki.chillincool.net
+              - step-ca.step-ca.svc.cluster.local
+            logger:
+              format: json
+            db:
+              type: badgerv2
+              dataSource: /home/step/db
+            authority:
+              enableAdmin: false
+              provisioners: []  # Injected from 1Password
+            tls:
+              cipherSuites:
+                - TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256
+                - TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
+              minVersion: 1.2
+              maxVersion: 1.3
+              renegotiation: false
+
+          defaults.json:
+            ca-url: https://pki.chillincool.net
+            ca-config: /home/step/config/ca.json
+            fingerprint: ""  # Injected from 1Password
+            root: /home/step/certs/root_ca.crt
+
+      certificates:
+        # Certificates injected from 1Password
+        intermediate_ca: ""
+        root_ca: ""
+
+      secrets:
+        # All secrets (passwords and private keys) injected from 1Password via valuesFrom
+        ca_password: ""
+        provisioner_password: ""
+
+        x509:
+          intermediate_ca_key: ""
+          root_ca_key: ""
+
+    # Persistence for CA database
+    persistence:
+      enabled: true
+      storageClass: longhorn
+      size: 1Gi
+      accessMode: ReadWriteOnce
+
+    # Resources
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: 500m
+        memory: 256Mi
+
+    # Service configuration
+    service:
+      type: ClusterIP
+      port: 443
+      targetPort: 443
