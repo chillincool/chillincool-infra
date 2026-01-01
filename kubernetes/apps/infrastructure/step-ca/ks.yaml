@@ -11,8 +11,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  wait: true
-  timeout: 10m
+  wait: false
   targetNamespace: step-ca
   decryption:
     provider: sops
