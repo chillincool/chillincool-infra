@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./helmrepository-1password.yaml
+  - ./helmrepository-bitnami.yaml
   - ./helmrepository-cert-manager.yaml
   - ./helmrepository-chillincool.yaml
   - ./helmrepository-cilium.yaml

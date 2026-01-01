@@ -1,0 +1,19 @@
+---
+# Istio Gateway for openldap namespace ingress
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: openldap-gateway-istio
+  namespace: openldap
+spec:
+  gatewayClassName: istio
+  listeners:
+    - name: https-lam
+      hostname: lam.chillincool.net
+      port: 443
+      protocol: HTTPS
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: lam-tls
+            kind: Secret

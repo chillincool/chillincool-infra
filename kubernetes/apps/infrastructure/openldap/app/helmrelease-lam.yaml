@@ -1,0 +1,62 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: ldap-account-manager
+  namespace: openldap
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: ldap-account-manager
+      version: 8.x.x
+      sourceRef:
+        kind: HelmRepository
+        name: bitnami
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  dependsOn:
+    - name: openldap
+  values:
+    # LDAP connection settings - using LDAPS for encryption
+    ldap:
+      uri: "ldaps://openldap.openldap.svc.cluster.local:636"
+      baseDN: "dc=chillincool,dc=net"
+      # Admin user for LAM to bind with
+      adminDN: "cn=admin,dc=chillincool,dc=net"
+      # Password will be retrieved from openldap secret
+      existingSecret: openldap
+      existingSecretPasswordKey: admin-password
+      # TLS settings
+      tls:
+        enabled: true
+        # Skip cert verification for self-signed certs (for now)
+        # Set to false when using proper cert-manager certificates
+        skipVerify: true
+
+    # Service configuration
+    service:
+      type: ClusterIP
+      ports:
+        http: 80
+
+    # Resources
+    resources:
+      requests:
+        cpu: 50m
+        memory: 128Mi
+      limits:
+        cpu: 200m
+        memory: 256Mi
+
+    # Security
+    securityContext:
+      enabled: true
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000

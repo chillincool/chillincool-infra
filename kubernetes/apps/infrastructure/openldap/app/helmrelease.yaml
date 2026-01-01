@@ -1,0 +1,87 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: openldap
+  namespace: openldap
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: openldap
+      version: 2.x.x
+      sourceRef:
+        kind: HelmRepository
+        name: bitnami
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  values:
+    global:
+      ldapDomain: chillincool.net
+      # Admin password from 1Password
+      # Create item in 1Password: vaults/Homelab/items/openldap-admin
+      # Required fields: admin-password, config-password
+      existingSecret: openldap-admin
+
+    replicaCount: 1
+
+    # Persistence for LDAP data
+    persistence:
+      enabled: true
+      storageClass: longhorn
+      size: 2Gi
+
+    # Base organizational structure - managed by GitOps
+    # Users/groups will be managed via Terraform
+    customLdifFiles:
+      00-base-structure.ldif: |
+        # Base organizational units for chillincool.net
+        # This creates the container structure - actual users/groups managed via Terraform
+
+        dn: ou=users,dc=chillincool,dc=net
+        objectClass: organizationalUnit
+        ou: users
+        description: User accounts container
+
+        dn: ou=groups,dc=chillincool,dc=net
+        objectClass: organizationalUnit
+        ou: groups
+        description: Groups container
+
+        dn: ou=services,dc=chillincool,dc=net
+        objectClass: organizationalUnit
+        ou: services
+        description: Service accounts container (Keycloak, readonly, etc.)
+
+    # Enable TLS/LDAPS
+    tls:
+      enabled: true
+      # Use cert-manager to generate certificates
+      certificatesSecret: ""  # Auto-generate self-signed cert
+      # For production, use cert-manager:
+      # certificatesSecret: openldap-tls
+
+    # Service configuration
+    service:
+      type: ClusterIP
+      ports:
+        ldap: 389
+        ldaps: 636
+
+    # Resources
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi
+
+    # Enable metrics for monitoring (optional)
+    metrics:
+      enabled: false
