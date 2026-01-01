@@ -1,57 +1,18 @@
-# Secret containing the provisioner password for step-ca
-apiVersion: v1
-kind: Secret
-metadata:
-    name: step-ca-provisioner
-    namespace: cert-manager
-type: Opaque
-stringData:
-    password: ENC[AES256_GCM,data:PdPVNiaBIP9I1TiQrs+CgtwZU+71frNlw0Es+7iZa0c=,iv:wmwgcze/8O41MVhb2kBKKH7V/y27Xl0Cp8gYZ+y2ZYo=,tag:pgIyqyEhVjh+1bS0UpAHTA==,type:str]
-sops:
-    age:
-        - recipient: age145240rs7s8y8e5tvz747ccxj9504hqhvrw4m5zy8y9zc9sjarpcq6ptf98
-          enc: |
-            -----BEGIN AGE ENCRYPTED FILE-----
-            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBPNGo5UWU3SkovY0ZCMlV5
-            M2pOOFNDZDJ5Z2lEVlRVaG5LR3o0SVNlMVZBCi8walQ3N3FjcVN4Y2s4M3Bha0U1
-            QWJldXZsZWlFU2c1RytydDIzRHQ1OWcKLS0tIDkyMlJ3N01JQzFMK21YRHlXMisy
-            WXVBdVpoUlVpbDJkSVBiUXd5YVBpOWsK2Jbz0/gg7pg1paf/unxo6PwykeF0ukSs
-            SFPL7Xl2RgcDxceH/L5Ar+RsPQQpoIVHCiLK4GMMJ7C+dCejC0i+bg==
-            -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2026-01-01T23:14:25Z"
-    mac: ENC[AES256_GCM,data:2BC5xESh66nu1587W76SBEaKWDH9wXoLiqyDfDSbcRwAbzU+7I9Tqm76Ixb5hE+quXLIxyQ5eFNOXF+TZ93pVpoEjX5gENRO/7hfQY5Xrm6WdMNAsDS5R2OJ9WixYsxS6TsNW0rMAXa6ZhtbHAXh9jo0UkJzsxvLlVIO6k6jw8M=,iv:/C9HYBNI8ABypDchR8kgDorzUXSJ4xgDXlvZuAL69pE=,tag:M1SlDwAd8Bi3sYwBzhjDBA==,type:str]
-    encrypted_regex: ^(data|stringData)$
-    version: 3.11.0
 ---
 # StepClusterIssuer for cluster-wide certificate issuance
 apiVersion: certmanager.step.sm/v1beta1
 kind: StepClusterIssuer
 metadata:
-    name: step-ca
+  name: step-ca
 spec:
-    # step-ca service URL (internal cluster DNS)
-    url: https://step-ca-step-certificates.step-ca.svc.cluster.local
-    # CA bundle from step-ca root certificate
-    caBundle: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJxekNDQVZHZ0F3SUJBZ0lRUjFROW1BSkZraXVJd0JyUVNuTzVnakFLQmdncWhrak9QUVFEQWpBME1SUXcKRWdZRFZRUUtFd3RqYUdsc2JHbHVZMjl2YkRFY01Cb0dBMVVFQXhNVFkyaHBiR3hwYm1OdmIyd2dVbTl2ZENCRApRVEFlRncweU5qQXhNREV5TURBd05ESmFGdzB6TlRFeU16QXlNREF3TkRKYU1EUXhGREFTQmdOVkJBb1RDMk5vCmFXeHNhVzVqYjI5c01Sd3dHZ1lEVlFRREV4TmphR2xzYkdsdVkyOXZiQ0JTYjI5MElFTkJNRmt3RXdZSEtvWkkKemowQ0FRWUlLb1pJemowREFRY0RRZ0FFOE9FMlVNcEc1bUJ6eGEwaTR6Uk1rbmoyQ3p2cWVsU01mbTBkSXI0Tgo5Q2FtcXhWSXA3UjcrSTBVTjduZHM4OHVUVzhYcm9Pb1pmQ05WNFdER01pWWY2TkZNRU13RGdZRFZSMFBBUUgvCkJBUURBZ0VHTUJJR0ExVWRFd0VCL3dRSU1BWUJBZjhDQVFFd0hRWURWUjBPQkJZRUZBc2NnZEJhOUdRbXRQZkcKV3BoaC9jN01CSG43TUFvR0NDcUdTTTQ5QkFNQ0EwZ0FNRVVDSUZ3bklGbHNhNXRaNzZYNkpBTmtqZEJMQ1ZnLwpSTkJJNE9pczZkaDdiaXQ2QWlFQXlkZ0VINXFKa1gzK3dHbFZuSzBTbCtuSGg5T0wrVkF2TnRicnZ3dVJZVVk9Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
-    # Provisioner configuration
-    provisioner:
-        name: chris@chillincool.net
-        kid: 5cTlEQF4KuPEWMh-UiosM58oX4M6tBnphMUMqzSMyHo
-        passwordRef:
-            name: step-ca-provisioner
-            key: password
-sops:
-    age:
-        - recipient: age145240rs7s8y8e5tvz747ccxj9504hqhvrw4m5zy8y9zc9sjarpcq6ptf98
-          enc: |
-            -----BEGIN AGE ENCRYPTED FILE-----
-            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBPNGo5UWU3SkovY0ZCMlV5
-            M2pOOFNDZDJ5Z2lEVlRVaG5LR3o0SVNlMVZBCi8walQ3N3FjcVN4Y2s4M3Bha0U1
-            QWJldXZsZWlFU2c1RytydDIzRHQ1OWcKLS0tIDkyMlJ3N01JQzFMK21YRHlXMisy
-            WXVBdVpoUlVpbDJkSVBiUXd5YVBpOWsK2Jbz0/gg7pg1paf/unxo6PwykeF0ukSs
-            SFPL7Xl2RgcDxceH/L5Ar+RsPQQpoIVHCiLK4GMMJ7C+dCejC0i+bg==
-            -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2026-01-01T23:14:25Z"
-    mac: ENC[AES256_GCM,data:2BC5xESh66nu1587W76SBEaKWDH9wXoLiqyDfDSbcRwAbzU+7I9Tqm76Ixb5hE+quXLIxyQ5eFNOXF+TZ93pVpoEjX5gENRO/7hfQY5Xrm6WdMNAsDS5R2OJ9WixYsxS6TsNW0rMAXa6ZhtbHAXh9jo0UkJzsxvLlVIO6k6jw8M=,iv:/C9HYBNI8ABypDchR8kgDorzUXSJ4xgDXlvZuAL69pE=,tag:M1SlDwAd8Bi3sYwBzhjDBA==,type:str]
-    encrypted_regex: ^(data|stringData)$
-    version: 3.11.0
+  # step-ca service URL (internal cluster DNS)
+  url: https://step-ca-step-certificates.step-ca.svc.cluster.local
+  # CA bundle from step-ca root certificate
+  caBundle: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJxekNDQVZHZ0F3SUJBZ0lRUjFROW1BSkZraXVJd0JyUVNuTzVnakFLQmdncWhrak9QUVFEQWpBME1SUXcKRWdZRFZRUUtFd3RqYUdsc2JHbHVZMjl2YkRFY01Cb0dBMVVFQXhNVFkyaHBiR3hwYm1OdmIyd2dVbTl2ZENCRApRVEFlRncweU5qQXhNREV5TURBd05ESmFGdzB6TlRFeU16QXlNREF3TkRKYU1EUXhGREFTQmdOVkJBb1RDMk5vCmFXeHNhVzVqYjI5c01Sd3dHZ1lEVlFRREV4TmphR2xzYkdsdVkyOXZiQ0JTYjI5MElFTkJNRmt3RXdZSEtvWkkKemowQ0FRWUlLb1pJemowREFRY0RRZ0FFOE9FMlVNcEc1bUJ6eGEwaTR6Uk1rbmoyQ3p2cWVsU01mbTBkSXI0Tgo5Q2FtcXhWSXA3UjcrSTBVTjduZHM4OHVUVzhYcm9Pb1pmQ05WNFdER01pWWY2TkZNRU13RGdZRFZSMFBBUUgvCkJBUURBZ0VHTUJJR0ExVWRFd0VCL3dRSU1BWUJBZjhDQVFFd0hRWURWUjBPQkJZRUZBc2NnZEJhOUdRbXRQZkcKV3BoaC9jN01CSG43TUFvR0NDcUdTTTQ5QkFNQ0EwZ0FNRVVDSUZ3bklGbHNhNXRaNzZYNkpBTmtqZEJMQ1ZnLwpSTkJJNE9pczZkaDdiaXQ2QWlFQXlkZ0VINXFKa1gzK3dHbFZuSzBTbCtuSGg5T0wrVkF2TnRicnZ3dVJZVVk9Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+  # Provisioner configuration
+  provisioner:
+    name: chris@chillincool.net
+    kid: 5cTlEQF4KuPEWMh-UiosM58oX4M6tBnphMUMqzSMyHo
+    passwordRef:
+      name: step-ca-provisioner
+      key: password
