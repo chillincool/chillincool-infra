@@ -24,9 +24,6 @@ spec:
     # Global LDAP configuration
     global:
       ldapDomain: chillincool.net
-      # Use 1Password secret for credentials
-      # Secret must contain fields: LDAP_ADMIN_PASSWORD, LDAP_CONFIG_ADMIN_PASSWORD
-      # Create in 1Password: vaults/talos/items/openldap-admin
       existingSecret: openldap-admin
       adminUser: admin
       configUser: admin
@@ -84,7 +81,7 @@ spec:
         enabled: false  # We'll use HTTPRoute instead
       env:
         PHPLDAPADMIN_LDAP_CLIENT_TLS_REQCERT: never
-        PHPLDAPADMIN_LDAP_HOSTS: "#PYTHON2BASH:[{ 'openldap.openldap': [{'server': [{'tls': False},{'port':389}]},{'login': [{'bind_id': 'cn=admin,dc=chillincool,dc=net'}]}]}]"
+        # PHPLDAPADMIN_LDAP_HOSTS: "#PYTHON2BASH:[{ 'openldap.openldap': [{'server': [{'tls': False},{'port':389}]},{'login': [{'bind_id': 'cn=admin,dc=chillincool,dc=net'}]}]}]"
       resources:
         requests:
           cpu: 50m
