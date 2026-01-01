@@ -1,0 +1,2 @@
+resources:
+  - https://raw.githubusercontent.com/keycloak/keycloak-k8s-resources/26.4.7/kubernetes/kubernetes.yml
