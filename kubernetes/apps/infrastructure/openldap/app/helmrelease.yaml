@@ -44,7 +44,16 @@ spec:
     # Custom LDIF for base organizational structure
     # Users/groups will be managed via Terraform
     customLdifFiles:
-      00-base-structure.ldif: |
+      00-base-dn.ldif: |
+        # Base DN for chillincool.net domain
+        # The chart doesn't auto-create this, so it must be in customLdifFiles
+        dn: dc=chillincool,dc=net
+        objectClass: dcObject
+        objectClass: organization
+        dc: chillincool
+        o: Chillincool
+
+      01-base-structure.ldif: |
         # Base organizational units for chillincool.net
         # This creates the container structure - actual users/groups managed via Terraform
 
@@ -74,7 +83,8 @@ spec:
       ingress:
         enabled: false  # We'll use HTTPRoute instead
       env:
-        PHPLDAPADMIN_LDAP_CLIENT_TLS_REQCERT: never  # Allow self-signed certs
+        PHPLDAPADMIN_LDAP_CLIENT_TLS_REQCERT: never
+        PHPLDAPADMIN_LDAP_HOSTS: "#PYTHON2BASH:[{ 'openldap.openldap': [{'server': [{'tls': False},{'port':389}]},{'login': [{'bind_id': 'cn=admin,dc=chillincool,dc=net'}]}]}]"
       resources:
         requests:
           cpu: 50m
