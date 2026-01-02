@@ -116,7 +116,7 @@ spec:
               # Check if TLS is already configured
               if ldapsearch -Y EXTERNAL -H ldapi:/// -b "cn=config" "(olcTLSCertificateFile=*)" 2>/dev/null | grep -q "numEntries: 0"; then
                 # Apply TLS configuration
-                printf 'dn: cn=config\nchangetype: modify\nadd: olcTLSCertificateFile\nolcTLSCertificateFile: /opt/bitnami/openldap/certs/tls.crt\n-\nadd: olcTLSCertificateKeyFile\nolcTLSCertificateKeyFile: /opt/bitnami/openldap/certs/tls.key\n-\nadd: olcTLSCACertificateFile\nolcTLSCACertificateFile: /opt/bitnami/openldap/certs/ca.crt\n' | ldapmodify -Y EXTERNAL -H ldapi:/// 2>&1 | grep -v "SASL"
+                printf 'dn: cn=config\nchangetype: modify\nadd: olcTLSCertificateFile\nolcTLSCertificateFile: /opt/bitnami/openldap/certs/tls.crt\n-\nadd: olcTLSCertificateKeyFile\nolcTLSCertificateKeyFile: /opt/bitnami/openldap/certs/tls.key\n-\nadd: olcTLSCACertificateFile\nolcTLSCACertificateFile: /opt/bitnami/openldap/certs/ca.crt\n-\nadd: olcTLSVerifyClient\nolcTLSVerifyClient: try\n' | ldapmodify -Y EXTERNAL -H ldapi:/// 2>&1 | grep -v "SASL"
               fi
               
               # Check if base DN exists, if not apply custom LDIFs
