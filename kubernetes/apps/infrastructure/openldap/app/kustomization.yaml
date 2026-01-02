@@ -7,8 +7,8 @@ resources:
   - ../onepassworditem.yaml
   - ./helmrelease.yaml
   - ./httproute.yaml
-  - ./phpldapadmin.yaml
   - ./phpldapadmin-client-cert.yaml
+  - ./phpldapadmin.yaml
   - ./networkpolicy.yaml
   - ../istio-gateway/gateway.yaml
   - ../istio-gateway/certificates.yaml
