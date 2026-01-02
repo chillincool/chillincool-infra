@@ -87,19 +87,9 @@ spec:
       LDAP_LOGLEVEL: "256"  # 256 = stats, 0 = none, -1 = everything
 
     # phpLDAPadmin web UI
+    # Disabled - will deploy separately to avoid chart defaults causing issues
     phpldapadmin:
-      enabled: true
-      ingress:
-        enabled: false  # We'll use HTTPRoute instead
-      env:
-        PHPLDAPADMIN_LDAP_CLIENT_TLS_REQCERT: never
-      resources:
-        requests:
-          cpu: 50m
-          memory: 128Mi
-        limits:
-          cpu: 200m
-          memory: 256Mi
+      enabled: false
 
     # Self-service password tool (optional, disable for now)
     ltb-passwd:
