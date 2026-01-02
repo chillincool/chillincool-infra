@@ -116,45 +116,13 @@ spec:
               # Check if TLS is already configured
               if ldapsearch -Y EXTERNAL -H ldapi:/// -b "cn=config" "(olcTLSCertificateFile=*)" 2>/dev/null | grep -q "numEntries: 0"; then
                 # Apply TLS configuration
-                cat <<EOF | ldapmodify -Y EXTERNAL -H ldapi:/// 2>&1 | grep -v "SASL"
-              dn: cn=config
-              changetype: modify
-              add: olcTLSCertificateFile
-              olcTLSCertificateFile: /opt/bitnami/openldap/certs/tls.crt
-              -
-              add: olcTLSCertificateKeyFile
-              olcTLSCertificateKeyFile: /opt/bitnami/openldap/certs/tls.key
-              -
-              add: olcTLSCACertificateFile
-              olcTLSCACertificateFile: /opt/bitnami/openldap/certs/ca.crt
-              EOF
+                printf 'dn: cn=config\nchangetype: modify\nadd: olcTLSCertificateFile\nolcTLSCertificateFile: /opt/bitnami/openldap/certs/tls.crt\n-\nadd: olcTLSCertificateKeyFile\nolcTLSCertificateKeyFile: /opt/bitnami/openldap/certs/tls.key\n-\nadd: olcTLSCACertificateFile\nolcTLSCACertificateFile: /opt/bitnami/openldap/certs/ca.crt\n' | ldapmodify -Y EXTERNAL -H ldapi:/// 2>&1 | grep -v "SASL"
               fi
               
               # Check if base DN exists, if not apply custom LDIFs
               if ! ldapsearch -x -H ldap://localhost:1389 -D "cn=admin,dc=chillincool,dc=net" -w "$LDAP_ADMIN_PASSWORD" -b "dc=chillincool,dc=net" -s base &>/dev/null; then
                 # Apply custom LDIFs
-                cat <<EOF | ldapadd -x -H ldap://localhost:1389 -D "cn=admin,dc=chillincool,dc=net" -w "$LDAP_ADMIN_PASSWORD"
-              dn: dc=chillincool,dc=net
-              objectClass: dcObject
-              objectClass: organization
-              dc: chillincool
-              o: Chillincool
-              
-              dn: ou=users,dc=chillincool,dc=net
-              objectClass: organizationalUnit
-              ou: users
-              description: User accounts container
-              
-              dn: ou=groups,dc=chillincool,dc=net
-              objectClass: organizationalUnit
-              ou: groups
-              description: Groups container
-              
-              dn: ou=services,dc=chillincool,dc=net
-              objectClass: organizationalUnit
-              ou: services
-              description: Service accounts container
-              EOF
+                printf 'dn: dc=chillincool,dc=net\nobjectClass: dcObject\nobjectClass: organization\ndc: chillincool\no: Chillincool\n\ndn: ou=users,dc=chillincool,dc=net\nobjectClass: organizationalUnit\nou: users\ndescription: User accounts container\n\ndn: ou=groups,dc=chillincool,dc=net\nobjectClass: organizationalUnit\nou: groups\ndescription: Groups container\n\ndn: ou=services,dc=chillincool,dc=net\nobjectClass: organizationalUnit\nou: services\ndescription: Service accounts container\n' | ldapadd -x -H ldap://localhost:1389 -D "cn=admin,dc=chillincool,dc=net" -w "$LDAP_ADMIN_PASSWORD" 2>&1 | grep -v "adding new entry"
               fi
 
     # Resource limits for OpenLDAP
