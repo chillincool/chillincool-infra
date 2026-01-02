@@ -25,7 +25,7 @@ spec:
             - name: PHPLDAPADMIN_HTTPS
               value: "false"
             - name: PHPLDAPADMIN_LDAP_CLIENT_TLS_REQCERT
-              value: "never"
+              value: "try"
             - name: PHPLDAPADMIN_LDAP_CLIENT_TLS_CERT
               value: "/certs/tls.crt"
             - name: PHPLDAPADMIN_LDAP_CLIENT_TLS_KEY
