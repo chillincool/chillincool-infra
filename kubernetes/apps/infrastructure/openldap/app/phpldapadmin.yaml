@@ -21,9 +21,11 @@ spec:
           image: osixia/phpldapadmin:0.9.0
           env:
             - name: PHPLDAPADMIN_LDAP_HOSTS
-              value: "openldap.openldap.svc.cluster.local"
+              value: "ldaps://openldap.openldap.svc.cluster.local"
             - name: PHPLDAPADMIN_HTTPS
               value: "false"
+            - name: PHPLDAPADMIN_LDAP_CLIENT_TLS_REQCERT
+              value: "never"
             # Set minimum UID/GID to avoid conflicts with system users
             - name: PHPLDAPADMIN_SERVER_ADMIN_UIDNUMBER_MIN
               value: "10000"
