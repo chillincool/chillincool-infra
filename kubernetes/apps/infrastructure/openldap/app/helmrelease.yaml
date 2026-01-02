@@ -95,6 +95,68 @@ spec:
     ltb-passwd:
       enabled: false
 
+    # Lifecycle hooks to configure TLS and apply custom LDIFs on startup
+    # This is necessary because the Bitnami init script doesn't configure TLS
+    # in slapd cn=config and doesn't apply custom LDIFs when it detects existing data
+    lifecycleHooks:
+      postStart:
+        exec:
+          command:
+            - /bin/bash
+            - -c
+            - |
+              # Wait for slapd to be ready
+              for i in {1..30}; do
+                if ldapsearch -Y EXTERNAL -H ldapi:/// -b "cn=config" -s base &>/dev/null; then
+                  break
+                fi
+                sleep 1
+              done
+              
+              # Check if TLS is already configured
+              if ldapsearch -Y EXTERNAL -H ldapi:/// -b "cn=config" "(olcTLSCertificateFile=*)" 2>/dev/null | grep -q "numEntries: 0"; then
+                # Apply TLS configuration
+                cat <<EOF | ldapmodify -Y EXTERNAL -H ldapi:/// 2>&1 | grep -v "SASL"
+              dn: cn=config
+              changetype: modify
+              add: olcTLSCertificateFile
+              olcTLSCertificateFile: /opt/bitnami/openldap/certs/tls.crt
+              -
+              add: olcTLSCertificateKeyFile
+              olcTLSCertificateKeyFile: /opt/bitnami/openldap/certs/tls.key
+              -
+              add: olcTLSCACertificateFile
+              olcTLSCACertificateFile: /opt/bitnami/openldap/certs/ca.crt
+              EOF
+              fi
+              
+              # Check if base DN exists, if not apply custom LDIFs
+              if ! ldapsearch -x -H ldap://localhost:1389 -D "cn=admin,dc=chillincool,dc=net" -w "$LDAP_ADMIN_PASSWORD" -b "dc=chillincool,dc=net" -s base &>/dev/null; then
+                # Apply custom LDIFs
+                cat <<EOF | ldapadd -x -H ldap://localhost:1389 -D "cn=admin,dc=chillincool,dc=net" -w "$LDAP_ADMIN_PASSWORD"
+              dn: dc=chillincool,dc=net
+              objectClass: dcObject
+              objectClass: organization
+              dc: chillincool
+              o: Chillincool
+              
+              dn: ou=users,dc=chillincool,dc=net
+              objectClass: organizationalUnit
+              ou: users
+              description: User accounts container
+              
+              dn: ou=groups,dc=chillincool,dc=net
+              objectClass: organizationalUnit
+              ou: groups
+              description: Groups container
+              
+              dn: ou=services,dc=chillincool,dc=net
+              objectClass: organizationalUnit
+              ou: services
+              description: Service accounts container
+              EOF
+              fi
+
     # Resource limits for OpenLDAP
     resources:
       requests:

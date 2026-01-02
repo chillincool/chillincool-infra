@@ -1,0 +1,50 @@
+---
+# Job to configure TLS in slapd cn=config after OpenLDAP starts
+# This is needed because Bitnami's init only configures TLS on first initialization
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: openldap-configure-tls
+  namespace: openldap
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
+spec:
+  ttlSecondsAfterFinished: 300
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: configure-tls
+          image: bitnami/openldap:2.6.9
+          command:
+            - /bin/bash
+            - -c
+            - |
+              set -e
+              echo "Waiting for OpenLDAP to be ready..."
+              sleep 10
+              
+              echo "Configuring TLS certificate paths in slapd..."
+              cat <<EOF | ldapmodify -Y EXTERNAL -H ldapi:///
+              dn: cn=config
+              changetype: modify
+              replace: olcTLSCertificateFile
+              olcTLSCertificateFile: /opt/bitnami/openldap/certs/tls.crt
+              -
+              replace: olcTLSCertificateKeyFile
+              olcTLSCertificateKeyFile: /opt/bitnami/openldap/certs/tls.key
+              -
+              replace: olcTLSCACertificateFile
+              olcTLSCACertificateFile: /opt/bitnami/openldap/certs/ca.crt
+              EOF
+              
+              echo "TLS configuration applied successfully!"
+          volumeMounts:
+            - name: socket
+              mountPath: /opt/bitnami/openldap/var/run
+      volumes:
+        - name: socket
+          hostPath:
+            path: /var/run/openldap
+            type: DirectoryOrCreate
