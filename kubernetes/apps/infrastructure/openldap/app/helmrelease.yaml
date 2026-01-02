@@ -92,10 +92,8 @@ spec:
       ingress:
         enabled: false  # We'll use HTTPRoute instead
       env:
-        # Configure phpldapadmin to use LDAPS (ldaps:// protocol on port 636)
-        PHPLDAPADMIN_LDAP_CLIENT_TLS_REQCERT: "never"
-        # Use ldaps:// URI for direct LDAPS connection (not STARTTLS)
-        PHPLDAPADMIN_LDAP_HOSTS: "ldaps://openldap.openldap:636"
+        PHPLDAPADMIN_LDAP_CLIENT_TLS_REQCERT: never
+        PHPLDAPADMIN_LDAP_HOSTS: ldaps://openldap.openldap:636
       resources:
         requests:
           cpu: 50m
