@@ -1,0 +1,38 @@
+---
+# Certificate for phpLDAPadmin client authentication (mTLS)
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: phpldapadmin-client-tls
+  namespace: openldap
+spec:
+  secretName: phpldapadmin-client-tls
+  issuerRef:
+    name: step-ca
+    kind: StepClusterIssuer
+    group: certmanager.step.sm
+  # Common name for the client certificate
+  commonName: phpldapadmin.openldap.svc.cluster.local
+  dnsNames:
+    - phpldapadmin.openldap.svc.cluster.local
+    - phpldapadmin.openldap.svc
+    - phpldapadmin.openldap
+    - phpldapadmin
+  # Client authentication certificate usages
+  usages:
+    - digital signature    # Required for TLS handshake
+    - key encipherment     # Required for RSA key exchange in TLS
+    - client auth          # Client authentication (primary use for mTLS)
+  # Duration and renewal - adjusted for step-ca max 24h limit
+  duration: 24h          # Maximum allowed by step-ca
+  renewBefore: 8h        # Renew 8 hours before expiry
+  # Key configuration
+  privateKey:
+    algorithm: RSA
+    size: 2048
+  # Explicitly mark as end-entity cert (not a CA)
+  isCA: false
+  # Subject fields for better certificate identification
+  subject:
+    organizations:
+      - chillincool

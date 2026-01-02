@@ -26,6 +26,12 @@ spec:
               value: "false"
             - name: PHPLDAPADMIN_LDAP_CLIENT_TLS_REQCERT
               value: "never"
+            - name: PHPLDAPADMIN_LDAP_CLIENT_TLS_CERT
+              value: "/certs/tls.crt"
+            - name: PHPLDAPADMIN_LDAP_CLIENT_TLS_KEY
+              value: "/certs/tls.key"
+            - name: PHPLDAPADMIN_LDAP_CLIENT_TLS_CACERT
+              value: "/certs/ca.crt"
             # Set minimum UID/GID to avoid conflicts with system users
             - name: PHPLDAPADMIN_SERVER_ADMIN_UIDNUMBER_MIN
               value: "10000"
@@ -34,6 +40,10 @@ spec:
           ports:
             - containerPort: 80
               name: http
+          volumeMounts:
+            - name: client-certs
+              mountPath: /certs
+              readOnly: true
           resources:
             requests:
               cpu: 50m
@@ -41,6 +51,11 @@ spec:
             limits:
               cpu: 200m
               memory: 256Mi
+      volumes:
+        - name: client-certs
+          secret:
+            secretName: phpldapadmin-client-tls
+            defaultMode: 0440
 ---
 apiVersion: v1
 kind: Service

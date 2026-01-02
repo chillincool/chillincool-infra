@@ -81,8 +81,8 @@ spec:
       LDAP_TLS_PROTOCOL_MIN: "3.3"  # TLS 1.2+
       # TLS cipher suite - use broader set for compatibility
       LDAP_TLS_CIPHER_SUITE: "HIGH:MEDIUM:+3DES:!aNULL:!MD5"
-      # TLS verification - require valid certs for replication
-      LDAP_TLS_VERIFY_CLIENT: "never"  # Options: never, allow, try, demand
+      # TLS verification - try to verify client certs if presented, but allow connections without
+      LDAP_TLS_VERIFY_CLIENT: "try"  # Options: never, allow, try, demand
       # Log level (stats, recommended for production)
       LDAP_LOGLEVEL: "256"  # 256 = stats, 0 = none, -1 = everything
 

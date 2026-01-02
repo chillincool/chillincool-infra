@@ -1,0 +1,37 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: openldap-deny-plain-ldap
+  namespace: openldap
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: openldap-stack-ha
+  policyTypes:
+    - Ingress
+  ingress:
+    # Allow LDAPS (port 636/1636) from anywhere (all namespaces and outside cluster)
+    - ports:
+        - protocol: TCP
+          port: 1636
+        - protocol: TCP
+          port: 636
+    
+    # Deny plain LDAP (port 389/1389) by default
+    # To allow specific pods, add another ingress rule with podSelector
+    # Example for legacy app:
+    # - from:
+    #     - podSelector:
+    #         matchLabels:
+    #           app: legacy-app
+    #   ports:
+    #     - protocol: TCP
+    #       port: 1389
+    #     - protocol: TCP
+    #       port: 389
+    
+    # Allow health checks and metrics
+    - ports:
+        - protocol: TCP
+          port: 8080  # metrics if enabled
