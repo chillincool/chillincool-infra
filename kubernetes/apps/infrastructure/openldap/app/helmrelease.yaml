@@ -70,10 +70,10 @@ spec:
         description: Service accounts container (Keycloak, readonly, etc.)
 
     # TLS/LDAPS configuration
-    # Temporarily disabled - TLS negotiation failures
-    # TODO: Debug why LDAPS port 636 isn't accepting connections
+    # Re-enabled with step-ca certificates for debugging
     initTLSSecret:
-      tls_enabled: false
+      tls_enabled: true
+      secret: openldap-tls
 
     # Additional LDAP environment variables for TLS security
     env:

@@ -24,6 +24,11 @@ spec:
               value: "openldap.openldap.svc.cluster.local"
             - name: PHPLDAPADMIN_HTTPS
               value: "false"
+            # Set minimum UID/GID to avoid conflicts with system users
+            - name: PHPLDAPADMIN_SERVER_ADMIN_UIDNUMBER_MIN
+              value: "10000"
+            - name: PHPLDAPADMIN_SERVER_ADMIN_GIDNUMBER_MIN
+              value: "10000"
           ports:
             - containerPort: 80
               name: http
