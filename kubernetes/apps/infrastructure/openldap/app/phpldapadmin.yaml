@@ -16,6 +16,21 @@ spec:
       labels:
         app: phpldapadmin
     spec:
+      initContainers:
+        - name: copy-certs
+          image: busybox:latest
+          command:
+            - sh
+            - -c
+            - |
+              cp /source-certs/* /dest-certs/
+              chmod 644 /dest-certs/*
+          volumeMounts:
+            - name: client-certs-source
+              mountPath: /source-certs
+              readOnly: true
+            - name: client-certs-writable
+              mountPath: /dest-certs
       containers:
         - name: phpldapadmin
           image: osixia/phpldapadmin:0.9.0
@@ -43,9 +58,8 @@ spec:
             - containerPort: 80
               name: http
           volumeMounts:
-            - name: client-certs
+            - name: client-certs-writable
               mountPath: /container/service/ldap-client/assets/certs
-              readOnly: true
           resources:
             requests:
               cpu: 50m
@@ -54,10 +68,12 @@ spec:
               cpu: 200m
               memory: 256Mi
       volumes:
-        - name: client-certs
+        - name: client-certs-source
           secret:
             secretName: phpldapadmin-client-tls
             defaultMode: 0440
+        - name: client-certs-writable
+          emptyDir: {}
 ---
 apiVersion: v1
 kind: Service
