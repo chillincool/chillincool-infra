@@ -93,7 +93,6 @@ spec:
         enabled: false  # We'll use HTTPRoute instead
       env:
         PHPLDAPADMIN_LDAP_CLIENT_TLS_REQCERT: never
-        PHPLDAPADMIN_LDAP_HOSTS: ldaps://openldap.openldap:636
       resources:
         requests:
           cpu: 50m
