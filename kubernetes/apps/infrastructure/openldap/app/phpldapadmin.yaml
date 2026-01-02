@@ -24,14 +24,16 @@ spec:
               value: "ldaps://openldap.openldap.svc.cluster.local"
             - name: PHPLDAPADMIN_HTTPS
               value: "false"
+            - name: PHPLDAPADMIN_LDAP_CLIENT_TLS
+              value: "true"
             - name: PHPLDAPADMIN_LDAP_CLIENT_TLS_REQCERT
               value: "try"
-            - name: PHPLDAPADMIN_LDAP_CLIENT_TLS_CERT
-              value: "/certs/tls.crt"
-            - name: PHPLDAPADMIN_LDAP_CLIENT_TLS_KEY
-              value: "/certs/tls.key"
-            - name: PHPLDAPADMIN_LDAP_CLIENT_TLS_CACERT
-              value: "/certs/ca.crt"
+            - name: PHPLDAPADMIN_LDAP_CLIENT_TLS_CA_CRT_FILENAME
+              value: "ca.crt"
+            - name: PHPLDAPADMIN_LDAP_CLIENT_TLS_CRT_FILENAME
+              value: "tls.crt"
+            - name: PHPLDAPADMIN_LDAP_CLIENT_TLS_KEY_FILENAME
+              value: "tls.key"
             # Set minimum UID/GID to avoid conflicts with system users
             - name: PHPLDAPADMIN_SERVER_ADMIN_UIDNUMBER_MIN
               value: "10000"
@@ -42,7 +44,7 @@ spec:
               name: http
           volumeMounts:
             - name: client-certs
-              mountPath: /certs
+              mountPath: /container/service/ldap-client/assets/certs
               readOnly: true
           resources:
             requests:
