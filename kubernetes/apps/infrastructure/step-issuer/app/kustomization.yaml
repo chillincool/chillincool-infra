@@ -5,3 +5,4 @@ resources:
   - ./helmrelease.yaml
   - ../resources/secret.yaml
   - ../resources/stepclusterissuer.yaml
+  - ../resources/ca-bundle-configmap.yaml

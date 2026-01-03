@@ -28,6 +28,9 @@ spec:
       value: /opt/keycloak/conf/truststores/ldap
   unsupported:
     podTemplate:
+      metadata:
+        annotations:
+          secret.reloader.stakater.com/reload: keycloak-ldap-client-tls
       spec:
         containers:
           - name: keycloak

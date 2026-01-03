@@ -131,6 +131,10 @@ spec:
                 printf 'dn: dc=chillincool,dc=net\nobjectClass: dcObject\nobjectClass: organization\ndc: chillincool\no: Chillincool\n\ndn: ou=users,dc=chillincool,dc=net\nobjectClass: organizationalUnit\nou: users\ndescription: User accounts container\n\ndn: ou=groups,dc=chillincool,dc=net\nobjectClass: organizationalUnit\nou: groups\ndescription: Groups container\n\ndn: ou=services,dc=chillincool,dc=net\nobjectClass: organizationalUnit\nou: services\ndescription: Service accounts container\n' | ldapadd -x -H ldap://localhost:1389 -D "cn=admin,dc=chillincool,dc=net" -w "$LDAP_ADMIN_PASSWORD" 2>&1 | grep -v "adding new entry"
               fi
 
+    # Pod annotations for automatic restart on certificate renewal
+    podAnnotations:
+      secret.reloader.stakater.com/reload: openldap-tls
+
     # Resource limits for OpenLDAP
     resources:
       requests:
