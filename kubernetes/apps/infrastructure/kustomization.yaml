@@ -12,3 +12,4 @@ resources:
   - ./reloader/ks.yaml
   - ./step-ca/ks.yaml
   - ./step-issuer/ks.yaml
+  - ./vault/ks.yaml
