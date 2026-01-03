@@ -23,8 +23,15 @@ spec:
             - sh
             - -c
             - |
+              # Copy all certs first
               cp /source-certs/* /dest-certs/
               chmod 644 /dest-certs/*
+
+              # AFTER copying, overwrite ca.crt with full chain from tls.crt
+              # (tls.crt contains server cert + intermediate + root)
+              # This must be done AFTER the wildcard copy above
+              cp /dest-certs/tls.crt /dest-certs/ca.crt
+              chmod 644 /dest-certs/ca.crt
           volumeMounts:
             - name: client-certs-source
               mountPath: /source-certs
@@ -36,13 +43,11 @@ spec:
           image: osixia/phpldapadmin:0.9.0
           env:
             - name: PHPLDAPADMIN_LDAP_HOSTS
-              value: "ldaps://openldap.openldap.svc.cluster.local"
+              value: "#PYTHON2BASH:[{'openldap.openldap.svc.cluster.local': [{'server': [{'tls': True}]}]}]"
             - name: PHPLDAPADMIN_HTTPS
               value: "false"
-            - name: PHPLDAPADMIN_LDAP_CLIENT_TLS
-              value: "true"
             - name: PHPLDAPADMIN_LDAP_CLIENT_TLS_REQCERT
-              value: "try"
+              value: "never"
             - name: PHPLDAPADMIN_LDAP_CLIENT_TLS_CA_CRT_FILENAME
               value: "ca.crt"
             - name: PHPLDAPADMIN_LDAP_CLIENT_TLS_CRT_FILENAME

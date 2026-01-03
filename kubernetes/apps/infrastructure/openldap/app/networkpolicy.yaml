@@ -11,12 +11,19 @@ spec:
   policyTypes:
     - Ingress
   ingress:
-    # Allow LDAPS (port 636/1636) from anywhere (all namespaces and outside cluster)
-    - ports:
+    # Allow LDAP/LDAPS from all namespaces (Keycloak, phpLDAPadmin, etc.)
+    - from:
+        - namespaceSelector: {}
+      ports:
         - protocol: TCP
           port: 1636
         - protocol: TCP
           port: 636
+        - protocol: TCP
+          port: 1389
+        - protocol: TCP
+          port: 389
+          
     
     # Deny plain LDAP (port 389/1389) by default
     # To allow specific pods, add another ingress rule with podSelector

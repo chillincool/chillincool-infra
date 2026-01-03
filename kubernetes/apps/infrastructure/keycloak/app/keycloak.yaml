@@ -23,3 +23,20 @@ spec:
     headers: xforwarded
   ingress:
     enabled: false
+  env:
+    - name: KC_TRUSTSTORE_PATHS
+      value: /opt/keycloak/conf/truststores/ldap
+  unsupported:
+    podTemplate:
+      spec:
+        containers:
+          - name: keycloak
+            volumeMounts:
+              - name: ldap-client-tls
+                mountPath: /opt/keycloak/conf/truststores/ldap
+                readOnly: true
+        volumes:
+          - name: ldap-client-tls
+            secret:
+              secretName: keycloak-ldap-client-tls
+              defaultMode: 0444

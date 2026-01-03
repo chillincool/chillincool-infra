@@ -8,5 +8,6 @@ resources:
   - operator-remote
   - postgres.yaml
   - certificate.yaml
+  - ldap-client-certificate.yaml
   - keycloak.yaml
   - gateway.yaml

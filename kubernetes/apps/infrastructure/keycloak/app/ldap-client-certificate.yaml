@@ -1,0 +1,27 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: keycloak-ldap-client-tls
+  namespace: keycloak
+spec:
+  secretName: keycloak-ldap-client-tls
+  duration: 24h # 1 day (step-ca maximum)
+  renewBefore: 8h # 8 hours
+  subject:
+    organizations:
+      - chillincool
+  commonName: keycloak-ldap-client
+  isCA: false
+  privateKey:
+    algorithm: RSA
+    encoding: PKCS1
+    size: 2048
+  usages:
+    - client auth
+    - digital signature
+    - key encipherment
+  issuerRef:
+    name: step-ca
+    kind: StepClusterIssuer
+    group: certmanager.step.sm
