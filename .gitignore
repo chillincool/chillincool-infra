@@ -13,3 +13,4 @@ kubernetes/.DS_Store
 kubernetes/apps/.DS_Store
 kubernetes/apps/media/.DS_Store
 .DS_Store
+terraform
