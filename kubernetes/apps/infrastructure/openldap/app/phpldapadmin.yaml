@@ -25,15 +25,9 @@ spec:
             - sh
             - -c
             - |
-              # Copy all certs first
+              # Copy all certs (ca.crt from Vault already contains the intermediate CA)
               cp /source-certs/* /dest-certs/
               chmod 644 /dest-certs/*
-
-              # AFTER copying, overwrite ca.crt with full chain from tls.crt
-              # (tls.crt contains server cert + intermediate + root)
-              # This must be done AFTER the wildcard copy above
-              cp /dest-certs/tls.crt /dest-certs/ca.crt
-              chmod 644 /dest-certs/ca.crt
           volumeMounts:
             - name: client-certs-source
               mountPath: /source-certs
