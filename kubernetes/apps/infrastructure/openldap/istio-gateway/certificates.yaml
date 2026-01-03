@@ -13,7 +13,6 @@ spec:
   dnsNames:
     - ldap.chillincool.net
 ---
-# Certificate for LDAPS (OpenLDAP server TLS)
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
@@ -21,42 +20,32 @@ metadata:
   namespace: openldap
 spec:
   secretName: openldap-tls
-  issuerRef:
-    name: step-ca
-    kind: StepClusterIssuer
-    group: certmanager.step.sm
-  # Common name should match the service name
+  duration: 8760h # 1 year
+  renewBefore: 720h # 30 days
+  subject:
+    organizations:
+      - chillincool
   commonName: openldap.openldap.svc.cluster.local
+  isCA: false
+  privateKey:
+    algorithm: RSA
+    encoding: PKCS1
+    size: 2048
+  usages:
+    - server auth
+    - client auth
+    - digital signature
+    - key encipherment
   dnsNames:
-    # Primary service name (what clients will use)
     - openldap.openldap.svc.cluster.local
-    - openldap.openldap.svc
-    - openldap.openldap
-    - openldap
     # Headless service for replication (if using multi-master)
     - openldap-headless.openldap.svc.cluster.local
-    - openldap-headless.openldap.svc
     # Individual pod names for replication
     - openldap-0.openldap-headless.openldap.svc.cluster.local
     - "*.openldap-headless.openldap.svc.cluster.local"
     # External DNS name (if applicable)
-    - ldaps.chillincool.net
-  # LDAPS certificate usages
-  usages:
-    - digital signature    # Required for TLS handshake
-    - key encipherment     # Required for RSA key exchange in TLS
-    - server auth          # Server authentication (primary use)
-    - client auth          # Client authentication (for mutual TLS if needed)
-  # Duration and renewal - adjusted for step-ca max 24h limit
-  duration: 24h          # Maximum allowed by step-ca
-  renewBefore: 8h        # Renew 8 hours before expiry
-  # Key configuration
-  privateKey:
-    algorithm: RSA
-    size: 2048
-  # Explicitly mark as end-entity cert (not a CA)
-  isCA: false
-  # Subject fields for better certificate identification
-  subject:
-    organizations:
-      - chillincool
+    - openldap.chillincool.net
+  issuerRef:
+    name: vault
+    kind: ClusterIssuer
+    group: cert-manager.io

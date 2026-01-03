@@ -14,3 +14,4 @@ kubernetes/apps/.DS_Store
 kubernetes/apps/media/.DS_Store
 .DS_Store
 terraform
+kubernetes/apps/infrastructure/trust-manager
