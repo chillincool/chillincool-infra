@@ -18,7 +18,7 @@ spec:
   http:
     httpEnabled: true
   hostname:
-    hostname: keycloak.chillincool.net
+    hostname: login.chillincool.net
   proxy:
     headers: xforwarded
   ingress:

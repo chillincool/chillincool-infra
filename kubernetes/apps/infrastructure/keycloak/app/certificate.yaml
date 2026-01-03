@@ -10,4 +10,4 @@ spec:
     name: letsencrypt-staging
     kind: ClusterIssuer
   dnsNames:
-    - keycloak.chillincool.net
+    - login.chillincool.net
