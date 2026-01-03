@@ -9,10 +9,10 @@ spec:
   chart:
     spec:
       chart: trust-manager
-      version: "v0.20.x"
+      version: v0.20.x
       sourceRef:
         kind: HelmRepository
-        name: cert-manager
+        name: jetstack
         namespace: flux-system
   install:
     crds: Create
