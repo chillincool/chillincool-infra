@@ -10,6 +10,7 @@ resources:
   - ./helmrepository-cilium.yaml
   - ./helmrepository-cloudnative-pg.yaml
   - ./helmrepository-grafana.yaml
+  - ./helmrepository-hashicorp.yaml
   - ./helmrepository-istio.yaml
   - ./helmrepository-jp-gouin.yaml
   - ./helmrepository-kiali.yaml
