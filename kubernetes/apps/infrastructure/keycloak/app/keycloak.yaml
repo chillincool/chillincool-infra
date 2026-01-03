@@ -23,8 +23,8 @@ spec:
     headers: xforwarded
   ingress:
     enabled: false
-  env:
-    - name: KC_TRUSTSTORE_PATHS
+  additionalOptions:
+    - name: truststore-paths
       value: /opt/keycloak/conf/truststores/ldap
   unsupported:
     podTemplate:
