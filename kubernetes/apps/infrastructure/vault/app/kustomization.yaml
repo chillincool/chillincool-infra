@@ -6,3 +6,4 @@ resources:
   - ./cert-manager-rbac.yaml
   - ./vault-tls-certificate.yaml
   - ./helmrelease.yaml
+  - ./vault-clusterissuer.yaml
