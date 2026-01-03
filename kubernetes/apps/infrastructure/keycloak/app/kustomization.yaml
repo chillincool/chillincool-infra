@@ -4,7 +4,7 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - rbac.yaml
-  - crds.yaml
+  - crds-remote
   - operator-remote
   - postgres.yaml
   - certificate.yaml
