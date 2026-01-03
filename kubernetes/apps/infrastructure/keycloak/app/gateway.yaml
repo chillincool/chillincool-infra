@@ -8,7 +8,7 @@ spec:
   gatewayClassName: istio
   listeners:
     - name: https-keycloak
-      hostname: login.chillincool.net
+      hostname: keycloak.chillincool.net
       port: 443
       protocol: HTTPS
       tls:
@@ -28,7 +28,7 @@ spec:
       namespace: keycloak
       sectionName: https-keycloak
   hostnames:
-    - login.chillincool.net
+    - keycloak.chillincool.net
   rules:
     - matches:
         - path:

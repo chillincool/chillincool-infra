@@ -10,4 +10,4 @@ spec:
     name: letsencrypt-dns01
     kind: ClusterIssuer
   dnsNames:
-    - login.chillincool.net
+    - keycloak.chillincool.net
