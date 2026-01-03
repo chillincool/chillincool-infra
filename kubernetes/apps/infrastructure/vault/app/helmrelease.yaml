@@ -110,10 +110,14 @@ spec:
         enabled: false
 
       # Extra volumes for TLS certificates
-      extraVolumes:
-        - type: secret
-          name: vault-tls
-          path: /vault/tls
+      volumes:
+        - name: userconfig-vault-tls
+          secret:
+            secretName: vault-tls
+      volumeMounts:
+        - mountPath: /vault/tls
+          name: userconfig-vault-tls
+          readOnly: true
 
       # Pod annotations for automatic restart on certificate renewal
       podAnnotations:
