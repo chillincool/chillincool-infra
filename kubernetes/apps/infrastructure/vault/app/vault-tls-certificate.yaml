@@ -33,6 +33,8 @@ spec:
     - client auth
     - digital signature
     - key encipherment
+  ipAddresses:
+    - 127.0.0.1
   dnsNames:
     - vault
     - vault.vault
