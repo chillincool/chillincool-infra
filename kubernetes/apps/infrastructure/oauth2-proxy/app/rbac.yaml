@@ -1,0 +1,68 @@
+---
+# cert-manager RBAC for keycloak namespace
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: cert-manager-gateway-shim
+  namespace: oauth2-proxy
+  labels:
+    app.kubernetes.io/name: cert-manager
+    app.kubernetes.io/instance: cert-manager
+rules:
+  - apiGroups:
+      - cert-manager.io
+    resources:
+      - certificates
+      - certificaterequests
+    verbs:
+      - create
+      - delete
+      - deletecollection
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - cert-manager.io
+    resources:
+      - certificates/status
+      - certificaterequests/status
+    verbs:
+      - update
+      - patch
+  - apiGroups:
+      - cert-manager.io
+    resources:
+      - certificates/finalizers
+      - certificaterequests/finalizers
+    verbs:
+      - update
+  - apiGroups:
+      - ""
+    resources:
+      - secrets
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - delete
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: cert-manager-gateway-shim
+  namespace: oauth2-proxy
+  labels:
+    app.kubernetes.io/name: cert-manager
+    app.kubernetes.io/instance: cert-manager
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: cert-manager-gateway-shim
+subjects:
+  - kind: ServiceAccount
+    name: cert-manager
+    namespace: cert-manager
