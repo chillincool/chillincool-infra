@@ -13,4 +13,5 @@ resources:
   - ./step-ca/ks.yaml
   - ./step-issuer/ks.yaml
   - ./trust-manager/ks.yaml
+  - ./trust-manager/ks-bundle.yaml
   - ./vault/ks.yaml
