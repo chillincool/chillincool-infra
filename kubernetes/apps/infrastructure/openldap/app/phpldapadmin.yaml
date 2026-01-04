@@ -19,18 +19,24 @@ spec:
         secret.reloader.stakater.com/reload: phpldapadmin-client-tls
     spec:
       initContainers:
-        - name: copy-certs
-          image: busybox:latest
+        - name: setup-certs
+          image: osixia/phpldapadmin:0.9.0
           command:
             - sh
             - -c
             - |
-              # Copy all certs (ca.crt from Vault already contains the intermediate CA)
+              # Copy client certs to phpLDAPadmin location
               cp /source-certs/* /dest-certs/
               chmod 644 /dest-certs/*
+              # Update CA certificates (vault-root-ca.crt is already mounted)
+              update-ca-certificates
           volumeMounts:
             - name: client-certs-source
               mountPath: /source-certs
+              readOnly: true
+            - name: vault-ca-bundle
+              mountPath: /usr/local/share/ca-certificates/vault-root-ca.crt
+              subPath: ca.crt
               readOnly: true
             - name: client-certs-writable
               mountPath: /dest-certs
@@ -61,6 +67,10 @@ spec:
           volumeMounts:
             - name: client-certs-writable
               mountPath: /container/service/ldap-client/assets/certs
+            - name: vault-ca-bundle
+              mountPath: /usr/local/share/ca-certificates/vault-root-ca.crt
+              subPath: ca.crt
+              readOnly: true
           resources:
             requests:
               cpu: 50m
@@ -73,6 +83,9 @@ spec:
           secret:
             secretName: phpldapadmin-client-tls
             defaultMode: 0440
+        - name: vault-ca-bundle
+          configMap:
+            name: vault-ca-bundle
         - name: client-certs-writable
           emptyDir: {}
 ---
