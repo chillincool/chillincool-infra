@@ -43,6 +43,8 @@ spec:
         skip_provider_button = true
         session_store_type = "redis"
         redis_connection_url = "redis://redis-master:6379"
+        upstreams = ["static://202"]
+        reverse_proxy = true
     
     service:
       type: ClusterIP
