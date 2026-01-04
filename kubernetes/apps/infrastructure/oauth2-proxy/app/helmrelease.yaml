@@ -38,6 +38,7 @@ spec:
         pass_user_headers = true
         set_authorization_header = true
         set_xauthrequest = true
+        skip_provider_button = true
     
     service:
       type: ClusterIP
