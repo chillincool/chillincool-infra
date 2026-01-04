@@ -22,14 +22,14 @@ spec:
         - name: setup-certs
           image: osixia/phpldapadmin:0.9.0
           command:
-            - sh
+            - bash
             - -c
             - |
               # Copy client certs to phpLDAPadmin location
               cp /source-certs/* /dest-certs/
               chmod 644 /dest-certs/*
               # Update CA certificates (vault-root-ca.crt is already mounted)
-              update-ca-certificates
+              /usr/sbin/update-ca-certificates
           volumeMounts:
             - name: client-certs-source
               mountPath: /source-certs
