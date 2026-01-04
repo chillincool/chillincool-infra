@@ -43,12 +43,14 @@ spec:
               authorization_response:
                 allowed_upstream_headers:
                   patterns:
-                    - exact: "x-auth-request-user"
-                    - exact: "x-auth-request-email"
-                    - exact: "x-auth-request-access-token"
-                    - exact: "authorization"
+                    - exact: x-auth-request-user
+                    - exact: x-auth-request-email
+                    - exact: x-auth-request-access-token
+                    - exact: authorization
                 allowed_client_headers:
                   patterns:
-                    - exact: "set-cookie"
+                    - exact: set-cookie
             failure_mode_allow: false
-            clear_route_cache: true
+            with_request_body:
+              max_request_bytes: 8192
+              allow_partial_message: true
