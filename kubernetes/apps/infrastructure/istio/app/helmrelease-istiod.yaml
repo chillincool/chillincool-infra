@@ -26,6 +26,31 @@ spec:
   values:
     profile: ambient
 
+    meshConfig:
+      extensionProviders:
+        - name: oauth2-proxy
+          envoyExtAuthzHttp:
+            service: oauth2-proxy.oauth2-proxy.svc.cluster.local
+            port: 4180
+            pathPrefix: /oauth2/auth
+            headersToUpstreamOnAllow:
+              - authorization
+              - path
+              - x-auth-request-user
+              - x-auth-request-email
+              - x-auth-request-access-token
+            headersToDownstreamOnDeny:
+              - content-type
+              - set-cookie
+            includeRequestHeadersInCheck:
+              - cookie
+              - x-forwarded-access-token
+              - x-forwarded-user
+              - x-forwarded-email
+              - x-forwarded-proto
+              - x-forwarded-host
+              - x-forwarded-uri
+
     pilot:
       env:
         PILOT_ENABLE_IP_AUTOALLOCATE: "true"
