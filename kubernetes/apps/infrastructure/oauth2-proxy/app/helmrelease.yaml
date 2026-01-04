@@ -28,6 +28,7 @@ spec:
         provider_display_name = "Keycloak"
         redirect_url = "https://auth.chillincool.net/oauth2/callback"
         oidc_issuer_url = "https://login.chillincool.net/realms/chillincool"
+        client_id = "oauth2-proxy"
         email_domains = ["*"]
         cookie_domains = [".chillincool.net"]
         whitelist_domains = [".chillincool.net"]
