@@ -33,6 +33,7 @@ spec:
             service: oauth2-proxy.oauth2-proxy.svc.cluster.local
             port: 4180
             pathPrefix: /oauth2/auth
+            statusOnError: 403
             headersToUpstreamOnAllow:
               - authorization
               - path
@@ -41,6 +42,9 @@ spec:
               - x-auth-request-access-token
             headersToDownstreamOnDeny:
               - content-type
+              - set-cookie
+              - location
+            headersToDownstreamOnAllow:
               - set-cookie
             includeRequestHeadersInCheck:
               - cookie
