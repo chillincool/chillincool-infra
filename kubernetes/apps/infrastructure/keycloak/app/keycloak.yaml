@@ -19,6 +19,7 @@ spec:
     httpEnabled: true
   hostname:
     hostname: login.chillincool.net
+    backchannelDynamic: true
   proxy:
     headers: xforwarded
   ingress:
