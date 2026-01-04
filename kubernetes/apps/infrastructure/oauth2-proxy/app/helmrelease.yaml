@@ -44,7 +44,8 @@ spec:
         session_store_type = "redis"
         redis_connection_url = "redis://redis-master:6379"
         reverse_proxy = true
-        upstreams = ["static://200"]
+        upstreams = ["static://202"]
+        skip_auth_routes = ["^/oauth2/(auth|start|callback)"]
     
     service:
       type: ClusterIP

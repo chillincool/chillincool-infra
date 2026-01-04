@@ -38,9 +38,7 @@ spec:
                     - exact: cookie
                     - exact: authorization
                     - prefix: "x-forwarded-"
-                    - exact: ":authority"
-                    - exact: ":path"
-                    - exact: ":method"
+                    - exact: x-original-url
               authorization_response:
                 allowed_upstream_headers:
                   patterns:
@@ -52,3 +50,8 @@ spec:
                   patterns:
                     - exact: set-cookie
                     - exact: location
+            with_request_body:
+              max_request_bytes: 8192
+              allow_partial_message: true
+            status_on_error:
+              code: 302
