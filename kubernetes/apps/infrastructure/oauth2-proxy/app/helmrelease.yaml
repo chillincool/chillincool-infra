@@ -38,8 +38,6 @@ spec:
         pass_user_headers = true
         set_authorization_header = true
         set_xauthrequest = true
-        skip_auth_strip_headers = false
-        reverse_proxy = true
     
     service:
       type: ClusterIP
