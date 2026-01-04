@@ -40,6 +40,8 @@ spec:
         set_authorization_header = true
         set_xauthrequest = true
         skip_provider_button = true
+        session_store_type = "redis"
+        redis_connection_url = "redis://redis-master.oauth2-proxy.svc.cluster.local:6379"
     
     service:
       type: ClusterIP

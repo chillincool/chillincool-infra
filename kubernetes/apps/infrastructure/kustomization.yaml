@@ -9,6 +9,7 @@ resources:
   - ./keycloak/ks.yaml
   - ./oauth2-proxy/ks.yaml
   - ./openldap/ks.yaml
+  - ./redis/ks.yaml
   - ./reloader/ks.yaml
   - ./step-ca/ks.yaml
   - ./step-issuer/ks.yaml
