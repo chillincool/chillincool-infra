@@ -1,0 +1,18 @@
+---
+# AuthorizationPolicy to bypass ext_authz for OAuth2-proxy endpoints
+# This allows the OAuth2 callback and authentication flow to work
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: oauth2-proxy-bypass
+  namespace: oauth2-proxy
+spec:
+  selector:
+    matchLabels:
+      istio.io/gateway-name: oauth2-proxy-gateway-istio
+  action: ALLOW
+  rules:
+    - to:
+        - operation:
+            hosts: ["auth.chillincool.net"]
+            paths: ["/oauth2/*"]

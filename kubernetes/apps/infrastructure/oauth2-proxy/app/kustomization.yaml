@@ -8,3 +8,5 @@ resources:
   - helmrelease.yaml
   - rbac.yaml
   - gateway.yaml
+  - ../ext-authz/envoyfilter.yaml
+  - ../ext-authz/authorizationpolicy-oauth2-bypass.yaml

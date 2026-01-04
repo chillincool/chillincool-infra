@@ -1,0 +1,18 @@
+---
+# AuthorizationPolicy to require OAuth2-proxy authentication for Prowlarr
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: prowlarr-oauth2-authz
+  namespace: media
+spec:
+  selector:
+    matchLabels:
+      istio.io/gateway-name: media-gateway-istio
+  action: CUSTOM
+  provider:
+    name: oauth2-proxy
+  rules:
+    - to:
+        - operation:
+            hosts: ["prowlarr.chillincool.net"]
