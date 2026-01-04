@@ -1,5 +1,6 @@
 ---
 # AuthorizationPolicy to require OAuth2-proxy authentication for Prowlarr
+# In ambient mode, this applies at the waypoint proxy level
 apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
@@ -8,7 +9,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-      istio.io/gateway-name: media-gateway-istio
+      gateway.networking.k8s.io/gateway-name: media-waypoint
   action: CUSTOM
   provider:
     name: oauth2-proxy
