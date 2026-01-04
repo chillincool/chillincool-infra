@@ -1,0 +1,74 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: overseerr-oauth2-filter
+  namespace: media
+spec:
+  workloadSelector:
+    labels:
+      gateway.networking.k8s.io/gateway-name: media-gateway-istio
+  configPatches:
+    - applyTo: HTTP_FILTER
+      match:
+        context: GATEWAY
+        listener:
+          filterChain:
+            filter:
+              name: "envoy.filters.network.http_connection_manager"
+              subFilter:
+                name: "envoy.filters.http.router"
+      patch:
+        operation: INSERT_BEFORE
+        value:
+          name: envoy.filters.http.ext_authz
+          typed_config:
+            "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthz
+            http_service:
+              server_uri:
+                uri: http://oauth2-proxy.oauth2-proxy.svc.cluster.local:4180
+                cluster: outbound|4180||oauth2-proxy.oauth2-proxy.svc.cluster.local
+                timeout: 5s
+              path_prefix: /oauth2/auth
+              authorization_request:
+                allowed_headers:
+                  patterns:
+                    - exact: "cookie"
+                    - exact: "authorization"
+                    - exact: "x-forwarded-for"
+                    - exact: "x-forwarded-proto"
+                    - exact: "x-forwarded-host"
+                    - exact: "x-forwarded-uri"
+              authorization_response:
+                allowed_upstream_headers:
+                  patterns:
+                    - exact: "authorization"
+                    - exact: "x-auth-request-user"
+                    - exact: "x-auth-request-email"
+                    - exact: "x-auth-request-access-token"
+                allowed_client_headers:
+                  patterns:
+                    - exact: "set-cookie"
+                    - exact: "location"
+            filter_enabled:
+              runtime_key: "envoy.ext_authz.enabled"
+              default_value:
+                numerator: 100
+                denominator: HUNDRED
+    - applyTo: VIRTUAL_HOST
+      match:
+        context: GATEWAY
+        routeConfiguration:
+          vhost:
+            name: ""
+            route:
+              name: ""
+      patch:
+        operation: MERGE
+        value:
+          typed_per_filter_config:
+            envoy.filters.http.ext_authz:
+              "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthzPerRoute
+              check_settings:
+                context_extensions:
+                  virtual_host: overseerr.chillincool.net
