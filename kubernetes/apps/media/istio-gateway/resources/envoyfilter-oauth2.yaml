@@ -39,6 +39,11 @@ spec:
                     - exact: cookie
                     - exact: authorization
                     - prefix: "x-forwarded-"
+                headers_to_add:
+                  - key: X-Forwarded-Proto
+                    value: https
+                  - key: X-Auth-Request-Redirect
+                    value: "%REQ(:scheme)%://%REQ(:authority)%%REQ(:path)%"
               authorization_response:
                 allowed_upstream_headers:
                   patterns:
