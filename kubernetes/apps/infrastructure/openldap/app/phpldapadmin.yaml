@@ -28,8 +28,8 @@ spec:
               # Copy client certs
               cp /source-certs/tls.crt /dest-certs/tls.crt
               cp /source-certs/tls.key /dest-certs/tls.key
-              # Create full CA chain: intermediate (from secret) + root (from trust bundle)
-              cat /source-certs/ca.crt /vault-ca/ca.crt > /dest-certs/ca.crt
+              # Create full CA chain: root (from trust bundle) + intermediate (from secret)
+              cat /vault-ca/ca.crt /source-certs/ca.crt > /dest-certs/ca.crt
               chmod 644 /dest-certs/*
           volumeMounts:
             - name: client-certs-source
