@@ -25,6 +25,8 @@ spec:
     architecture: standalone
     auth:
       enabled: false
+    networkPolicy:
+      enabled: false
     master:
       persistence:
         enabled: false
