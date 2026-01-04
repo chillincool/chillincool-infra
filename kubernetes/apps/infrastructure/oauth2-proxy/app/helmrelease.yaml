@@ -34,6 +34,7 @@ spec:
         whitelist_domains = [".chillincool.net"]
         cookie_secure = true
         cookie_httponly = true
+        cookie_samesite = "lax"
         pass_authorization_header = true
         pass_access_token = true
         pass_user_headers = true
