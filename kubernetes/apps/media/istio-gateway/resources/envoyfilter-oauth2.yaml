@@ -37,6 +37,10 @@ spec:
                   patterns:
                     - exact: cookie
                     - exact: authorization
+                    - prefix: "x-forwarded-"
+                    - exact: ":authority"
+                    - exact: ":path"
+                    - exact: ":method"
               authorization_response:
                 allowed_upstream_headers:
                   patterns:
