@@ -20,23 +20,23 @@ spec:
     spec:
       initContainers:
         - name: setup-certs
-          image: osixia/phpldapadmin:0.9.0
+          image: busybox:latest
           command:
-            - bash
+            - sh
             - -c
             - |
-              # Copy client certs to phpLDAPadmin location
-              cp /source-certs/* /dest-certs/
+              # Copy client certs
+              cp /source-certs/tls.crt /dest-certs/tls.crt
+              cp /source-certs/tls.key /dest-certs/tls.key
+              # Create full CA chain: intermediate (from secret) + root (from trust bundle)
+              cat /source-certs/ca.crt /vault-ca/ca.crt > /dest-certs/ca.crt
               chmod 644 /dest-certs/*
-              # Update CA certificates (vault-root-ca.crt is already mounted)
-              /usr/sbin/update-ca-certificates
           volumeMounts:
             - name: client-certs-source
               mountPath: /source-certs
               readOnly: true
             - name: vault-ca-bundle
-              mountPath: /usr/local/share/ca-certificates/vault-root-ca.crt
-              subPath: ca.crt
+              mountPath: /vault-ca
               readOnly: true
             - name: client-certs-writable
               mountPath: /dest-certs
@@ -49,7 +49,7 @@ spec:
             - name: PHPLDAPADMIN_HTTPS
               value: "false"
             - name: PHPLDAPADMIN_LDAP_CLIENT_TLS_REQCERT
-              value: "never"
+              value: demand
             - name: PHPLDAPADMIN_LDAP_CLIENT_TLS_CA_CRT_FILENAME
               value: "ca.crt"
             - name: PHPLDAPADMIN_LDAP_CLIENT_TLS_CRT_FILENAME
