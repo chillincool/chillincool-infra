@@ -26,6 +26,7 @@ spec:
             "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthz
             transport_api_version: V3
             failure_mode_allow: false
+            clear_route_cache: true
             http_service:
               server_uri:
                 uri: http://oauth2-proxy.oauth2-proxy.svc.cluster.local:4180
@@ -38,7 +39,6 @@ spec:
                     - exact: cookie
                     - exact: authorization
                     - prefix: "x-forwarded-"
-                    - exact: x-original-url
               authorization_response:
                 allowed_upstream_headers:
                   patterns:
@@ -50,8 +50,10 @@ spec:
                   patterns:
                     - exact: set-cookie
                     - exact: location
-            with_request_body:
-              max_request_bytes: 8192
-              allow_partial_message: true
+                allowed_client_headers_on_success:
+                  patterns:
+                    - exact: authorization
+                    - exact: x-auth-request-user
+                    - exact: x-auth-request-email
             status_on_error:
               code: 302
