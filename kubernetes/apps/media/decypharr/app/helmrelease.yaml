@@ -69,10 +69,9 @@ spec:
       config:
         enabled: true
         type: persistentVolumeClaim
-        existingClaim: config
+        existingClaim: decypharr-config
         globalMounts:
           - path: /config
-            subPath: decypharr
       auth:
         enabled: true
         type: secret

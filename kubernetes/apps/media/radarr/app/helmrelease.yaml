@@ -96,10 +96,15 @@ spec:
       config:
         enabled: true
         type: persistentVolumeClaim
-        existingClaim: config
+        existingClaim: radarr-config
         globalMounts:
           - path: /config
-            subPath: radarr
+      cache:
+        enabled: true
+        type: persistentVolumeClaim
+        existingClaim: radarr-cache
+        globalMounts:
+          - path: /config/MediaCover
       backups:
         enabled: true
         type: persistentVolumeClaim

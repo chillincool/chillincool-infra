@@ -84,10 +84,9 @@ spec:
       config:
         enabled: true
         type: persistentVolumeClaim
-        existingClaim: config
+        existingClaim: recyclarr-config
         globalMounts:
           - path: /config
-            subPath: recyclarr
       cache:
         enabled: true
         type: persistentVolumeClaim

@@ -48,10 +48,9 @@ spec:
       config:
         enabled: true
         type: persistentVolumeClaim
-        existingClaim: config
+        existingClaim: suggestarr-config
         globalMounts:
-          - path: /app/config/
-            subPath: suggestarr
+          - path: /config
       tmp:
         enabled: true
         type: emptyDir

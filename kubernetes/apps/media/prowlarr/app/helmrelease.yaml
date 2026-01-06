@@ -78,10 +78,9 @@ spec:
       config:
         enabled: true
         type: persistentVolumeClaim
-        existingClaim: config
+        existingClaim: prowlarr-config
         globalMounts:
           - path: /config
-            subPath: prowlarr
       backups:
         enabled: true
         type: persistentVolumeClaim

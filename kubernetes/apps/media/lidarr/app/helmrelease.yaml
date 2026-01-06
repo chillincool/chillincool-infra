@@ -76,10 +76,15 @@ spec:
       config:
         enabled: true
         type: persistentVolumeClaim
-        existingClaim: config
+        existingClaim: lidarr-config
         globalMounts:
           - path: /config
-            subPath: lidarr
+      cache:
+        enabled: true
+        type: persistentVolumeClaim
+        existingClaim: lidarr-cache
+        globalMounts:
+          - path: /config/MediaCover
       backups:
         enabled: true
         type: persistentVolumeClaim

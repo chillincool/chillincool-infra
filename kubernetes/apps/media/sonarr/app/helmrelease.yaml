@@ -87,10 +87,15 @@ spec:
       config:
         enabled: true
         type: persistentVolumeClaim
-        existingClaim: config
+        existingClaim: sonarr-config
         globalMounts:
           - path: /config
-            subPath: sonarr
+      cache:
+        enabled: true
+        type: persistentVolumeClaim
+        existingClaim: sonarr-cache
+        globalMounts:
+          - path: /config/MediaCover
       backups:
         enabled: true
         type: persistentVolumeClaim

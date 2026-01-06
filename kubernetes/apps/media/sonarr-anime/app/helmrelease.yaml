@@ -110,10 +110,15 @@ spec:
       config:
         enabled: true
         type: persistentVolumeClaim
-        existingClaim: config
+        existingClaim: sonarr-anime-config
         globalMounts:
           - path: /config
-            subPath: sonarr-anime
+      cache:
+        enabled: true
+        type: persistentVolumeClaim
+        existingClaim: sonarr-anime-cache
+        globalMounts:
+          - path: /config/MediaCover
       backups:
         enabled: true
         type: persistentVolumeClaim

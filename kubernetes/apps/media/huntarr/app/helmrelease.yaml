@@ -64,7 +64,6 @@ spec:
       config:
         enabled: true
         type: persistentVolumeClaim
-        existingClaim: config
+        existingClaim: huntarr-config
         globalMounts:
           - path: /config
-            subPath: huntarr

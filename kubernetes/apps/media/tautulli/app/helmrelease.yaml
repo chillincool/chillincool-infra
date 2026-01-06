@@ -73,10 +73,9 @@ spec:
       config:
         enabled: true
         type: persistentVolumeClaim
-        existingClaim: config
+        existingClaim: tautulli-config
         globalMounts:
           - path: /config
-            subPath: tautulli
       realdebrid:
         enabled: true
         type: persistentVolumeClaim
