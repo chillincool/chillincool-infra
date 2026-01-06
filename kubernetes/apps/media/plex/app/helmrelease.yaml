@@ -23,7 +23,7 @@ spec:
   upgrade:
     cleanupOnFail: true
     crds: CreateReplace
-    timeout: 2m
+    timeout: 10m
   values:
     # env:
     #   - name: PLEX_CLAIM_TOKEN
