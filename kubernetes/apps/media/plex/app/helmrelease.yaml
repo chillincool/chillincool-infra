@@ -74,23 +74,21 @@ spec:
         memory: 8Gi
 
     persistence:
-      config:
-        enabled: true
-        type: persistentVolumeClaim
-        existingClaim: plex-config
-        globalMounts:
-          - path: /config
       data:
         enabled: true
         type: persistentVolumeClaim
         existingClaim: plex-data
         globalMounts:
-          - path: /config/Library/Application Support/Plex Media Server/Cache
-            subPath: Cache
-          - path: /config/Library/Application Support/Plex Media Server/Media
-            subPath: Media
-          - path: /config/Library/Application Support/Plex Media Server/Metadata
-            subPath: Metadata
+          - path: /config
+      config:
+        enabled: true
+        type: persistentVolumeClaim
+        existingClaim: plex-config
+        globalMounts:
+          - path: /config/Library/Application Support/Plex Media Server/
+            subPath: Preferences.xml
+          - path: /config/Library/Application Support/Plex Media Server/Plug-in Support/
+            subPath: Databases
       backups:
         enabled: true
         type: persistentVolumeClaim
