@@ -87,7 +87,7 @@ spec:
         globalMounts:
           - path: /config/Library/Application Support/Plex Media Server/
             subPath: Preferences.xml
-          - path: /config/Library/Application Support/Plex Media Server/Plug-in Support/
+          - path: /config/Library/Application Support/Plex Media Server/Plug-in Support/Databases
             subPath: Databases
       backups:
         enabled: true
