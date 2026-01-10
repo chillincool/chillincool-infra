@@ -4,5 +4,6 @@ kind: Kustomization
 resources:
   - ./istio-gateway/ks.yaml
   - ./cilium/ks.yaml
+  - ./nfs-csi-driver/ks.yaml
   # kube-proxy disabled - using Cilium kube-proxy replacement instead
   # - ./kube-proxy/ks.yaml
