@@ -11,6 +11,150 @@ spec:
     - type: IPAddress
       value: 10.60.60.20
   listeners:
+    - name: https-decypharr
+      hostname: decypharr.chillincool.net
+      port: 443
+      protocol: HTTPS
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: media
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: decypharr-tls
+            kind: Secret
+            namespace: media
+    - name: https-huntarr
+      hostname: huntarr.chillincool.net
+      port: 443
+      protocol: HTTPS
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: media
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: huntarr-tls
+            kind: Secret
+            namespace: media
+    - name: https-lidarr
+      hostname: lidarr.chillincool.net
+      port: 443
+      protocol: HTTPS
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: media
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: lidarr-tls
+            kind: Secret
+            namespace: media
+    - name: https-overseerr
+      hostname: overseerr.chillincool.net
+      port: 443
+      protocol: HTTPS
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: media
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: overseerr-tls
+            kind: Secret
+            namespace: media
+    - name: https-plex
+      hostname: plex.chillincool.net
+      port: 443
+      protocol: HTTPS
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: media
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: plex-tls
+            kind: Secret
+            namespace: media
+    - name: https-prowlarr
+      hostname: prowlarr.chillincool.net
+      port: 443
+      protocol: HTTPS
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: media
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: prowlarr-tls
+            kind: Secret
+            namespace: media
+    - name: https-radarr
+      hostname: radarr.chillincool.net
+      port: 443
+      protocol: HTTPS
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: media
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: radarr-tls
+            kind: Secret
+            namespace: media
+    - name: https-radarr-4k
+      hostname: radarr-4k.chillincool.net
+      port: 443
+      protocol: HTTPS
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: media
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: radarr-4k-tls
+            kind: Secret
+            namespace: media
+    - name: https-sonarr
+      hostname: sonarr.chillincool.net
+      port: 443
+      protocol: HTTPS
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: media
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: sonarr-tls
+            kind: Secret
+            namespace: media
     - name: https-sonarr-4k
       hostname: sonarr-4k.chillincool.net
       port: 443
@@ -19,15 +163,59 @@ spec:
         namespaces:
           from: Selector
           selector:
-            matchExpressions:
-              - key: kubernetes.io/metadata.name
-                operator: In
-                values:
-                  - media
-                  - monitoring
+            matchLabels:
+              kubernetes.io/metadata.name: media
       tls:
         mode: Terminate
         certificateRefs:
           - name: sonarr-4k-tls
+            kind: Secret
+            namespace: media
+    - name: https-sonarr-anime
+      hostname: sonarr-anime.chillincool.net
+      port: 443
+      protocol: HTTPS
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: media
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: sonarr-anime-tls
+            kind: Secret
+            namespace: media
+    - name: https-suggestarr
+      hostname: suggestarr.chillincool.net
+      port: 443
+      protocol: HTTPS
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: media
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: suggestarr-tls
+            kind: Secret
+            namespace: media
+    - name: https-tautulli
+      hostname: tautulli.chillincool.net
+      port: 443
+      protocol: HTTPS
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: media
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: tautulli-tls
             kind: Secret
             namespace: media

@@ -3,7 +3,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: overseerr
-  namespace: media
+  namespace: network
 spec:
   interval: 30m
   chart:
@@ -28,8 +28,8 @@ spec:
     httpRoute:
       enabled: true
       parentRefs:
-        - name: media-gateway-istio
-          namespace: media
+        - name: istio-gateway-internal
+          namespace: network
           sectionName: https-overseerr
       hostnames:
         - overseerr.chillincool.net
