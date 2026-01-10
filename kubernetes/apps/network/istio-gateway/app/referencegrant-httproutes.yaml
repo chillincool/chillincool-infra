@@ -1,0 +1,15 @@
+---
+# Allow HTTPRoutes from media namespace to attach to istio-gateway-internal in network namespace
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: ReferenceGrant
+metadata:
+  name: media-httproutes-to-network-gateway
+  namespace: network
+spec:
+  from:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      namespace: media
+  to:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
