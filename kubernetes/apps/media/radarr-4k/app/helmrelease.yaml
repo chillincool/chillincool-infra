@@ -23,6 +23,8 @@ spec:
     cleanupOnFail: true
     crds: CreateReplace
   values:
+    strategy:
+      type: Recreate
     nameOverride: radarr-4k
 
     httpRoute:

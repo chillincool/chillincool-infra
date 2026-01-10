@@ -25,6 +25,8 @@ spec:
     cleanupOnFail: true
     crds: CreateReplace
   values:
+    strategy:
+      type: Recreate
     httpRoute:
       enabled: true
       parentRefs:

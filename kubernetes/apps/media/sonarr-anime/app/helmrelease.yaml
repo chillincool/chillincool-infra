@@ -24,6 +24,8 @@ spec:
       retries: 3
       remediateLastFailure: true
   values:
+    strategy:
+      type: Recreate
     nameOverride: sonarr-anime
 
     httpRoute:

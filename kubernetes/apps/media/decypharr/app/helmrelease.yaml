@@ -26,6 +26,8 @@ spec:
     - kind: ConfigMap
       name: decypharr-values
   values:
+    strategy:
+      type: Recreate
     httpRoute:
       enabled: true
       parentRefs:

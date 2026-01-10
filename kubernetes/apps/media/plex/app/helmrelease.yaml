@@ -25,6 +25,9 @@ spec:
     crds: CreateReplace
     timeout: 10m
   values:
+    strategy:
+      type: Recreate
+
     # env:
     #   - name: PLEX_CLAIM_TOKEN
     #     value: claim-xxxxxxxxxx

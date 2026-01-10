@@ -25,6 +25,8 @@ spec:
       remediateLastFailure: true
   # Chart values - customize as needed
   values:
+    strategy:
+      type: Recreate
     httpRoute:
       enabled: true
       parentRefs:
