@@ -89,15 +89,6 @@ spec:
         certificateRefs:
           - name: sonarr-tls
             kind: Secret
-    - name: https-sonarr-4k
-      hostname: sonarr-4k.chillincool.net
-      port: 443
-      protocol: HTTPS
-      tls:
-        mode: Terminate
-        certificateRefs:
-          - name: sonarr-4k-tls
-            kind: Secret
     - name: https-sonarr-anime
       hostname: sonarr-anime.chillincool.net
       port: 443

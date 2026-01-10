@@ -1,0 +1,23 @@
+---
+# Istio Gateway for internal network traffic
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: istio-gateway-internal
+  namespace: network
+spec:
+  gatewayClassName: istio
+  addresses:
+    - type: IPAddress
+      value: 10.60.60.20
+  listeners:
+    - name: https-sonarr-4k
+      hostname: sonarr-4k.chillincool.net
+      port: 443
+      protocol: HTTPS
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: sonarr-4k-tls
+            kind: Secret
+            namespace: media
