@@ -35,8 +35,8 @@ spec:
     # Ref: https://www.solo.io/blog/istio-cilium-kube-proxy-replacement
     kubeProxyReplacement: true
 
-    k8sServiceHost: "172.16.60.7"
-    k8sServicePort: "6443"
+    k8sServiceHost: "127.0.0.1"
+    k8sServicePort: "7445"
 
     socketLB:
       enabled: true
