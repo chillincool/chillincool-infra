@@ -9,6 +9,7 @@ resources:
   - ./helmrepository-chillincool.yaml
   - ./helmrepository-cilium.yaml
   - ./helmrepository-cloudnative-pg.yaml
+  - ./helmrepository-csi-driver-nfs.yaml
   - ./helmrepository-grafana.yaml
   - ./helmrepository-hashicorp.yaml
   - ./helmrepository-istio.yaml
