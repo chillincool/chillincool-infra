@@ -42,6 +42,6 @@ spec:
 
   server:
     web_fqdn: kiali.chillincool.net
-    web_port: ""
+    web_port: "443"
     web_root: /
     web_schema: https
