@@ -219,3 +219,36 @@ spec:
           - name: tautulli-tls
             kind: Secret
             namespace: media
+    # Monitoring namespace listeners
+    - name: https-grafana
+      hostname: grafana.chillincool.net
+      port: 443
+      protocol: HTTPS
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: monitoring
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: grafana-tls
+            kind: Secret
+            namespace: monitoring
+    - name: https-kiali
+      hostname: kiali.chillincool.net
+      port: 443
+      protocol: HTTPS
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: monitoring
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: kiali-tls
+            kind: Secret
+            namespace: monitoring
