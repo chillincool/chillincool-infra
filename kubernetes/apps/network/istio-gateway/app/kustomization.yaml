@@ -4,3 +4,5 @@ kind: Kustomization
 resources:
   - ./gateway.yaml
   - ./referencegrant-httproutes.yaml
+  - ../resources/envoyfilter-oauth2.yaml
+  - ../resources/envoyfilter-oauth2-bypass.yaml

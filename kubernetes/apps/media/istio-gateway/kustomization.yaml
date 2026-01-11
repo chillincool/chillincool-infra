@@ -4,5 +4,3 @@ kind: Kustomization
 resources:
   - ./certificates.yaml
   - ./referencegrant.yaml
-  - ./resources/envoyfilter-oauth2.yaml
-  - ./resources/envoyfilter-oauth2-bypass.yaml
