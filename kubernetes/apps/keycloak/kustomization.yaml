@@ -5,5 +5,6 @@ namespace: keycloak
 
 resources:
   - ./namespace.yaml
+  - ./referencegrant.yaml
   - ./keycloak/ks.yaml
   - ./oauth2-proxy/ks.yaml

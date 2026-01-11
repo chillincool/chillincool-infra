@@ -13,6 +13,12 @@ spec:
     - group: gateway.networking.k8s.io
       kind: HTTPRoute
       namespace: monitoring
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      namespace: keycloak
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      namespace: kube-system
   to:
     - group: gateway.networking.k8s.io
       kind: Gateway
