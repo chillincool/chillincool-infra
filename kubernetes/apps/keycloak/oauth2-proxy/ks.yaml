@@ -19,3 +19,5 @@ spec:
       namespace: flux-system
     - name: keycloak
       namespace: keycloak
+    - name: redis
+      namespace: keycloak

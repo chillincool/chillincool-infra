@@ -7,7 +7,6 @@ resources:
   - ./cert-manager/issuers/ks.yaml
   - ./istio/ks.yaml
   - ./openldap/ks.yaml
-  - ./redis/ks.yaml
   - ./reloader/ks.yaml
   - ./trust-manager/ks.yaml
   - ./trust-manager/ks-bundle.yaml
