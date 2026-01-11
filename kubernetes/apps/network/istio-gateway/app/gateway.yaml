@@ -282,6 +282,6 @@ spec:
       tls:
         mode: Terminate
         certificateRefs:
-          - name: kiali-tls
+          - name: oauth2-proxy-tls
             kind: Secret
             namespace: keycloak
