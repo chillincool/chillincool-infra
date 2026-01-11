@@ -14,6 +14,8 @@ spec:
     openid:
       client_id: kiali
       client_secret: jFayYLRCDTioOoT1pH5NIfugltzhqPar
+      scopes: ["openid", "profile", "email"]
+      username_claim: "preferred_username"
       issuer_uri: https://loigin.chillincool.net/realms/chillincool # true if Keycloak uses self-signed cert
 
   deployment:
