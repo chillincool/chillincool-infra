@@ -5,5 +5,5 @@ resources:
   - onepassworditem.yaml
   - certificate.yaml
   - helmrelease.yaml
-  - gateway.yaml
+  - httproute.yaml
   - ../ext-authz/authorizationpolicy-oauth2-bypass.yaml

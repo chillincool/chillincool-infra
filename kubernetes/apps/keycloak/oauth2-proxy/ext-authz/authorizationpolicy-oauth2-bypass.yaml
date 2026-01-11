@@ -9,7 +9,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-      istio.io/gateway-name: oauth2-proxy-gateway-istio
+      istio.io/gateway-name: istio-gateway-internal
   action: ALLOW
   rules:
     - to:

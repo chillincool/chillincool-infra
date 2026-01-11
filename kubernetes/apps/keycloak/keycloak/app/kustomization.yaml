@@ -9,4 +9,4 @@ resources:
   - certificate.yaml
   - ldap-client-certificate.yaml
   - keycloak.yaml
-  - gateway.yaml
+  - httproute.yaml
