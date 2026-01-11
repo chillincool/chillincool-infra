@@ -9,7 +9,6 @@ spec:
   from:
     - group: gateway.networking.k8s.io
       kind: Gateway
-      name: istio-gateway-internal
       namespace: network
   to:
     - group: ""
