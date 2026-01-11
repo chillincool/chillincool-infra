@@ -85,3 +85,34 @@ spec:
             envoy.filters.http.ext_authz:
               "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthzPerRoute
               disabled: true
+    # Keycloak namespace - must bypass oauth2 to avoid circular dependency
+    - applyTo: HTTP_ROUTE
+      match:
+        context: GATEWAY
+        routeConfiguration:
+          vhost:
+            name: "login.chillincool.net:443"
+            route:
+              action: ROUTE
+      patch:
+        operation: MERGE
+        value:
+          typed_per_filter_config:
+            envoy.filters.http.ext_authz:
+              "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthzPerRoute
+              disabled: true
+    - applyTo: HTTP_ROUTE
+      match:
+        context: GATEWAY
+        routeConfiguration:
+          vhost:
+            name: "auth.chillincool.net:443"
+            route:
+              action: ROUTE
+      patch:
+        operation: MERGE
+        value:
+          typed_per_filter_config:
+            envoy.filters.http.ext_authz:
+              "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthzPerRoute
+              disabled: true
