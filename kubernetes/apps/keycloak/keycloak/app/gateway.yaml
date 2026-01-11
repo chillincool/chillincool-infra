@@ -24,8 +24,8 @@ metadata:
   namespace: keycloak
 spec:
   parentRefs:
-    - name: keycloak-gateway-istio
-      namespace: keycloak
+    - name: istio-gateway-internal
+      namespace: network
       sectionName: https-keycloak
   hostnames:
     - login.chillincool.net

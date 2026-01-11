@@ -252,3 +252,36 @@ spec:
           - name: kiali-tls
             kind: Secret
             namespace: monitoring
+    # Keycloak namespace listeners
+    - name: https-keycloak
+      hostname: login.chillincool.net
+      port: 443
+      protocol: HTTPS
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: keycloak
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: keycloak-tls
+            kind: Secret
+            namespace: keycloak
+    - name: https-oauth2-proxy
+      hostname: auth.chillincool.net
+      port: 443
+      protocol: HTTPS
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: keycloak
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: kiali-tls
+            kind: Secret
+            namespace: keycloak

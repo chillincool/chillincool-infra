@@ -24,8 +24,8 @@ metadata:
   namespace: keycloak
 spec:
   parentRefs:
-    - name: oauth2-proxy-gateway-istio
-      namespace: keycloak
+    - name: istio-gateway-internal
+      namespace: network
       sectionName: https-oauth2-proxy
   hostnames:
     - auth.chillincool.net
