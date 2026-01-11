@@ -12,6 +12,8 @@ kind: Cluster
 metadata:
   name: keycloak-pg
   namespace: keycloak
+  annotations:
+    kustomize.toolkit.fluxcd.io/prune: disabled
 spec:
   instances: 3
   imageName: ghcr.io/cloudnative-pg/postgresql:16

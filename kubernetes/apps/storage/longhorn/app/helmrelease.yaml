@@ -31,6 +31,7 @@ spec:
     persistence:
       defaultClass: true
       defaultClassReplicaCount: 1 # Will auto-scale when more nodes are added
+      reclaimPolicy: Retain
     csi:
       kubeletRootDir: /var/lib/kubelet
     longhornUI:
