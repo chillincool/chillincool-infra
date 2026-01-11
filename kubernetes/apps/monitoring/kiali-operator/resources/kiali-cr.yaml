@@ -41,4 +41,7 @@ spec:
         token: secret:grafana-api-token:password
 
   server:
+    web_fqdn: kiali.chillincool.net
+    web_port: ""
     web_root: /
+    web_schema: https
