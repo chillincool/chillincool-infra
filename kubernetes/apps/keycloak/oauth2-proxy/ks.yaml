@@ -16,4 +16,6 @@ spec:
   targetNamespace: keycloak
   dependsOn:
     - name: cert-manager
+      namespace: flux-system
     - name: keycloak
+      namespace: keycloak

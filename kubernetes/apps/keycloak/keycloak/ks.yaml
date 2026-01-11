@@ -15,4 +15,6 @@ spec:
   targetNamespace: keycloak
   dependsOn:
     - name: cert-manager
+      namespace: flux-system
     - name: cloudnative-pg
+      namespace: flux-system
