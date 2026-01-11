@@ -5,7 +5,7 @@ apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: oauth2-proxy-bypass
-  namespace: oauth2-proxy
+  namespace: keycloak
 spec:
   selector:
     matchLabels:

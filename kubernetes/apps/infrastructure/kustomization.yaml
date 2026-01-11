@@ -6,8 +6,6 @@ resources:
   - ./cert-manager/ks-rbac.yaml
   - ./cert-manager/issuers/ks.yaml
   - ./istio/ks.yaml
-  - ./keycloak/ks.yaml
-  - ./oauth2-proxy/ks.yaml
   - ./openldap/ks.yaml
   - ./redis/ks.yaml
   - ./reloader/ks.yaml
