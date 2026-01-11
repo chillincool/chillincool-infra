@@ -74,6 +74,9 @@ spec:
               - hostname: "*.chillincool.net"
                 originRequest:
                   http2Origin: true
+                  keepAliveTimeout: 3600s
+                  originServerName: chillincool.net
+                  tcpKeepAlive: 7200s
                 service: https://istio-gateway-internal-istio.network.svc.cluster.local:443
               - service: http_status:404
     persistence:
