@@ -13,7 +13,7 @@ spec:
     strategy: openid
     openid:
       client_id: kiali
-      client_secret: jFayYLRCDTioOoT1pH5NIfugltzhqPar
+      client_secret: mlKobpYq73JdwThIYL8WD3Xd4eyq1xuN
       scopes: ["openid", "profile", "email"]
       username_claim: "preferred_username"
       issuer_uri: https://login.chillincool.net/realms/chillincool
