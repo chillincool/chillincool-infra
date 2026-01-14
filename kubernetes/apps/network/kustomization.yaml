@@ -14,4 +14,5 @@ resources:
   # - ./cloudflare-dns/ks.yaml
   # - ./echo/ks.yaml
   - ./istio-gateway/ks.yaml
+  - ./tailscale-operator/ks.yaml
   # - ./unifi-dns/ks.yaml
