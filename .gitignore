@@ -25,7 +25,6 @@ kubernetes/apps/system-upgrade
 kubernetes/apps/volsync-system
 kubernetes/components
 kubernetes/apps/network/echo
-kubernetes/apps/network/envoy-gateway
 kubernetes/apps/network/cloudflare-dns
 kubernetes/apps/network/certificates
 kubernetes/apps/openebs*
