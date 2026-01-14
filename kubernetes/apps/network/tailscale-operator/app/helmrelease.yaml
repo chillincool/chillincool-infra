@@ -1,0 +1,74 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: tailscale-operator
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: tailscale-operator
+  interval: 1h
+  values:
+    # Operator oauth credentials. If unset a Secret named operator-oauth must be
+    # precreated or oauthSecretVolume needs to be adjusted. This block will be
+    # overridden by oauthSecretVolume, if set.
+    oauth:
+      # The Client ID the operator will authenticate with.
+      clientId: ""
+      # If set a Kubernetes Secret with the provided value will be created in
+      # the operator namespace, and mounted into the operator Pod. Takes precedence
+      # over oauth.audience.
+      clientSecret: ""
+      # The audience for oauth.clientId if using a workload identity federation
+      # OAuth client. Mutually exclusive with oauth.clientSecret.
+      # See https://tailscale.com/kb/1581/workload-identity-federation.
+      audience: ""
+
+    # Secret volume.
+    # If set it defines the volume the oauth secrets will be mounted from.
+    # The volume needs to contain two files named `client_id` and `client_secret`.
+    # If unset the volume will reference the Secret named operator-oauth.
+    # This block will override the oauth block.
+    oauthSecretVolume: {}
+      # csi:
+      #   driver: secrets-store.csi.k8s.io
+      #   readOnly: true
+      #   volumeAttributes:
+      #     secretProviderClass: tailscale-oauth
+      #
+      ## NAME is pre-defined!
+
+    installCRDs: true
+    operatorConfig:
+      defaultTags:
+        - tag:k8s-operator
+      image:
+        repository: tailscale/k8s-operator
+        tag: v1.92.5
+        pullPolicy: Always
+      logging: info
+      hostname: tailscale-operator
+      nodeSelector:
+        kubernetes.io/os: linux
+      resources: {}
+      podAnnotations: {}
+      podLabels: {}
+      serviceAccountAnnotations: {}
+      tolerations: []
+      affinity: {}
+      podSecurityContext: {}
+      securityContext: {}
+      extraEnv: []
+    ingressClass:
+      enabled: false
+    proxyConfig:
+      image:
+        repository: tailscale/tailscale
+        tag: v1.92.5
+      defaultTags: tag:k8s
+      firewallMode: auto
+      defaultProxyClass: ""
+    apiServerProxyConfig:
+      allowImpersonation: "true"
+      mode: "true"
+    imagePullSecrets: []
