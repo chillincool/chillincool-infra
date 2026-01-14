@@ -16,3 +16,15 @@ kubernetes/apps/media/.DS_Store
 terraform
 zzz-reorg
 kubernetes/apps/external-secrets
+kubernetes/apps/vault
+kubernetes/apps/boundary
+kubernetes/apps/observability
+kubernetes/apps/actions-runner-system
+kubernetes/apps/cert-manager
+kubernetes/apps/system-upgrade
+kubernetes/apps/volsync-system
+kubernetes/components
+kubernetes/apps/network/echo
+kubernetes/apps/network/envoy-gateway
+kubernetes/apps/network/cloudflare-dns
+kubernetes/apps/network/certificates

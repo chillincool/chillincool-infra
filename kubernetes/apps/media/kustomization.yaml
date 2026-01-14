@@ -4,13 +4,11 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./istio-gateway
-  - ./waypoint/ks.yaml
   - ./authz-policy
   - ./config-pvc.yaml
   - ./backups-pvc.yaml
   - ./dsm1-anime-pv.yaml
   - ./dsm1-data-pv.yaml
-  - ./config-manager-pod.yaml
   - ./realdebrid-rclone-secret-copy.yaml
   - ./decypharr/ks.yaml
   - ./decypharr/enable/ks.yaml
