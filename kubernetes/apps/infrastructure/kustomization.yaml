@@ -6,7 +6,6 @@ resources:
   - ./cert-manager/ks-rbac.yaml
   - ./cert-manager/issuers/ks.yaml
   - ./istio/ks.yaml
-  - ./openldap/ks.yaml
   - ./reloader/ks.yaml
   - ./trust-manager/ks.yaml
   - ./trust-manager/ks-bundle.yaml
