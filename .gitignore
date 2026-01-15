@@ -37,3 +37,5 @@ kubernetes/apps/kube-system/spegel
 kubernetes/apps/kube-system/csi-driver-nfs
 kubernetes/apps/kube-system/cilium-new
 kubernetes/apps/flux-system
+sec.enc.yaml
+sec.yaml
