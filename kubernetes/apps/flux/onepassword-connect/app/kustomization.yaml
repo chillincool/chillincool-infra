@@ -1,8 +1,0 @@
----
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-resources:
-  - namespace.yaml
-  # - secret.enc.yaml  # Secrets already exist in cluster, skip reconciliation
-  # - token-secret.enc.yaml
-  - helmrelease.yaml

@@ -15,7 +15,6 @@ kubernetes/apps/media/.DS_Store
 .DS_Store
 terraform
 zzz-reorg
-kubernetes/apps/external-secrets
 kubernetes/apps/vault
 kubernetes/apps/boundary
 kubernetes/apps/observability
