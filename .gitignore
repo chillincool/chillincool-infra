@@ -20,11 +20,8 @@ kubernetes/apps/boundary
 kubernetes/apps/actions-runner-system
 kubernetes/apps/cert-manager
 kubernetes/apps/system-upgrade
-kubernetes/apps/volsync-system
-kubernetes/components
 kubernetes/apps/network/echo
 kubernetes/apps/network/cloudflare-dns
-kubernetes/apps/openebs*
 kubernetes/apps/kube-system/coredns
 kubernetes/apps/kube-system/descheduler
 kubernetes/apps/kube-system/metrics-server
