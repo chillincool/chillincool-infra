@@ -22,4 +22,5 @@ resources:
   - ./ks-kube-system-apps.yaml
   - ./ks-media-apps.yaml
   - ./ks-network-apps.yaml
+  - ./ks-observability-apps.yaml
   - ./ks-storage-apps.yaml

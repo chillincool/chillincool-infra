@@ -17,7 +17,6 @@ terraform
 zzz-reorg
 kubernetes/apps/vault
 kubernetes/apps/boundary
-kubernetes/apps/observability
 kubernetes/apps/actions-runner-system
 kubernetes/apps/cert-manager
 kubernetes/apps/system-upgrade
