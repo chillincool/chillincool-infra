@@ -1,0 +1,132 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: cilium
+  namespace: kube-system
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: cilium
+      version: "1.18.5"
+      sourceRef:
+        kind: HelmRepository
+        name: cilium
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+    createNamespace: false
+    crds: Create
+  upgrade:
+    cleanupOnFail: true
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  values:
+    ipam:
+      mode: kubernetes
+
+    ipv4NativeRoutingCIDR: 10.244.0.0/16
+
+    # Disable kube-proxy replacement to fix NFS host-network mount issues
+    # Socket LB hooks were blocking host namespace connections to external IPs
+    # Will use standard kube-proxy for service load balancing instead
+    kubeProxyReplacement: false
+
+    operator:
+      replicas: 1
+      rollOutPods: true
+
+    enableIPv4Masquerade: true
+    enableIPv6: false
+
+    hubble:
+      enabled: true
+      metrics:
+        enabled:
+          - dns:query
+          - drop
+          - tcp
+          - flow
+          - port-distribution
+          - icmp
+          - httpV2:exemplars=true;labelsContext=source_ip,source_namespace,source_workload,destination_ip,destination_namespace,destination_workload,traffic_direction
+        enableOpenMetrics: true
+        serviceMonitor:
+          enabled: false  # Enable if you want VictoriaMetrics to scrape Hubble metrics
+      relay:
+        enabled: true
+        rollOutPods: true
+      ui:
+        enabled: true
+        rollOutPods: true
+        ingress:
+          enabled: false  # We'll create HTTPRoute instead
+
+    bpf:
+      masquerade: false  # Required for Istio Ambient - eBPF masq breaks health probes
+      hostRouting: true
+
+    autoDirectNodeRoutes: true
+    routingMode: native
+
+    bandwidthManager:
+      enabled: true
+
+    localRedirectPolicy: true
+
+    cni:
+      exclusive: false
+      chainingMode: none
+
+    securityContext:
+      capabilities:
+        ciliumAgent:
+          - CHOWN
+          - KILL
+          - NET_ADMIN
+          - NET_RAW
+          - IPC_LOCK
+          - SYS_ADMIN
+          - SYS_RESOURCE
+          - DAC_OVERRIDE
+          - FOWNER
+          - SETGID
+          - SETUID
+        cleanCiliumState:
+          - NET_ADMIN
+          - SYS_ADMIN
+          - SYS_RESOURCE
+
+    policyEnforcementMode: default
+
+    resources:
+      limits:
+        cpu: 4000m
+        memory: 4Gi
+      requests:
+        cpu: 100m
+        memory: 512Mi
+
+    # BGP Control Plane for LoadBalancer IP advertisement
+    bgpControlPlane:
+      enabled: true
+
+    # DSR mode removed - incompatible with kube-proxy (requires eBPF kube-proxy replacement)
+
+    # Enable L2 announcements to bind LoadBalancer IPs locally
+    l2announcements:
+      enabled: true
+    externalIPs:
+      enabled: true
+
+    # Disable Cilium's beta SPIRE-based mutual authentication - using Istio Ambient for mTLS instead
+    # Keep authentication.enabled=true for Hubble internal auth, just disable mutual/SPIRE
+    authentication:
+      mutual:
+        spire:
+          enabled: false
+          install:
+            enabled: false
