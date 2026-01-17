@@ -31,6 +31,7 @@ spec:
     dashboards:
       enabled: true
     devices: eno1
+    directRoutingDevice: eno1
     enableIPv4BIGTCP: true
     endpointRoutes:
       enabled: true
