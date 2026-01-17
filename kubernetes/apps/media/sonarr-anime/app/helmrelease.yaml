@@ -31,9 +31,8 @@ spec:
     httpRoute:
       enabled: true
       parentRefs:
-        - name: istio-gateway-internal
+        - name: envoy-internal
           namespace: network
-          sectionName: https-sonarr-anime
       hostnames:
         - sonarr-anime.chillincool.net
       rules:
