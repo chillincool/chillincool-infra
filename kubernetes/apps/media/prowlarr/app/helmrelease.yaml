@@ -30,9 +30,8 @@ spec:
     httpRoute:
       enabled: true
       parentRefs:
-        - name: istio-gateway-internal
+        - name: envoy-internal
           namespace: network
-          sectionName: https-prowlarr
       hostnames:
         - prowlarr.chillincool.net
       rules:

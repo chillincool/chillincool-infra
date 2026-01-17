@@ -34,9 +34,8 @@ spec:
     httpRoute:
       enabled: true
       parentRefs:
-        - name: istio-gateway-internal
+        - name: envoy-internal
           namespace: network
-          sectionName: https-plex
       hostnames:
         - plex.chillincool.net
       rules:

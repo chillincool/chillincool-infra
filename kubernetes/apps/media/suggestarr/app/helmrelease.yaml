@@ -29,9 +29,8 @@ spec:
     httpRoute:
       enabled: true
       parentRefs:
-        - name: istio-gateway-internal
+        - name: envoy-internal
           namespace: network
-          sectionName: https-suggestarr
       hostnames:
         - suggestarr.chillincool.net
       rules:

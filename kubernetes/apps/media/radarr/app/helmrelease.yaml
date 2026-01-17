@@ -28,9 +28,8 @@ spec:
     httpRoute:
       enabled: true
       parentRefs:
-        - name: istio-gateway-internal
+        - name: envoy-internal
           namespace: network
-          sectionName: https-radarr
       hostnames:
         - radarr.chillincool.net
       rules:
