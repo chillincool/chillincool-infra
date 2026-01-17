@@ -3,5 +3,7 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: _
+  labels:
+    pod-security.kubernetes.io/enforce: privileged ## temporary until mutatingadmission implemented
   annotations:
     kustomize.toolkit.fluxcd.io/prune: disabled
