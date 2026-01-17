@@ -6,9 +6,8 @@ metadata:
   namespace: keycloak
 spec:
   parentRefs:
-    - name: istio-gateway-internal
-      namespace: network
-      sectionName: https-oauth2-proxy
+        - name: envoy-external
+          namespace: network
   hostnames:
     - auth.chillincool.net
   rules:

@@ -6,9 +6,8 @@ metadata:
   namespace: kube-system
 spec:
   parentRefs:
-    - name: kube-system-gateway-istio
-      namespace: kube-system
-      sectionName: https-hubble
+        - name: envoy-internal
+          namespace: network
   hostnames:
     - hubble.chillincool.net
   rules:
