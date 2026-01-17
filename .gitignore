@@ -25,7 +25,6 @@ kubernetes/apps/volsync-system
 kubernetes/components
 kubernetes/apps/network/echo
 kubernetes/apps/network/cloudflare-dns
-kubernetes/apps/network/certificates
 kubernetes/apps/openebs*
 kubernetes/apps/kube-system/coredns
 kubernetes/apps/kube-system/descheduler
