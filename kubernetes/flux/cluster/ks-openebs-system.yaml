@@ -11,6 +11,6 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./kubernetes/apps/openebs
+  path: ./kubernetes/apps/openebs-system
   prune: true
   wait: true
