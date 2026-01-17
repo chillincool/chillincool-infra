@@ -5,8 +5,6 @@ resources:
   - ./cert-manager/ks.yaml
   - ./cert-manager/ks-rbac.yaml
   - ./cert-manager/issuers/ks.yaml
-  - ./istio/ks.yaml
-  - ./reloader/ks.yaml
   - ./trust-manager/ks.yaml
   - ./trust-manager/ks-bundle.yaml
   - ./vault/ks.yaml

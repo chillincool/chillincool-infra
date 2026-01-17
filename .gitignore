@@ -22,14 +22,6 @@ kubernetes/apps/cert-manager
 kubernetes/apps/system-upgrade
 kubernetes/apps/network/echo
 kubernetes/apps/network/cloudflare-dns
-kubernetes/apps/kube-system/coredns
-kubernetes/apps/kube-system/descheduler
-kubernetes/apps/kube-system/metrics-server
-kubernetes/apps/kube-system/multus
-kubernetes/apps/kube-system/reloader
-kubernetes/apps/kube-system/snapshot-controller
-kubernetes/apps/kube-system/spegel
-kubernetes/apps/kube-system/csi-driver-nfs
 kubernetes/apps/kube-system/cilium-new
 kubernetes/apps/flux-system
 sec.enc.yaml

@@ -24,3 +24,5 @@ resources:
   - ./ks-network-apps.yaml
   - ./ks-observability-apps.yaml
   - ./ks-storage-apps.yaml
+  - ./ks-openebs-system.yaml
+  - ./ks-volsync-system.yaml
