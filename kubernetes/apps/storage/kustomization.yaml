@@ -5,4 +5,3 @@ resources:
   - ./namespace.yaml
   - ./cloudnative-pg/ks.yaml
   - ./longhorn/ks.yaml
-  - ./csi-rclone/ks.yaml
