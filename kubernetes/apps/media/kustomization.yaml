@@ -1,32 +1,34 @@
 ---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+namespace: media
+
+components:
+  - ../../components/alerts
+
 resources:
   - ./namespace.yaml
-  # - ./istio-gateway
-  # - ./authz-policy
-  # - ./config-pvc.yaml
-  # - ./backups-pvc.yaml
-  # - ./dsm1-anime-pv.yaml
-  # - ./dsm1-data-pv.yaml
-  # - ./realdebrid-rclone-secret-copy.yaml
-  # - ./decypharr/ks.yaml
-  # - ./decypharr/enable/ks.yaml
-  # - ./huntarr/ks.yaml
-  # - ./imagemaid/ks.yaml
-  # - ./kometa/ks.yaml
-  # - ./lidarr/ks.yaml
-  # - ./overseerr/ks.yaml
+  # - ./agregarr/ks.yaml
+  # # - ./atuin/ks.yaml
+  # - ./autobrr/ks.yaml
+  # - ./bazarr/ks.yaml
+  # # - ./go2rtc/ks.yaml
+  # # - ./home-assistant/ks.yaml
+  # # - ./mosquitto/ks.yaml
+  # # - ./notifier/ks.yaml
+  # - ./nzbget/ks.yaml
   # - ./plex/ks.yaml
   # - ./prowlarr/ks.yaml
-  # - ./radarr/ks.yaml
-  # - ./radarr-4k/ks.yaml
+  # - ./qbittorrent/ks.yaml
+  # - ./qui/ks.yaml
+  - ./radarr/ks.yaml
   # - ./recyclarr/ks.yaml
-  # - ./serviceentry
+  # - ./seerr/ks.yaml
+  # # - ./slskd/ks.yaml
+  # # - ./smtp-relay/ks.yaml
   # - ./sonarr/ks.yaml
-  # - ./sonarr-4k/ks.yaml
-  # - ./sonarr-anime/ks.yaml
-  # - ./suggestarr/ks.yaml
   # - ./tautulli/ks.yaml
-  # - ./symlinks-pvc.yaml
-  # - ./onepassworditem.yaml
+  # # - ./thelounge/ks.yaml
+  # # - ./zigbee/ks.yaml
+  # # - ./zwave/ks.yaml

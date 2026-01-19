@@ -10,8 +10,7 @@ components:
 resources:
   - ./namespace.yaml
   - ./cilium/ks.yaml
-  # coredns managed by Talos - removed to prevent Flux pruning
-  # - ./coredns/ks.yaml
+  - ./coredns/ks.yaml
   - ./csi-driver-nfs/ks.yaml
   - ./descheduler/ks.yaml
   - ./metrics-server/ks.yaml
