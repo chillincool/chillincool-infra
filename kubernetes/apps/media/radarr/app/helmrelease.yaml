@@ -78,8 +78,8 @@ spec:
         existingClaim: "{{ .Release.Name }}"
       media:
         type: nfs
-        server: expanse.internal
-        path: /mnt/eros/Media
+        server: dsm1.chillincool.net
+        path: /volume2/data
         globalMounts:
           - path: /media
       tmp:
