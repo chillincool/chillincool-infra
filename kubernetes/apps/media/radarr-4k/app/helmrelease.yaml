@@ -7,7 +7,7 @@ metadata:
 spec:
   chartRef:
     kind: OCIRepository
-    name: radarr-4k
+    name: radarr
   interval: 1h
   values:
     controllers:
