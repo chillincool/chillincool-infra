@@ -75,7 +75,13 @@ spec:
             namespace: network
     persistence:
       config:
-        existingClaim: "{{ .Release.Name }}"
+        enabled: true
+        name: "{{ .Release.Name }}"
+        accessMode: ReadWriteOnce
+        size: 5Gi
+        storageClass: longhorn
+      # config:
+      #   existingClaim: "{{ .Release.Name }}"
       media:
         type: nfs
         server: dsm1.chillincool.net
