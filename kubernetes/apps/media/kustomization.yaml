@@ -19,19 +19,19 @@ resources:
   # # - ./notifier/ks.yaml
   # - ./nzbget/ks.yaml
   # - ./plex/ks.yaml
-  # - ./prowlarr/ks.yaml
+  - ./prowlarr/ks.yaml
   # - ./qbittorrent/ks.yaml
   # - ./qui/ks.yaml
   - ./radarr/ks.yaml
   - ./radarr-4k/ks.yaml
   # - ./recyclarr/ks.yaml
-  # - ./seerr/ks.yaml
+  - ./seerr/ks.yaml
   # # - ./slskd/ks.yaml
   # # - ./smtp-relay/ks.yaml
   - ./sonarr/ks.yaml
   - ./sonarr-4k/ks.yaml
   - ./sonarr-anime/ks.yaml
-  # - ./tautulli/ks.yaml
+  - ./tautulli/ks.yaml
   # # - ./thelounge/ks.yaml
   # # - ./zigbee/ks.yaml
   # # - ./zwave/ks.yaml
