@@ -74,12 +74,6 @@ spec:
           - name: envoy-internal
             namespace: network
     persistence:
-      # config:
-      #   enabled: true
-      #   name: "{{ .Release.Name }}"
-      #   accessMode: ReadWriteOnce
-      #   size: 5Gi
-      #   storageClass: longhorn
       config:
         existingClaim: "{{ .Release.Name }}"
       media:
