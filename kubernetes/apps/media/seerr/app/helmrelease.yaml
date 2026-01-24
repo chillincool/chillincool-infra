@@ -67,7 +67,7 @@ spec:
             conditions: ["[STATUS] == 200"]
         hostnames:
           - "{{ .Release.Name }}.chillincool.net"
-          - requests.turbo.ac
+          - requests.chillincool.net
         parentRefs:
           - name: envoy-external
             namespace: network
