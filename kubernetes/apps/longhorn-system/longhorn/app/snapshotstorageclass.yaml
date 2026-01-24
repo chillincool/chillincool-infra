@@ -5,3 +5,5 @@ metadata:
   name: longhorn
 driver: driver.longhorn.io
 deletionPolicy: Delete
+parameters:
+  type: snap  # Use local snapshots (not backup which requires backup target)
