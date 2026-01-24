@@ -21,7 +21,7 @@ permissions:
 jobs:
   main:
     name: Schemas
-    runs-on: home-ops-runner
+    runs-on: chillincool-infra-runner
     permissions:
       contents: read
       packages: write
