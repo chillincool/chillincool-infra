@@ -36,7 +36,7 @@ storage:
 ui:
   title: Status | Gatus
   header: Status
-  logo: https://avatars.githubusercontent.com/u/213795
+  logo: https://avatars.githubusercontent.com/u/168305058
   link: https://github.com/chillincool
   buttons:
     - name: Github
