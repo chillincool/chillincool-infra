@@ -1,0 +1,83 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/monitoring.coreos.com/prometheusrule_v1.json
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: cloudnative-pg-rules
+spec:
+  groups:
+    - name: cloudnative-pg.rules
+      rules:
+        - alert: CloudNativePGAbsent
+          expr: |-
+            absent(up{job="cloudnative-pg"})
+          for: 5m
+          annotations:
+            summary: CloudNativePG operator has disappeared from Prometheus service discovery
+          labels:
+            severity: critical
+
+    - name: cnpg-cluster.rules
+      rules:
+        - alert: CNPGLongRunningTransaction
+          expr: |-
+            cnpg_backends_max_tx_duration_seconds > 300
+          for: 1m
+          annotations:
+            summary: Pod {{ $labels.pod }} is running a query for more than 5 minutes
+          labels:
+            severity: warning
+
+        - alert: CNPGBackendsWaiting
+          expr: |-
+            cnpg_backends_waiting_total > 0
+          for: 5m
+          annotations:
+            summary: Pod {{ $labels.pod }} has backends waiting for more than 5 minutes
+          labels:
+            severity: warning
+
+        - alert: CNPGDatabaseXidAge
+          expr: |-
+            cnpg_pg_database_xid_age > 300000000
+          for: 1m
+          annotations:
+            summary: Database {{ $labels.datname }} on pod {{ $labels.pod }} has transaction ID age over 300 million
+          labels:
+            severity: warning
+
+        - alert: CNPGReplicationLag
+          expr: |-
+            cnpg_pg_replication_lag > 300
+          for: 1m
+          annotations:
+            summary: Standby {{ $labels.pod }} is lagging behind primary by more than 5 minutes
+          labels:
+            severity: warning
+
+        - alert: CNPGLastFailedArchiveTime
+          expr: |-
+            (cnpg_pg_stat_archiver_last_failed_time - cnpg_pg_stat_archiver_last_archived_time) > 1
+          for: 1m
+          annotations:
+            summary: Archiving has failed on pod {{ $labels.pod }}
+          labels:
+            severity: warning
+
+        - alert: CNPGDatabaseDeadlocks
+          expr: |-
+            cnpg_pg_stat_database_deadlocks > 10
+          for: 1m
+          annotations:
+            summary: Database {{ $labels.datname }} on pod {{ $labels.pod }} has more than 10 deadlocks
+          labels:
+            severity: warning
+
+        - alert: CNPGReplicaFailingReplication
+          expr: |-
+            cnpg_pg_replication_in_recovery AND cnpg_pg_replication_is_wal_receiver_up == 0
+          for: 1m
+          annotations:
+            summary: Replica {{ $labels.pod }} is failing to replicate from primary
+          labels:
+            severity: critical
