@@ -15,4 +15,3 @@ talosconfig
 
 #### Tempoary ####
 kubernetes/apps/system-upgrade
-kubernetes/apps/network/echo
