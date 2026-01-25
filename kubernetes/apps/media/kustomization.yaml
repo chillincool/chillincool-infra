@@ -20,11 +20,11 @@ resources:
   # - ./nzbget/ks.yaml
   - ./plex/ks.yaml
   - ./prowlarr/ks.yaml
-  # - ./qbittorrent/ks.yaml
-  # - ./qui/ks.yaml
+  - ./qbittorrent/ks.yaml
+  - ./qui/ks.yaml
   - ./radarr/ks.yaml
   - ./radarr-4k/ks.yaml
-  # - ./recyclarr/ks.yaml
+  - ./recyclarr/ks.yaml
   - ./seerr/ks.yaml
   # # - ./slskd/ks.yaml
   # # - ./smtp-relay/ks.yaml
