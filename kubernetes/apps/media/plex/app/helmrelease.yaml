@@ -53,7 +53,7 @@ spec:
                 memory: 1Gi
               limits:
                 memory: 8Gi
-    # defaultPodOptions:
+    defaultPodOptions:
     #   resourceClaims:
     #     - name: gpu
     #       resourceClaimTemplateName: plex
