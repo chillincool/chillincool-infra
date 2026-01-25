@@ -14,4 +14,7 @@ kubeconfig
 talosconfig
 
 #### Tempoary ####
+kubernetes/apps/iot
+kubernetes/apps/media/notifier
 kubernetes/apps/system-upgrade
+kubernetes/apps/util/smtp-relay
