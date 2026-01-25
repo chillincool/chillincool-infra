@@ -14,8 +14,6 @@ kubeconfig
 talosconfig
 
 #### Tempoary ####
-kubernetes/apps/vault
-kubernetes/apps/boundary
 kubernetes/apps/system-upgrade
 kubernetes/apps/network/echo
 kubernetes/apps/network/cloudflare-dns
