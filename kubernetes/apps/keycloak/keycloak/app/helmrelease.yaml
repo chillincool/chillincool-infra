@@ -99,10 +99,12 @@ spec:
         ports:
           http:
             port: *port
+          management:
+            port: *mgmt
     serviceMonitor:
       app:
         endpoints:
-          - port: http
+          - port: management
             path: /metrics
     route:
       app:
