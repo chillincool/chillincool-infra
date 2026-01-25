@@ -5,8 +5,10 @@ kind: Kustomization
 resources:
   - ./cluster.yaml
   - ./externalsecret.yaml
+  - ./grafanadashboard.yaml
   - ./helmrelease.yaml
   - ./ocirepository.yaml
+  - ./prometheusrule.yaml
 configMapGenerator:
   - name: keycloak-realm
     files:

@@ -1,0 +1,63 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/monitoring.coreos.com/prometheusrule_v1.json
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: keycloak-rules
+spec:
+  groups:
+    - name: keycloak.rules
+      rules:
+        - alert: KeycloakAbsent
+          expr: |-
+            absent(up{job="keycloak"})
+          for: 5m
+          annotations:
+            summary: Keycloak has disappeared from Prometheus service discovery
+          labels:
+            severity: critical
+
+        - alert: KeycloakDatabaseConnectionFailure
+          expr: |-
+            increase(vendor_agroal_active_count{job="keycloak"}[5m]) == 0 and vendor_agroal_available_count{job="keycloak"} == 0
+          for: 2m
+          annotations:
+            summary: Keycloak has no available database connections
+          labels:
+            severity: critical
+
+        - alert: KeycloakHighLoginFailureRate
+          expr: |-
+            sum(rate(keycloak_login_error_total[5m])) / sum(rate(keycloak_login_attempts_total[5m])) > 0.3
+          for: 5m
+          annotations:
+            summary: Keycloak login failure rate is above 30%
+          labels:
+            severity: warning
+
+        - alert: KeycloakHighMemoryUsage
+          expr: |-
+            sum(jvm_memory_used_bytes{job="keycloak"}) / sum(jvm_memory_max_bytes{job="keycloak"}) > 0.9
+          for: 5m
+          annotations:
+            summary: Keycloak JVM memory usage is above 90%
+          labels:
+            severity: warning
+
+        - alert: KeycloakHighCpuUsage
+          expr: |-
+            rate(process_cpu_seconds_total{job="keycloak"}[5m]) > 0.8
+          for: 5m
+          annotations:
+            summary: Keycloak CPU usage is above 80%
+          labels:
+            severity: warning
+
+        - alert: KeycloakTooManyRefreshTokens
+          expr: |-
+            increase(keycloak_refresh_tokens_total[1h]) > 10000
+          for: 5m
+          annotations:
+            summary: High rate of refresh token requests (possible token abuse)
+          labels:
+            severity: warning
