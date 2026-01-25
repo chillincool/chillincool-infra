@@ -18,7 +18,7 @@ spec:
           app:
             image:
               repository: quay.io/keycloak/keycloak
-              tag: 26.1.0@sha256:b6b5f1ac86c816784e836e9a0ed34a4d2082bb0d95a75457034db4dea1e30d74
+              tag: 26.5.2@sha256:fb31a59deb46f746f2aaa25adc5da39ceccac4fd22d36a519562b0bf02e8df20
             args:
               - start
               - --import-realm
