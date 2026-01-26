@@ -10,3 +10,4 @@ components:
 resources:
   - ./namespace.yaml
   - ./atuin/ks.yaml
+  - ./thelounge/ks.yaml
