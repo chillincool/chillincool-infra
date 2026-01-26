@@ -61,7 +61,7 @@ sonarr:
 
   sonarr-4k:
     base_url: http://sonarr-4k.media.svc.cluster.local
-    api_key: !env_var SONARR-4K_API_KEY
+    api_key: !env_var SONARR_4K_API_KEY
 
     quality_definition:
       type: series
@@ -130,7 +130,7 @@ sonarr:
 
   sonarr-anime:
     base_url: http://sonarr-anime.media.svc.cluster.local
-    api_key: !env_var SONARR-ANIME_API_KEY
+    api_key: !env_var SONARR_ANIME_API_KEY
 
     quality_definition:
       type: anime
@@ -325,7 +325,7 @@ radarr:
 
   radarr-4k:
     base_url: http://radarr-4k.media.svc.cluster.local
-    api_key: !env_var RADARR-4K_API_KEY
+    api_key: !env_var RADARR_4K_API_KEY
 
     quality_definition:
       type: anime
