@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/postgresql.cnpg.io/cluster_v1.json
+# yaml-language-server: $schema=https://kubernetes-schemas-cvg.pages.dev/postgresql.cnpg.io/cluster_v1.json
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
@@ -25,3 +25,19 @@ spec:
       memory: 128Mi
     limits:
       memory: 512Mi
+  backup:
+    barmanObjectStore:
+      destinationPath: s3://keycloak-db
+      endpointURL: https://80035b568c77008106a1c2320cb9b69d.r2.cloudflarestorage.com
+      s3Credentials:
+        accessKeyId:
+          name: cloudflare-r2-secret
+          key: R2_ACCESS_KEY_ID
+        secretAccessKey:
+          name: cloudflare-r2-secret
+          key: R2_SECRET_ACCESS_KEY
+      wal:
+        compression: gzip
+      data:
+        compression: gzip
+    retentionPolicy: "30d"
