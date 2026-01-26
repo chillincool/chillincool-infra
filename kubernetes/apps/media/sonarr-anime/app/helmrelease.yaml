@@ -89,5 +89,12 @@ spec:
         path: /volume2/data
         globalMounts:
           - path: /media
+      anime:
+        type: nfs
+        server: dsm1.chillincool.net
+        path: /volume1/anime
+        globalMounts:
+          - path: /anime
+            readOnly: true
       tmp:
         type: emptyDir
