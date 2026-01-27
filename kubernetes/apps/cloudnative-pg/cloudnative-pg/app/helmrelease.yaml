@@ -13,3 +13,6 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: cloudnative-pg
+  values:
+    monitoring:
+      podMonitorEnabled: true
