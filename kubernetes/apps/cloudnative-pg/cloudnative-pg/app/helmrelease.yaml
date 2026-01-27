@@ -16,3 +16,7 @@ spec:
   values:
     monitoring:
       podMonitorEnabled: true
+      podMonitorRelabelings:
+        - action: replace
+          targetLabel: job
+          replacement: cloudnative-pg
