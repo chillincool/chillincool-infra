@@ -95,5 +95,6 @@ spec:
         path: /volume1/anime
         globalMounts:
           - path: /anime
+            readOnly: false
       tmp:
         type: emptyDir
