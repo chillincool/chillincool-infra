@@ -110,3 +110,25 @@ spec:
                 expr: node_zfs_zpool_state{state!="online"} > 0
                 labels:
                   severity: critical
+      node-exporter-overrides:
+        groups:
+          - name: node-exporter-overrides
+            rules:
+              # Override default NodeRAIDDegraded to exclude Synology SHR metadata devices
+              - alert: NodeRAIDDegraded
+                annotations:
+                  description: RAID array '{{ $labels.device }}' at {{ $labels.instance }} is in degraded state due to one or more disks failures. Number of spare drives is insufficient to fix issue automatically.
+                  runbook_url: https://runbooks.prometheus-operator.dev/runbooks/node/noderaiddegraded
+                  summary: RAID Array is degraded.
+                expr: |
+                  (
+                    node_md_disks_required{device=~"(md|md[0-9]*)", job="node-exporter"}
+                    - ignoring (state) (node_md_disks{state="active", job="node-exporter"})
+                  ) > 0
+                  unless on (instance, device)
+                  (
+                    node_md_disks_required{instance=~"dsm1.*", device=~"md[01]"}
+                  )
+                for: 15m
+                labels:
+                  severity: critical
