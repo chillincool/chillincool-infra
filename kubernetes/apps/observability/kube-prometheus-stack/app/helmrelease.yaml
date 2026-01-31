@@ -67,6 +67,9 @@ spec:
               resources:
                 requests:
                   storage: 50Gi
+    defaultRules:
+      disabled:
+        NodeRAIDDegraded: true
     prometheus-node-exporter:
       fullnameOverride: node-exporter
     kube-state-metrics:
@@ -110,11 +113,11 @@ spec:
                 expr: node_zfs_zpool_state{state!="online"} > 0
                 labels:
                   severity: critical
-      node-exporter-overrides:
+      synology-raid:
         groups:
-          - name: node-exporter-overrides
+          - name: synology-raid
             rules:
-              # Override default NodeRAIDDegraded to exclude Synology SHR metadata devices
+              # Replacement for default NodeRAIDDegraded - excludes Synology SHR metadata devices (md0/md1)
               - alert: NodeRAIDDegraded
                 annotations:
                   description: RAID array '{{ $labels.device }}' at {{ $labels.instance }} is in degraded state due to one or more disks failures. Number of spare drives is insufficient to fix issue automatically.
@@ -122,12 +125,12 @@ spec:
                   summary: RAID Array is degraded.
                 expr: |
                   (
-                    node_md_disks_required{device=~"(md|md[0-9]*)", job="node-exporter"}
-                    - ignoring (state) (node_md_disks{state="active", job="node-exporter"})
+                    node_md_disks_required{device=~"(/dev/)?(mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|md.+|dasd.+)", job="node-exporter"}
+                    - ignoring (state) (node_md_disks{state="active", device=~"(/dev/)?(mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|md.+|dasd.+)", job="node-exporter"})
                   ) > 0
                   unless on (instance, device)
                   (
-                    node_md_disks_required{instance=~"dsm1.*", device=~"md[01]"}
+                    node_md_disks{instance=~"dsm1.*", device=~"md[01]"}
                   )
                 for: 15m
                 labels:
