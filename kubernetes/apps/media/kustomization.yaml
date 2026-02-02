@@ -10,12 +10,8 @@ components:
 resources:
   - ./namespace.yaml
   - ./agregarr/ks.yaml
-  # # - ./atuin/ks.yaml
   - ./autobrr/ks.yaml
   - ./bazarr/ks.yaml
-  # # - ./go2rtc/ks.yaml
-  # # - ./home-assistant/ks.yaml
-  # # - ./mosquitto/ks.yaml
   # # - ./notifier/ks.yaml
   # - ./nzbget/ks.yaml
   - ./plex/ks.yaml
@@ -26,12 +22,9 @@ resources:
   - ./radarr-4k/ks.yaml
   - ./recyclarr/ks.yaml
   - ./seerr/ks.yaml
-  # # - ./slskd/ks.yaml
+  - ./slskd/ks.yaml
   # # - ./smtp-relay/ks.yaml
   - ./sonarr/ks.yaml
   - ./sonarr-4k/ks.yaml
   - ./sonarr-anime/ks.yaml
   - ./tautulli/ks.yaml
-  # # - ./thelounge/ks.yaml
-  # # - ./zigbee/ks.yaml
-  # # - ./zwave/ks.yaml
