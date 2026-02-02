@@ -10,7 +10,7 @@ spec:
   postBuild:
     substituteFrom:
       - kind: Secret
-        name: tailscale-operator
+        name: tailscale-operator-secret
   prune: true
   sourceRef:
     kind: GitRepository
