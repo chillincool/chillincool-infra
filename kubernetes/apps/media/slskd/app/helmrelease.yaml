@@ -59,7 +59,7 @@ spec:
         statefulset:
           volumeClaimTemplates:
             - name: config
-              storageClass: lognhorn
+              storageClass: longhorn
               accessMode: ReadWriteOnce
               size: 5Gi
     defaultPodOptions:
