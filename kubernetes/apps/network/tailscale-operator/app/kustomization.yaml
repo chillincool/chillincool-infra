@@ -4,4 +4,4 @@ kind: Kustomization
 resources:
   - ./ocirepository.yaml
   - ./helmrelease.yaml
-  - ./onepassworditem.yaml
+  - ./externalsecret.yaml
