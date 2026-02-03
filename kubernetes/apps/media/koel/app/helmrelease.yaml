@@ -90,5 +90,11 @@ spec:
         globalMounts:
           - path: /music
             readOnly: true
+      dotenv:
+        type: secret
+        name: "{{ .Release.Name }}-secret"
+        globalMounts:
+          - path: /var/www/html/.env
+            subPath: .env
       tmp:
         type: emptyDir
