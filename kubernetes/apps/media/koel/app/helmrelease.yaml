@@ -20,15 +20,7 @@ spec:
               repository: phanan/koel
               tag: 8.3.0@sha256:55bc3fb52a31b5e5cc40b2396924b6d685ebf4896e877508ed7ba01e26d8e773
             env:
-              DB_CONNECTION: pgsql
-              DB_HOST: koel-db-rw.media.svc.cluster.local
-              DB_PORT: "5432"
-              DB_DATABASE: koel
-              FORCE_HTTPS: "true"
               TZ: America/Chicago
-            envFrom:
-              - secretRef:
-                  name: "{{ .Release.Name }}-secret"
             probes:
               liveness: &probes
                 enabled: true
