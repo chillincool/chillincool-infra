@@ -29,10 +29,10 @@
   "oauth2DevicePollingInterval": 5,
   "enabled": true,
   "sslRequired": "external",
-  "registrationAllowed": false,
+  "registrationAllowed": true,
   "registrationEmailAsUsername": false,
   "rememberMe": false,
-  "verifyEmail": false,
+  "verifyEmail": true,
   "loginWithEmailAllowed": true,
   "duplicateEmailsAllowed": false,
   "resetPasswordAllowed": true,
@@ -128,6 +128,15 @@
         {
           "id": "742cb6d5-ca8a-4f39-b45a-89f04553f742",
           "name": "uma_protection",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "ffa7cfe1-d491-4935-922d-a19a4547c41e",
+          "attributes": {}
+        },
+        {
+          "id": "aa0eb567-7734-4aa5-b7aa-5bca9b60e813",
+          "name": "synology-admin",
+          "description": "",
           "composite": false,
           "clientRole": true,
           "containerId": "ffa7cfe1-d491-4935-922d-a19a4547c41e",
@@ -355,13 +364,42 @@
           "clientRole": true,
           "containerId": "2a35e81a-747e-4b32-bfa0-75f0ceeb9eb5",
           "attributes": {}
+        },
+        {
+          "id": "7604afe2-10a5-447a-9fbe-a157fe13a8d5",
+          "name": "grafana-admin",
+          "description": "",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "2a35e81a-747e-4b32-bfa0-75f0ceeb9eb5",
+          "attributes": {}
         }
       ],
       "security-admin-console": [],
       "admin-cli": [],
-      "http://fw.chillincool.net/metadata/": [],
+      "http://fw.chillincool.net/metadata/": [
+        {
+          "id": "06162d96-76b2-49ab-90f2-1c253b2c02f8",
+          "name": "fortigate-admin",
+          "description": "",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "b73234ee-c253-43e8-9f61-11a38397c9fc",
+          "attributes": {}
+        }
+      ],
       "http://fw.chillincool.net/remote/saml/metadata/": [],
       "account-console": [],
+      "tailscale": [
+        {
+          "id": "ae74e3d5-11e1-4d7f-941e-0d67886c0dd3",
+          "name": "uma_protection",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "fba7b169-cd2f-4efb-8936-bf2c05ec27c9",
+          "attributes": {}
+        }
+      ],
       "broker": [
         {
           "id": "956e070f-d70a-44bc-bd72-44fafa15d08a",
@@ -464,6 +502,47 @@
     }
   },
   "groups": [
+    {
+      "id": "bd6f5dff-50ff-4e0d-8b5f-5331722db31e",
+      "name": "network",
+      "description": "",
+      "path": "/network",
+      "subGroups": [],
+      "attributes": {},
+      "realmRoles": [],
+      "clientRoles": {
+        "http://fw.chillincool.net/metadata/": [
+          "fortigate-admin"
+        ]
+      }
+    },
+    {
+      "id": "aa8aab6d-2f55-497e-beb5-4d0485a3fd9b",
+      "name": "server",
+      "description": "",
+      "path": "/server",
+      "subGroups": [],
+      "attributes": {},
+      "realmRoles": [],
+      "clientRoles": {
+        "synology": [
+          "synology-admin"
+        ],
+        "grafana": [
+          "grafana-admin"
+        ]
+      }
+    },
+    {
+      "id": "77e76338-c623-43b7-bc16-eed8ccf455d0",
+      "name": "tailscale",
+      "description": "Users with access to log into Tailscale",
+      "path": "/tailscale",
+      "subGroups": [],
+      "attributes": {},
+      "realmRoles": [],
+      "clientRoles": {}
+    },
     {
       "id": "fc7eb5ca-b282-41c1-9fd3-c2d6b1f4e0e2",
       "name": "test",
@@ -568,6 +647,27 @@
       ],
       "clientRoles": {
         "synology": [
+          "uma_protection"
+        ]
+      },
+      "notBefore": 0,
+      "groups": []
+    },
+    {
+      "id": "13c35da0-a7be-4260-a78f-599219308acb",
+      "username": "service-account-tailscale",
+      "emailVerified": false,
+      "enabled": true,
+      "createdTimestamp": 1770015123398,
+      "totp": false,
+      "serviceAccountClientId": "tailscale",
+      "disableableCredentialTypes": [],
+      "requiredActions": [],
+      "realmRoles": [
+        "default-roles-chillincool"
+      ],
+      "clientRoles": {
+        "tailscale": [
           "uma_protection"
         ]
       },
@@ -935,58 +1035,58 @@
         "decisionStrategy": "UNANIMOUS",
         "authorizationSchema": {
           "resourceTypes": {
-            "Groups": {
-              "type": "Groups",
+            "Roles": {
+              "type": "Roles",
               "scopes": [
-                "manage-members",
-                "manage-membership",
-                "view",
+                "map-role-client-scope",
+                "map-role-composite",
+                "map-role"
+              ],
+              "scopeAliases": {}
+            },
+            "Clients": {
+              "type": "Clients",
+              "scopes": [
+                "map-roles-composite",
                 "manage",
-                "impersonate-members",
-                "view-members"
+                "map-roles",
+                "map-roles-client-scope",
+                "view"
               ],
               "scopeAliases": {}
             },
             "Users": {
               "type": "Users",
               "scopes": [
-                "view",
-                "reset-password",
-                "manage-group-membership",
-                "manage",
+                "impersonate",
                 "map-roles",
-                "impersonate"
+                "manage",
+                "manage-group-membership",
+                "reset-password",
+                "view"
               ],
               "scopeAliases": {
-                "impersonate": [
-                  "impersonate-members"
+                "view": [
+                  "view-members"
                 ],
                 "manage": [
                   "manage-members"
                 ],
-                "view": [
-                  "view-members"
+                "impersonate": [
+                  "impersonate-members"
                 ]
               },
               "groupType": "Groups"
             },
-            "Clients": {
-              "type": "Clients",
+            "Groups": {
+              "type": "Groups",
               "scopes": [
-                "view",
-                "map-roles-client-scope",
-                "map-roles",
+                "view-members",
+                "impersonate-members",
                 "manage",
-                "map-roles-composite"
-              ],
-              "scopeAliases": {}
-            },
-            "Roles": {
-              "type": "Roles",
-              "scopes": [
-                "map-role",
-                "map-role-composite",
-                "map-role-client-scope"
+                "view",
+                "manage-membership",
+                "manage-members"
               ],
               "scopeAliases": {}
             }
@@ -1416,16 +1516,87 @@
       "frontchannelLogout": true,
       "protocol": "openid-connect",
       "attributes": {
-        "logout.confirmation.enabled": "false",
         "realm_client": "false",
+        "logout.confirmation.enabled": "false",
         "oidc.ciba.grant.enabled": "false",
         "client.secret.creation.time": "1769360481",
         "backchannel.logout.session.required": "true",
         "standard.token.exchange.enabled": "false",
         "frontchannel.logout.session.required": "true",
         "post.logout.redirect.uris": "https://dsm1.chillincool.net/",
-        "display.on.consent.screen": "false",
         "oauth2.device.authorization.grant.enabled": "false",
+        "display.on.consent.screen": "false",
+        "backchannel.logout.revoke.offline.tokens": "false",
+        "dpop.bound.access.tokens": "false"
+      },
+      "authenticationFlowBindingOverrides": {},
+      "fullScopeAllowed": true,
+      "nodeReRegistrationTimeout": -1,
+      "defaultClientScopes": [
+        "web-origins",
+        "service_account",
+        "acr",
+        "roles",
+        "profile",
+        "basic",
+        "email"
+      ],
+      "optionalClientScopes": [
+        "address",
+        "phone",
+        "organization",
+        "offline_access",
+        "microprofile-jwt"
+      ],
+      "authorizationSettings": {
+        "allowRemoteResourceManagement": true,
+        "policyEnforcementMode": "ENFORCING",
+        "resources": [],
+        "policies": [],
+        "scopes": [],
+        "decisionStrategy": "UNANIMOUS"
+      }
+    },
+    {
+      "id": "fba7b169-cd2f-4efb-8936-bf2c05ec27c9",
+      "clientId": "tailscale",
+      "name": "tailscale",
+      "description": "",
+      "rootUrl": "",
+      "adminUrl": "",
+      "baseUrl": "",
+      "surrogateAuthRequired": false,
+      "enabled": true,
+      "alwaysDisplayInConsole": false,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "**********",
+      "redirectUris": [
+        "https://login.tailscale.com/a/oauth_response"
+      ],
+      "webOrigins": [
+        "https://login.tailscale.com"
+      ],
+      "notBefore": 0,
+      "bearerOnly": false,
+      "consentRequired": false,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": true,
+      "authorizationServicesEnabled": true,
+      "publicClient": false,
+      "frontchannelLogout": true,
+      "protocol": "openid-connect",
+      "attributes": {
+        "realm_client": "false",
+        "logout.confirmation.enabled": "false",
+        "oidc.ciba.grant.enabled": "false",
+        "client.secret.creation.time": "1770015123",
+        "backchannel.logout.session.required": "true",
+        "standard.token.exchange.enabled": "false",
+        "frontchannel.logout.session.required": "true",
+        "oauth2.device.authorization.grant.enabled": "false",
+        "display.on.consent.screen": "false",
         "backchannel.logout.revoke.offline.tokens": "false",
         "dpop.bound.access.tokens": "false"
       },
@@ -2164,7 +2335,30 @@
     "contentSecurityPolicy": "frame-src 'self'; frame-ancestors 'self'; object-src 'none';",
     "strictTransportSecurity": "max-age=31536000; includeSubDomains"
   },
-  "smtpServer": {},
+  "smtpServer": {
+    "allowutf8": "",
+    "debug": "false",
+    "replyToDisplayName": "noreply",
+    "starttls": "false",
+    "auth": "true",
+    "writeTimeout": "10000",
+    "envelopeFrom": "",
+    "ssl": "true",
+    "timeout": "10000",
+    "password": "**********",
+    "port": "465",
+    "host": "smtp.fastmail.com",
+    "replyTo": "noreply@chillincool.net",
+    "from": "keycloak@chillincool.net",
+    "fromDisplayName": "CHILLINCOOL Keycloak",
+    "authType": "basic",
+    "connectionTimeout": "10000",
+    "user": "chris@chillincool.net"
+  },
+  "loginTheme": "",
+  "accountTheme": "",
+  "adminTheme": "",
+  "emailTheme": "",
   "eventsEnabled": true,
   "eventsExpiration": 1209600,
   "eventsListeners": [
@@ -3283,7 +3477,8 @@
     "parRequestUriLifespan": "60",
     "clientSessionMaxLifespan": "0",
     "frontendUrl": "https://login.chillincool.net",
-    "acr.loa.map": "{}"
+    "acr.loa.map": "{}",
+    "darkMode": "true"
   },
   "keycloakVersion": "26.5.2",
   "userManagedAccessAllowed": false,
