@@ -1,0 +1,94 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: koel
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: koel
+  interval: 1h
+  values:
+    controllers:
+      koel:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: phanan/koel
+              tag: 8.3.0@sha256:55bc3fb52a31b5e5cc40b2396924b6d685ebf4896e877508ed7ba01e26d8e773
+            env:
+              DB_CONNECTION: pgsql
+              DB_HOST: koel-db-rw.media.svc.cluster.local
+              DB_PORT: "5432"
+              DB_DATABASE: koel
+              FORCE_HTTPS: "true"
+              TZ: America/Chicago
+            envFrom:
+              - secretRef:
+                  name: "{{ .Release.Name }}-secret"
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: &port 80
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+            # securityContext:
+            #   allowPrivilegeEscalation: false
+            #   readOnlyRootFilesystem: false
+            #   capabilities: {drop: ["ALL"]}
+            resources:
+              requests:
+                cpu: 50m
+                memory: 256Mi
+              limits:
+                memory: 512Mi
+    # defaultPodOptions:
+    #   securityContext:
+    #     runAsNonRoot: true
+    #     runAsUser: 1000
+    #     runAsGroup: 1000
+    #     fsGroup: 1000
+    #     fsGroupChangePolicy: OnRootMismatch
+    service:
+      app:
+        ports:
+          http:
+            port: *port
+    route:
+      app:
+        hostnames:
+          - "{{ .Release.Name }}.chillincool.net"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *port
+    persistence:
+      config:
+        existingClaim: "{{ .Release.Name }}"
+        globalMounts:
+          - path: /var/www/html/storage/search-indexes
+            subPath: search-indexes
+          - path: /var/www/html/public/img/storage
+            subPath: img-storage
+      music:
+        type: nfs
+        server: dsm1.chillincool.net
+        path: /volume2/data/media/music
+        globalMounts:
+          - path: /music
+            readOnly: true
+      tmp:
+        type: emptyDir
