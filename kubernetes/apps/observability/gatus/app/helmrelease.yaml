@@ -26,8 +26,10 @@ spec:
               - --enable-service
             resources:
               requests:
-                cpu: 10m
+                cpu: 25m
+                memory: 64Mi
               limits:
+                cpu: 25m
                 memory: 64Mi
             restartPolicy: Always
         containers:

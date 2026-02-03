@@ -48,7 +48,8 @@ spec:
                 cpu: 10m
                 memory: 256Mi
               limits:
-                memory: 1Gi
+                cpu: 10m
+                memory: 256Mi
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
