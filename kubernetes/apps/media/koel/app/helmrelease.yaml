@@ -14,6 +14,12 @@ spec:
       koel:
         annotations:
           reloader.stakater.com/auto: "true"
+        initContainers:
+          copy-dotenv:
+            image:
+              repository: busybox
+              tag: latest
+            command: ["sh", "-c", "cp /secret/.env /dotenv/.env"]
         containers:
           app:
             image:
@@ -93,11 +99,22 @@ spec:
         globalMounts:
           - path: /music
             readOnly: true
-      dotenv:
+      dotenv-secret:
         type: secret
         name: "{{ .Release.Name }}-secret"
-        globalMounts:
-          - path: /var/www/html/.env
-            subPath: .env
+        advancedMounts:
+          koel:
+            copy-dotenv:
+              - path: /secret
+                readOnly: true
+      dotenv:
+        type: emptyDir
+        advancedMounts:
+          koel:
+            copy-dotenv:
+              - path: /dotenv
+            app:
+              - path: /var/www/html/.env
+                subPath: .env
       tmp:
         type: emptyDir
