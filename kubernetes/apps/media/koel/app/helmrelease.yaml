@@ -19,7 +19,7 @@ spec:
             image:
               repository: busybox
               tag: latest
-            command: ["sh", "-c", "cp /secret/.env /dotenv/.env"]
+            command: ["sh", "-c", "cp /secret/.env /dotenv/.env && chown 33:33 /dotenv/.env"]
         containers:
           app:
             image:
