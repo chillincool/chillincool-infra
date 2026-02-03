@@ -54,7 +54,6 @@ spec:
                 cpu: 50m
                 memory: 350Mi
               limits:
-                cpu: 50m
                 memory: 350Mi
         statefulset:
           volumeClaimTemplates:
