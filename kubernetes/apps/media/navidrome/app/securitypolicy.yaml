@@ -1,0 +1,26 @@
+---
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: navidrome-auth
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: navidrome-app
+  extAuth:
+    headersToExtAuth:
+      - cookie
+      - authorization
+    failOpen: false
+    http:
+      backendRefs:
+        - name: oauth2-proxy-app
+          namespace: keycloak
+          port: 4180
+      path: /oauth2/auth
+      headersToBackend:
+        - Remote-User
+        - X-Forwarded-User
+        - X-Forwarded-Email
+        - X-Forwarded-Preferred-Username
