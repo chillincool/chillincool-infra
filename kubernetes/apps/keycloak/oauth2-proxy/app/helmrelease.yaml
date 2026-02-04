@@ -76,7 +76,7 @@ spec:
           dragonfly:
             image:
               repository: ghcr.io/dragonflydb/dragonfly
-              tag: v1.36.0@sha256:2e02ff1c48b1267d96cde3a6df57673c8abafa6eb12c01a340e0c376a663cfb5
+              tag: v1.36.0@sha256:af221b68138afb0b0238401c335493cfc2b060d577c5d6c018ddf6a29d3119f9
             args:
               - --logtostderr
             probes:
