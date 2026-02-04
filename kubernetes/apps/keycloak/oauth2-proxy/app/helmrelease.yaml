@@ -39,8 +39,6 @@ spec:
               OAUTH2_PROXY_SET_AUTHORIZATION_HEADER: "true"
               OAUTH2_PROXY_SET_XAUTHREQUEST: "true"
               OAUTH2_PROXY_SKIP_PROVIDER_BUTTON: "true"
-              OAUTH2_PROXY_SESSION_STORE_TYPE: redis
-              OAUTH2_PROXY_REDIS_CONNECTION_URL: redis://localhost:6379
               OAUTH2_PROXY_REVERSE_PROXY: "true"
               OAUTH2_PROXY_UPSTREAMS: static://200
               OAUTH2_PROXY_SET_BASIC_AUTH: "true"
@@ -73,43 +71,6 @@ spec:
                 memory: 64Mi
               limits:
                 memory: 128Mi
-          dragonfly:
-            image:
-              repository: ghcr.io/dragonflydb/dragonfly
-              tag: v1.36.0@sha256:af221b68138afb0b0238401c335493cfc2b060d577c5d6c018ddf6a29d3119f9
-            args:
-              - --logtostderr
-              - --proactor_threads=1
-              - --maxmemory=128mb
-            probes:
-              liveness:
-                enabled: true
-                custom: true
-                spec:
-                  tcpSocket:
-                    port: 6379
-                  initialDelaySeconds: 5
-                  periodSeconds: 10
-                  failureThreshold: 3
-              readiness:
-                enabled: true
-                custom: true
-                spec:
-                  tcpSocket:
-                    port: 6379
-                  initialDelaySeconds: 5
-                  periodSeconds: 10
-                  failureThreshold: 3
-            securityContext:
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
-              capabilities: {drop: ["ALL"]}
-            resources:
-              requests:
-                cpu: 15m
-                memory: 64Mi
-              limits:
-                memory: 256Mi
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -142,9 +103,3 @@ spec:
     persistence:
       tmp:
         type: emptyDir
-      dragonfly-data:
-        type: emptyDir
-        advancedMounts:
-          oauth2-proxy:
-            dragonfly:
-              - path: /data
