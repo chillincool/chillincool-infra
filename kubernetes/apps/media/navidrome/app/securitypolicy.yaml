@@ -15,7 +15,7 @@ spec:
     failOpen: false
     http:
       backendRefs:
-        - name: oauth2-proxy-app
+        - name: oauth2-proxy
           namespace: keycloak
           port: 4180
       path: /oauth2/auth
