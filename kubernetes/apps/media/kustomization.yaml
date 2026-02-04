@@ -12,7 +12,6 @@ resources:
   - ./agregarr/ks.yaml
   - ./autobrr/ks.yaml
   - ./bazarr/ks.yaml
-  - ./koel/ks.yaml
   # # - ./notifier/ks.yaml
   # - ./nzbget/ks.yaml
   - ./plex/ks.yaml
