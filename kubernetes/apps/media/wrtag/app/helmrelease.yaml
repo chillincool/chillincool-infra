@@ -38,7 +38,7 @@ spec:
                 spec:
                   httpGet:
                     path: /
-                    port: &port 7373
+                    port: &port 80
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
