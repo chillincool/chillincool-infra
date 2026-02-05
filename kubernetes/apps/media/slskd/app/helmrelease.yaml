@@ -121,7 +121,7 @@ spec:
                     command: "/scripts/wrtag-import.sh"
           wrtag-import.sh: |-
             #!/bin/sh
-            dir=$(echo "$SLSKD_SCRIPT_DATA" | jq -r .localDirectoryName)
+            dir=$(echo "$SLSKD_SCRIPT_DATA" | sed 's/\\/\\\\/g' | jq -r .localDirectoryName)
             wget -q -O/dev/null \
               --post-data "path=$dir" \
               --header="Authorization: Basic $(echo -n ":$WRTAG_API_KEY" | base64)" \
