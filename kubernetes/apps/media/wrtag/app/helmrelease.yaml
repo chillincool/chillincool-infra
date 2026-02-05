@@ -22,7 +22,7 @@ spec:
               tag: v0.20.0@sha256:3f33c13cc1613e9d63d42050898c07a2dd63662a87ab3a7d71a33a8abb4a097e
             command: ["/usr/local/bin/wrtagweb"]
             env:
-              WRTAG_PATH_FORMAT: '/music/{{`{{ artists .Release.Artists | sort | join "; " | safepath }}`}}/({{`{{ .Release.ReleaseGroup.FirstReleaseDate.Year }}`}}) {{`{{ .Release.Title | safepath }}`}}{{`{{ if not (eq .ReleaseDisambiguation "") }}`}} ({{`{{ .ReleaseDisambiguation | safepath }}`}}){{`{{ end }}`}}/{{`{{ pad0 2 .TrackNum }}`}} {{`{{ .Track.Title | safepath }}`}}{{`{{ .Ext }}`}}'
+              WRTAG_PATH_FORMAT: '/media/media/music/{{`{{ artists .Release.Artists | sort | join "; " | safepath }}`}}/({{`{{ .Release.ReleaseGroup.FirstReleaseDate.Year }}`}}) {{`{{ .Release.Title | safepath }}`}}{{`{{ if not (eq .ReleaseDisambiguation "") }}`}} ({{`{{ .ReleaseDisambiguation | safepath }}`}}){{`{{ end }}`}}/{{`{{ pad0 2 .TrackNum }}`}} {{`{{ .Track.Title | safepath }}`}}{{`{{ .Ext }}`}}'
               WRTAG_WEB_LISTEN_ADDR: :80
               WRTAG_WEB_DB_PATH: /data/wrtag.db
               WRTAG_WEB_PUBLIC_URL: https://wrtag.chillincool.net
@@ -85,11 +85,11 @@ spec:
               - identifier: app
                 port: *port
     persistence:
-      music:
+      media:
         type: nfs
         server: dsm1.chillincool.net
-        path: /volume2/data/media/music
+        path: /volume2/data
         globalMounts:
-          - path: /music
+          - path: /media
       tmp:
         type: emptyDir

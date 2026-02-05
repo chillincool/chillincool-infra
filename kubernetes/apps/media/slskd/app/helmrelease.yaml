@@ -112,6 +112,20 @@ spec:
                 - \.ini$
                 - Thumbs.db$
                 - \.DS_Store$
+            integration:
+              scripts:
+                write_tags:
+                  on:
+                    - DownloadDirectoryComplete
+                  run:
+                    command: "/scripts/wrtag-import.sh"
+          wrtag-import.sh: |-
+            #!/bin/sh
+            dir=$(echo "$SLSKD_SCRIPT_DATA" | jq -r .localDirectoryName)
+            wget -q -O/dev/null \
+              --post-data "path=$dir" \
+              --header="Authorization: Basic $(echo -n ":$WRTAG_API_KEY" | base64)" \
+              "http://wrtag.media.svc.cluster.local/op/copy"
     persistence:
       config-file:
         type: configMap
@@ -119,6 +133,13 @@ spec:
         globalMounts:
           - path: /config/slskd.yml
             subPath: slskd.yml
+      scripts:
+        type: configMap
+        identifier: config
+        defaultMode: 0755
+        globalMounts:
+          - path: /scripts/wrtag-import.sh
+            subPath: wrtag-import.sh
       media:
         type: nfs
         server: dsm1.chillincool.net
