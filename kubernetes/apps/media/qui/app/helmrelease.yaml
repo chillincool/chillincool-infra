@@ -50,6 +50,20 @@ spec:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
               capabilities: {drop: ["ALL"]}
+    configMaps:
+      scripts:
+        data:
+          wrtag-import.sh: |-
+            #!/bin/sh
+            category="$1"
+            path="$2"
+            echo "[wrtag] category: $category, path: $path"
+            [ "$category" != "music" ] && exit 0
+            encoded=$(printf '%s' "$path" | jq -sRr @uri)
+            wget -q -O/dev/null \
+              --post-data "path=$encoded" \
+              --header="Authorization: Basic $(echo -n ":$WRTAG_API_KEY" | base64)" \
+              "http://wrtag.media.svc.cluster.local/op/copy"
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -72,6 +86,13 @@ spec:
     persistence:
       config:
         existingClaim: "{{ .Release.Name }}"
+      scripts:
+        type: configMap
+        identifier: scripts
+        defaultMode: 0755
+        globalMounts:
+          - path: /scripts/wrtag-import.sh
+            subPath: wrtag-import.sh
       media:
         type: nfs
         server: dsm1.chillincool.net

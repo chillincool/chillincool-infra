@@ -23,9 +23,6 @@ spec:
               TZ: America/Chicago
               QBT_WEBUI_PORT: &port 80
               QBT_TORRENTING_PORT: &torrentPort 50469
-            envFrom:
-              - secretRef:
-                  name: qbittorrent-secret
             probes:
               liveness: &probes
                 enabled: true
@@ -94,17 +91,6 @@ spec:
           .qbt.toml: |-
             [qbittorrent]
             addr = "http://localhost:80"
-          wrtag-import.sh: |-
-            #!/bin/sh
-            category="$1"
-            path="$2"
-            echo "[wrtag] category: $category, path: $path"
-            [ "$category" != "music" ] && exit 0
-            encoded=$(printf '%s' "$path" | jq -sRr @uri)
-            wget -q -O/dev/null \
-              --post-data "path=$encoded" \
-              --header="Authorization: Basic $(echo -n ":$WRTAG_API_KEY" | base64)" \
-              "http://wrtag.media.svc.cluster.local/op/copy"
     persistence:
       config:
         existingClaim: "{{ .Release.Name }}"
@@ -114,13 +100,6 @@ spec:
         globalMounts:
           - path: /config/.qbt.toml
             subPath: .qbt.toml
-      scripts:
-        type: configMap
-        identifier: config
-        defaultMode: 0755
-        globalMounts:
-          - path: /scripts/wrtag-import.sh
-            subPath: wrtag-import.sh
       media:
         type: nfs
         server: dsm1.chillincool.net
