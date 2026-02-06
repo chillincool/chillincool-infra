@@ -13,7 +13,7 @@ resources:
   - ./autobrr/ks.yaml
   - ./bazarr/ks.yaml
   - ./navidrome/ks.yaml
-  # # - ./notifier/ks.yaml
+  - ./notifier/ks.yaml
   # - ./nzbget/ks.yaml
   - ./plex/ks.yaml
   - ./prowlarr/ks.yaml
