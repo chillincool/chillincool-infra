@@ -107,7 +107,7 @@ spec:
                 mode: 750
             shares:
               directories:
-                - /media/soulseek/shared
+                - /media/media/music
               filters:
                 - \.ini$
                 - Thumbs.db$
