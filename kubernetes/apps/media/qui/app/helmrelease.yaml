@@ -59,7 +59,8 @@ spec:
             path="$2"
             echo "[wrtag] category: $category, path: $path"
             [ "$category" != "music" ] && exit 0
-            encoded=$(printf '%s' "$path" | jq -sRr @uri)
+            # URL encode using sed (no jq available)
+            encoded=$(printf '%s' "$path" | sed 's/ /%20/g; s/!/%21/g; s/"/%22/g; s/#/%23/g; s/\$/%24/g; s/&/%26/g; s/'\''/%27/g; s/(/%28/g; s/)/%29/g; s/{/%7B/g; s/}/%7D/g; s/\[/%5B/g; s/\]/%5D/g')
             wget -q -O/dev/null \
               --post-data "path=$encoded" \
               --header="Authorization: Basic $(echo -n ":$WRTAG_API_KEY" | base64)" \
