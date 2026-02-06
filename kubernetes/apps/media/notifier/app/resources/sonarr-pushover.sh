@@ -13,13 +13,26 @@ function _jq() {
     jq -r "${1:?}" <<<"${PAYLOAD}"
 }
 
+function get_instance_name() {
+    local app_url=$(_jq '.applicationUrl')
+    # Extract subdomain from URL (e.g., "sonarr-4k" from "https://sonarr-4k.chillincool.net")
+    local hostname=$(echo "$app_url" | sed -E 's|https?://([^/.]+).*|\1|')
+    case "$hostname" in
+        sonarr-4k)    echo "Sonarr 4K" ;;
+        sonarr-anime) echo "Sonarr Anime" ;;
+        sonarr)       echo "Sonarr" ;;
+        *)            echo "Sonarr" ;;
+    esac
+}
+
 function notify() {
     local event_type=$(_jq '.eventType')
+    local instance=$(get_instance_name)
 
     case "${event_type}" in
         "Download")
             printf -v PUSHOVER_TITLE \
-                "Episode %s" "$( [[ "$(_jq '.isUpgrade')" == "true" ]] && echo "Upgraded" || echo "Added" )"
+                "%s: Episode %s" "$instance" "$( [[ "$(_jq '.isUpgrade')" == "true" ]] && echo "Upgraded" || echo "Added" )"
             printf -v PUSHOVER_MESSAGE "<b>%s (S%02dE%02d)</b><small>\n%s</small><small>\n\n<b>Client:</b> %s</small>" \
                 "$(_jq '.series.title')" \
                 "$(_jq '.episodes[0].seasonNumber')" \
@@ -33,7 +46,7 @@ function notify() {
             printf -v PUSHOVER_PRIORITY "low"
             ;;
         "ManualInteractionRequired")
-            printf -v PUSHOVER_TITLE "Episode Requires Manual Interaction"
+            printf -v PUSHOVER_TITLE "%s: Manual Interaction Required" "$instance"
             printf -v PUSHOVER_MESSAGE "<b>%s</b><small>\n<b>Client:</b> %s</small>" \
                 "$(_jq '.series.title')" \
                 "$(_jq '.downloadClient')"
@@ -42,7 +55,7 @@ function notify() {
             printf -v PUSHOVER_PRIORITY "high"
             ;;
         "Test")
-            printf -v PUSHOVER_TITLE "Test Notification"
+            printf -v PUSHOVER_TITLE "%s: Test Notification" "$instance"
             printf -v PUSHOVER_MESSAGE "Howdy this is a test notification"
             printf -v PUSHOVER_URL "%s" "$(_jq '.applicationUrl')"
             printf -v PUSHOVER_URL_TITLE "View Series"

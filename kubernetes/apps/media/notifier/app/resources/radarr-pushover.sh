@@ -13,12 +13,24 @@ function _jq() {
     jq -r "${1:?}" <<<"${PAYLOAD}"
 }
 
+function get_instance_name() {
+    local app_url=$(_jq '.applicationUrl')
+    # Extract subdomain from URL (e.g., "radarr-4k" from "https://radarr-4k.chillincool.net")
+    local hostname=$(echo "$app_url" | sed -E 's|https?://([^/.]+).*|\1|')
+    case "$hostname" in
+        radarr-4k) echo "Radarr 4K" ;;
+        radarr)    echo "Radarr" ;;
+        *)         echo "Radarr" ;;
+    esac
+}
+
 function notify() {
     local event_type=$(_jq '.eventType')
+    local instance=$(get_instance_name)
 
     case "${event_type}" in
         "Download")
-            printf -v PUSHOVER_TITLE "Movie %s" \
+            printf -v PUSHOVER_TITLE "%s: Movie %s" "$instance" \
                 "$( [[ "$(_jq '.isUpgrade')" == "true" ]] && echo "Upgraded" || echo "Added" )"
             printf -v PUSHOVER_MESSAGE "<b>%s (%s)</b><small>\n%s</small><small>\n\n<b>Client:</b> %s</small>" \
                 "$(_jq '.movie.title')" \
@@ -32,7 +44,7 @@ function notify() {
             printf -v PUSHOVER_PRIORITY "low"
             ;;
         "ManualInteractionRequired")
-            printf -v PUSHOVER_TITLE "Movie Requires Manual Interaction"
+            printf -v PUSHOVER_TITLE "%s: Manual Interaction Required" "$instance"
             printf -v PUSHOVER_MESSAGE "<b>%s (%s)</b><small>\n<b>Client:</b> %s</small>" \
                 "$(_jq '.movie.title')" \
                 "$(_jq '.movie.year')" \
@@ -42,7 +54,7 @@ function notify() {
             printf -v PUSHOVER_PRIORITY "high"
             ;;
         "Test")
-            printf -v PUSHOVER_TITLE "Test Notification"
+            printf -v PUSHOVER_TITLE "%s: Test Notification" "$instance"
             printf -v PUSHOVER_MESSAGE "Howdy this is a test notification"
             printf -v PUSHOVER_URL "%s" "$(_jq '.applicationUrl')"
             printf -v PUSHOVER_URL_TITLE "View Movies"
