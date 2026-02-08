@@ -22,6 +22,7 @@ spec:
             command: ["/usr/local/bin/wrtagweb"]
             env:
               WRTAG_PATH_FORMAT: '/media/media/music/{{`{{ artists .Release.Artists | sort | join "; " | safepath }}`}}/({{`{{ .Release.ReleaseGroup.FirstReleaseDate.Year }}`}}) {{`{{ .Release.Title | safepath }}`}}{{`{{ if not (eq .ReleaseDisambiguation "") }}`}} ({{`{{ .ReleaseDisambiguation | safepath }}`}}){{`{{ end }}`}}/{{`{{ pad0 2 .TrackNum }}`}} {{`{{ .Track.Title | safepath }}`}}{{`{{ .Ext }}`}}'
+              WRTAG_WEB_AUTH: disabled
               WRTAG_WEB_LISTEN_ADDR: :80
               WRTAG_WEB_DB_PATH: /data/wrtag.db
               WRTAG_WEB_PUBLIC_URL: https://wrtag.chillincool.net
