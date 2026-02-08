@@ -83,9 +83,9 @@ spec:
             resources:
               requests:
                 cpu: 10m
-                memory: 128Mi
-              limits:
                 memory: 256Mi
+              limits:
+                memory: 1Gi
           redis:
             image:
               repository: ghcr.io/dragonflydb/dragonfly
