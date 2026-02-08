@@ -18,7 +18,7 @@ spec:
           app:
             image:
               repository: ghcr.io/paperless-ngx/paperless-ngx
-              tag: 2.14.7@sha256:2a6d9f6461ad7e8335f5b2123a173b9e668c4bb4850d7c1dba1d25983d0bc530
+              tag: 2.20.6@sha256:a28330462994b937938e02aaa5632a1effcc7f9acfba96c1bef9c50e1167a027
             env:
               # General
               PAPERLESS_URL: https://paperless.chillincool.net
@@ -79,7 +79,7 @@ spec:
           redis:
             image:
               repository: ghcr.io/dragonflydb/dragonfly
-              tag: v1.25.5@sha256:bc55913082de9dc2ac122a1e6b17e77254295a5bb5e2b96ae54e636089b7837c
+              tag: v1.36.0@sha256:af221b68138afb0b0238401c335493cfc2b060d577c5d6c018ddf6a29d3119f9
             args: ["--logtostderr"]
             securityContext:
               allowPrivilegeEscalation: false
@@ -93,8 +93,8 @@ spec:
                 memory: 128Mi
           tika:
             image:
-              repository: ghcr.io/paperless-ngx/tika
-              tag: 2.9.1-minimal@sha256:20db3df89eaeb1b271dd840888fe909b88b12f4b86ef641ec07a1d45d4dc6ac4
+              repository: docker.io/apache/tika
+              tag: 3.2.3.0@sha256:c0154cb95587cde64be74f35ada1a2bd7892219f3f0ac3c9dc6cab34046b3573
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
@@ -108,7 +108,7 @@ spec:
           gotenberg:
             image:
               repository: gotenberg/gotenberg
-              tag: 8.17.3@sha256:72d893821eb06d36fc588b1b7c0d015de2a4b52eaca3b1520d41786a70972bc1
+              tag: 8.26.0@sha256:328551506b3dec3ff6381dd47e5cd72a44def97506908269e201a8fbfa1c12c0
             command: ["gotenberg", "--chromium-disable-javascript=true", "--chromium-allow-list=file:///tmp/.*"]
             securityContext:
               allowPrivilegeEscalation: false
