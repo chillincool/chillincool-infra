@@ -76,7 +76,7 @@ spec:
           redis:
             image:
               repository: ghcr.io/dragonflydb/dragonfly
-              tag: v1.25.5@sha256:bc55913082de9dc2ac122a1e6b17e77254295a5bb5e2b96ae54e636089b7837c
+              tag: v1.36.0@sha256:af221b68138afb0b0238401c335493cfc2b060d577c5d6c018ddf6a29d3119f9
             args: ["--logtostderr"]
             securityContext:
               allowPrivilegeEscalation: false
