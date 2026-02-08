@@ -19,6 +19,9 @@ spec:
       storageMinimalAvailablePercentage: 10
       defaultDataPath: /var/lib/longhorn
       createDefaultDiskLabeledNodes: true
+      # Memory optimization
+      guaranteedInstanceManagerCPU: 5
+      v2DataEngine: false
     persistence:
       defaultClass: true
       defaultClassReplicaCount: 1 # Will auto-scale when more nodes are added
