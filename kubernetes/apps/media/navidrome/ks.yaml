@@ -7,6 +7,7 @@ metadata:
 spec:
   components:
     - ../../../../components/nfs-scaler
+    - ../../../../components/oidc
     - ../../../../components/volsync
   dependsOn:
     - name: longhorn
@@ -16,6 +17,9 @@ spec:
   postBuild:
     substitute:
       APP: navidrome
+      OIDC_CLIENT_ID: navidrome
+      OIDC_REDIRECT_HOST: navidrome.chillincool.net
+      OIDC_SECRET_KEY: NAVIDROME_OIDC_CLIENT_SECRET
       VOLSYNC_CAPACITY: 5Gi
   prune: true
   sourceRef:
