@@ -16,3 +16,12 @@ spec:
       name: navidrome-oidc-secret
     redirectURL: https://navidrome.chillincool.net/oauth2/callback
     forwardAccessToken: true
+  jwt:
+    providers:
+      - name: keycloak
+        issuer: https://login.chillincool.net/realms/chillincool
+        remoteJWKS:
+          uri: https://login.chillincool.net/realms/chillincool/protocol/openid-connect/certs
+        claimToHeaders:
+          - claim: preferred_username
+            header: Remote-User
