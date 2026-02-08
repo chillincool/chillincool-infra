@@ -14,6 +14,16 @@ spec:
       paperless-ngx:
         annotations:
           reloader.stakater.com/auto: "true"
+        initContainers:
+          init-run:
+            image:
+              repository: busybox
+              tag: latest
+            command: ["sh", "-c", "chown 1000:1000 /run"]
+            securityContext:
+              runAsUser: 0
+              runAsGroup: 0
+              runAsNonRoot: false
         containers:
           app:
             image:
@@ -90,7 +100,7 @@ spec:
                 cpu: 5m
                 memory: 32Mi
               limits:
-                memory: 256Mi
+                memory: 320Mi
           tika:
             image:
               repository: docker.io/apache/tika
@@ -154,5 +164,7 @@ spec:
         type: emptyDir
         advancedMounts:
           paperless-ngx:
+            init-run:
+              - path: /run
             app:
               - path: /run
