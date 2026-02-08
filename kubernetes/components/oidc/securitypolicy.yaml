@@ -11,10 +11,10 @@ spec:
   oidc:
     provider:
       issuer: https://login.chillincool.net/realms/chillincool
-    clientID: ${OIDC_CLIENT_ID}
+    clientID: ${APP}
     clientSecret:
       name: ${APP}-oidc-secret
-    redirectURL: https://${OIDC_REDIRECT_HOST}/oauth2/callback
+    redirectURL: https://${APP}.chillincool.net/oauth2/callback
     forwardAccessToken: true
   jwt:
     providers:
