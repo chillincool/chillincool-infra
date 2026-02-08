@@ -7,3 +7,4 @@ resources:
   - ./ocirepository.yaml
   - ./externalsecret.yaml
   - ./cluster.yaml
+  - ./scheduledbackup.yaml
