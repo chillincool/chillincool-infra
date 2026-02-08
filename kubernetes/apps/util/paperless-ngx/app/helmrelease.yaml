@@ -80,7 +80,7 @@ spec:
             image:
               repository: ghcr.io/dragonflydb/dragonfly
               tag: v1.36.0@sha256:af221b68138afb0b0238401c335493cfc2b060d577c5d6c018ddf6a29d3119f9
-            args: ["--logtostderr"]
+            args: ["--logtostderr", "--proactor_threads=1"]
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
@@ -90,7 +90,7 @@ spec:
                 cpu: 5m
                 memory: 32Mi
               limits:
-                memory: 128Mi
+                memory: 256Mi
           tika:
             image:
               repository: docker.io/apache/tika
@@ -150,3 +150,9 @@ spec:
           - path: /paperless
       tmp:
         type: emptyDir
+      run:
+        type: emptyDir
+        advancedMounts:
+          paperless-ngx:
+            app:
+              - path: /run
