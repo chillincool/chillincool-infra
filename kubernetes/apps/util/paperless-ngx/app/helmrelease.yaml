@@ -105,7 +105,7 @@ spec:
           gotenberg:
             image:
               repository: gotenberg/gotenberg
-              tag: 8.17.3@sha256:72d893821eb06d36fc588b1b7c0d015de2a4b52eaca3b1520d41786a70972bc1
+              tag: 8.17.3@sha256:779d4cf9bb36cb645e26e03fdb1b929b5d0fd01bfa58c336da5e224dd154626e
             command: ["gotenberg", "--chromium-disable-javascript=true", "--chromium-allow-list=file:///tmp/.*"]
             securityContext:
               allowPrivilegeEscalation: false
