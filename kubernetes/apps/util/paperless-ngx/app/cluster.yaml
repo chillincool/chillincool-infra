@@ -1,0 +1,43 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas-cvg.pages.dev/postgresql.cnpg.io/cluster_v1.json
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: paperless-ngx-db
+spec:
+  instances: 1
+  imageName: ghcr.io/cloudnative-pg/postgresql:17.2-3
+  primaryUpdateStrategy: unsupervised
+  storage:
+    size: 5Gi
+    storageClass: longhorn
+  monitoring:
+    enablePodMonitor: true
+  bootstrap:
+    initdb:
+      database: paperless
+      owner: paperless
+      secret:
+        name: paperless-ngx-db-secret
+  resources:
+    requests:
+      cpu: 10m
+      memory: 64Mi
+    limits:
+      memory: 128Mi
+  backup:
+    barmanObjectStore:
+      destinationPath: s3://paperless-ngx-db
+      endpointURL: https://80035b568c77008106a1c2320cb9b69d.r2.cloudflarestorage.com
+      s3Credentials:
+        accessKeyId:
+          name: cloudflare-r2-secret
+          key: R2_ACCESS_KEY_ID
+        secretAccessKey:
+          name: cloudflare-r2-secret
+          key: R2_SECRET_ACCESS_KEY
+      wal:
+        compression: gzip
+      data:
+        compression: gzip
+    retentionPolicy: "30d"
