@@ -8,19 +8,11 @@ spec:
     - group: gateway.networking.k8s.io
       kind: HTTPRoute
       name: navidrome
-  extAuth:
-    headersToExtAuth:
-      - cookie
-      - authorization
-    failOpen: false
-    http:
-      backendRefs:
-        - name: oauth2-proxy
-          namespace: keycloak
-          port: 4180
-      path: /oauth2/auth
-      headersToBackend:
-        - Remote-User
-        - X-Forwarded-User
-        - X-Forwarded-Email
-        - X-Forwarded-Preferred-Username
+  oidc:
+    provider:
+      issuer: https://login.chillincool.net/realms/chillincool
+    clientID: navidrome
+    clientSecret:
+      name: navidrome-oidc-secret
+    redirectURL: https://navidrome.chillincool.net/oauth2/callback
+    forwardAccessToken: true
