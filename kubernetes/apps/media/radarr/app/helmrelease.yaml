@@ -68,7 +68,7 @@ spec:
           http:
             port: *port
     route:
-      app:
+      radarr:
         hostnames:
           - "{{ .Release.Name }}.chillincool.net"
         parentRefs:

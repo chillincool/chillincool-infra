@@ -68,7 +68,7 @@ spec:
           http:
             port: *port
     route:
-      app:
+      sonarr:
         hostnames:
           - "{{ .Release.Name }}.chillincool.net"
         parentRefs:

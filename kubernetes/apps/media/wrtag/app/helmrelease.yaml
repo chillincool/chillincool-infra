@@ -65,7 +65,7 @@ spec:
           http:
             port: *port
     route:
-      app:
+      wrtag:
         hostnames:
           - "{{ .Release.Name }}.chillincool.net"
         parentRefs:

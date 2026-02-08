@@ -10,4 +10,3 @@ components:
 resources:
   - ./namespace.yaml
   - ./keycloak/ks.yaml
-  # - ./oauth2-proxy/ks.yaml

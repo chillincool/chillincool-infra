@@ -58,7 +58,7 @@ spec:
           http:
             port: *port
     route:
-      app:
+      bazarr:
         hostnames:
           - "{{ .Release.Name }}.chillincool.net"
         parentRefs:
