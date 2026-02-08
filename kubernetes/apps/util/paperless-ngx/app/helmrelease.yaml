@@ -26,8 +26,8 @@ spec:
               PAPERLESS_TIME_ZONE: America/Chicago
               # Paths
               PAPERLESS_DATA_DIR: /data
-              PAPERLESS_MEDIA_ROOT: /data/media
-              PAPERLESS_CONSUMPTION_DIR: /data/consume
+              PAPERLESS_MEDIA_ROOT: /paperless/media
+              PAPERLESS_CONSUMPTION_DIR: /paperless/consume
               # Database
               PAPERLESS_DBENGINE: postgresql
               PAPERLESS_DBHOST: paperless-ngx-db-rw
@@ -50,6 +50,9 @@ spec:
               PAPERLESS_CONSUMER_POLLING: "60"
               PAPERLESS_CONSUMER_RECURSIVE: "true"
               PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS: "true"
+              # OIDC
+              PAPERLESS_APPS: allauth.socialaccount.providers.openid_connect
+              PAPERLESS_REDIRECT_LOGIN_TO_SSO: "true"
             envFrom:
               - secretRef:
                   name: paperless-ngx-secret
@@ -142,8 +145,8 @@ spec:
       documents:
         type: nfs
         server: dsm1.chillincool.net
-        path: /volume2/data/documents/paperless
+        path: /volume1/paperless
         globalMounts:
-          - path: /data/media
+          - path: /paperless
       tmp:
         type: emptyDir
