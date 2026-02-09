@@ -18,7 +18,17 @@ spec:
           existingClaim: immich
 
     valkey:
-      enabled: false
+      enabled: true
+      controllers:
+        main:
+          containers:
+            main:
+              resources:
+                requests:
+                  cpu: 5m
+                  memory: 32Mi
+                limits:
+                  memory: 256Mi
 
     server:
       enabled: true
@@ -30,8 +40,6 @@ spec:
             main:
               env:
                 TZ: America/Chicago
-                REDIS_HOSTNAME: localhost
-                REDIS_PORT: "6379"
                 DB_HOSTNAME: immich-db-rw
                 DB_DATABASE_NAME: immich
                 DB_USERNAME: immich
@@ -46,21 +54,6 @@ spec:
                   memory: 256Mi
                 limits:
                   memory: 1Gi
-            redis:
-              image:
-                repository: ghcr.io/dragonflydb/dragonfly
-                tag: v1.36.0@sha256:af221b68138afb0b0238401c335493cfc2b060d577c5d6c018ddf6a29d3119f9
-              args: ["--logtostderr", "--proactor_threads=1"]
-              securityContext:
-                allowPrivilegeEscalation: false
-                readOnlyRootFilesystem: true
-                capabilities: {drop: ["ALL"]}
-              resources:
-                requests:
-                  cpu: 5m
-                  memory: 32Mi
-                limits:
-                  memory: 300Mi
       ingress:
         main:
           enabled: false
