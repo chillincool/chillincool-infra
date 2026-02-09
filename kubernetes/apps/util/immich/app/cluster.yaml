@@ -1,0 +1,49 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas-cvg.pages.dev/postgresql.cnpg.io/cluster_v1.json
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: immich-db
+spec:
+  instances: 1
+  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:16.9-0.4.3
+  primaryUpdateStrategy: unsupervised
+  storage:
+    size: 10Gi
+    storageClass: longhorn
+  postgresql:
+    shared_preload_libraries:
+      - "vchord.so"
+  monitoring:
+    enablePodMonitor: true
+  bootstrap:
+    initdb:
+      database: immich
+      owner: immich
+      secret:
+        name: immich-db-secret
+      postInitApplicationSQL:
+        - CREATE EXTENSION vchord CASCADE;
+        - CREATE EXTENSION earthdistance CASCADE;
+  resources:
+    requests:
+      cpu: 10m
+      memory: 256Mi
+    limits:
+      memory: 512Mi
+  backup:
+    barmanObjectStore:
+      destinationPath: s3://immich-db
+      endpointURL: https://80035b568c77008106a1c2320cb9b69d.r2.cloudflarestorage.com
+      s3Credentials:
+        accessKeyId:
+          name: immich-r2-secret
+          key: R2_ACCESS_KEY_ID
+        secretAccessKey:
+          name: immich-r2-secret
+          key: R2_SECRET_ACCESS_KEY
+      wal:
+        compression: gzip
+      data:
+        compression: gzip
+    retentionPolicy: "7d"
