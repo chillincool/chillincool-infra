@@ -28,7 +28,7 @@ spec:
                   cpu: 5m
                   memory: 32Mi
                 limits:
-                  memory: 256Mi
+                  memory: 512Mi
 
     server:
       enabled: true
@@ -53,7 +53,7 @@ spec:
                   cpu: 10m
                   memory: 256Mi
                 limits:
-                  memory: 1Gi
+                  memory: 2Gi
       ingress:
         main:
           enabled: false
