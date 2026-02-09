@@ -23,9 +23,6 @@ logging:
     enable: true
     max_bytes: 10485760
     backup_count: 3
-  filter:
-    - message: "because provider local has no external Id"
-    - message: "because provider none has no external Id"
 
 sync:
   rating_priority: plex
