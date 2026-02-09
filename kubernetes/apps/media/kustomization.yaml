@@ -16,6 +16,7 @@ resources:
   - ./notifier/ks.yaml
   # - ./nzbget/ks.yaml
   - ./plex/ks.yaml
+  - ./plextraktsync/ks.yaml
   - ./prowlarr/ks.yaml
   - ./qbittorrent/ks.yaml
   - ./qui/ks.yaml

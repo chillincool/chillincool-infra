@@ -1,0 +1,53 @@
+cache:
+  path: $PTS_CACHE_DIR/trakt_cache
+
+libraries:
+  - Movies
+  - TV Shows
+
+config:
+  dotenv_override: true
+
+plex:
+  timeout: 30
+
+logging:
+  append: false
+  console_time: false
+  debug: false
+  filename: plextraktsync.log
+  rotation:
+    enable: true
+    max_bytes: 10485760
+    backup_count: 3
+
+sync:
+  rating_priority: plex
+  plex_to_trakt:
+    collection: false
+    clear_collected: false
+    ratings: true
+    watched_status: true
+    watchlist: true
+  trakt_to_plex:
+    liked_lists: false
+    ratings: true
+    watched_status: true
+    watchlist: true
+    watchlist_as_playlist: false
+    playback_status: false
+
+liked_lists:
+  keep_watched: true
+
+watch:
+  add_collection: false
+  remove_collection: false
+  scrobble_threshold: 80
+  username_filter: true
+  media_progressbar: false
+  ignore_clients: ~
+
+xbmc-providers:
+  movies: imdb
+  shows: tvdb
