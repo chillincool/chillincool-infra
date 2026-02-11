@@ -15,9 +15,7 @@ spec:
         enabled: true
       persistence:
         library:
-          type: nfs
-          server: dsm1.chillincool.net
-          path: /volume1/immich
+          existingClaim: immich-library
 
     valkey:
       enabled: true

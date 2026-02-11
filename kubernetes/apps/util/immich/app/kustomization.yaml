@@ -8,3 +8,4 @@ resources:
   - ./externalsecret.yaml
   - ./cluster.yaml
   - ./scheduledbackup.yaml
+  - ./pvc.yaml
