@@ -15,7 +15,9 @@ spec:
         enabled: true
       persistence:
         library:
-          existingClaim: immich
+          type: nfs
+          server: dsm1.chillincool.net
+          path: /volume1/immich
 
     valkey:
       enabled: true
@@ -53,7 +55,7 @@ spec:
                   cpu: 10m
                   memory: 256Mi
                 limits:
-                  memory: 2Gi
+                  memory: 4Gi
       ingress:
         main:
           enabled: false
