@@ -6,7 +6,7 @@ metadata:
   name: paperless-ngx
 spec:
   components:
-    - ../../../../components/nfs-scaler
+    # - ../../../../components/nfs-scaler
     - ../../../../components/volsync
   dependsOn:
     - name: cloudnative-pg
@@ -15,14 +15,6 @@ spec:
       namespace: longhorn-system
   interval: 1h
   path: ./kubernetes/apps/util/paperless-ngx/app
-  patches:
-    - target:
-        kind: ScaledObject
-        name: paperless-ngx
-      patch: |
-        - op: add
-          path: /metadata/annotations/autoscaling.keda.sh~1paused-replicas
-          value: "0"
   postBuild:
     substitute:
       APP: paperless-ngx
