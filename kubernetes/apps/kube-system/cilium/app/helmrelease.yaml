@@ -30,8 +30,8 @@ spec:
       exclusive: false
     dashboards:
       enabled: true
-    devices: eno1
-    directRoutingDevice: eno1
+    devices: eno1 ens18
+    directRoutingDevice: eno1 ens18
     enableIPv4BIGTCP: true
     endpointRoutes:
       enabled: true
