@@ -24,7 +24,7 @@ spec:
       v2DataEngine: false
     persistence:
       defaultClass: true
-      defaultClassReplicaCount: 1 # Will auto-scale when more nodes are added
+      defaultClassReplicaCount: 2 # Increased for migration, can reduce later
       reclaimPolicy: Delete
     csi:
       kubeletRootDir: /var/lib/kubelet
