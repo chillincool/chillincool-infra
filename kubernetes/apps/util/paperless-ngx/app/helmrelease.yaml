@@ -12,7 +12,7 @@ spec:
   values:
     controllers:
       paperless-ngx:
-        replicas: 0
+        replicas: 1
         annotations:
           reloader.stakater.com/auto: "true"
         initContainers:
@@ -63,9 +63,9 @@ spec:
               PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS: "true"
               PAPERLESS_CONSUMER_DELETE_DUPLICATES: "true"
               # Performance
-              PAPERLESS_TASK_WORKERS: "1"
-              PAPERLESS_THREADS_PER_WORKER: "1"
-              PAPERLESS_OCR_PAGES: "5"
+              PAPERLESS_TASK_WORKERS: "2"
+              PAPERLESS_THREADS_PER_WORKER: "2"
+              PAPERLESS_OCR_PAGES: "0"
               PAPERLESS_OCR_SKIP_ARCHIVE_FILE: "with_text"
               # OIDC
               PAPERLESS_APPS: allauth.socialaccount.providers.openid_connect
@@ -90,41 +90,41 @@ spec:
               capabilities: {drop: ["ALL"]}
             resources:
               requests:
-                cpu: 10m
-                memory: 256Mi
+                cpu: 200m
+                memory: 512Mi
               limits:
-                memory: 2Gi
+                memory: 4Gi
           redis:
             image:
               repository: ghcr.io/dragonflydb/dragonfly
               tag: v1.36.0@sha256:af221b68138afb0b0238401c335493cfc2b060d577c5d6c018ddf6a29d3119f9
-            args: ["--logtostderr", "--proactor_threads=1"]
+            args: ["--logtostderr", "--proactor_threads=2"]
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
               capabilities: {drop: ["ALL"]}
             resources:
               requests:
-                cpu: 5m
-                memory: 32Mi
+                cpu: 50m
+                memory: 128Mi
               limits:
-                memory: 320Mi
+                memory: 512Mi
           tika:
             image:
               repository: docker.io/apache/tika
               tag: 3.2.3.0@sha256:c0154cb95587cde64be74f35ada1a2bd7892219f3f0ac3c9dc6cab34046b3573
             env:
-              TIKA_JAVA_OPTS: "-Xms128m -Xmx512m"
+              TIKA_JAVA_OPTS: "-Xms256m -Xmx1g"
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
               capabilities: {drop: ["ALL"]}
             resources:
               requests:
-                cpu: 5m
-                memory: 128Mi
+                cpu: 100m
+                memory: 256Mi
               limits:
-                memory: 768Mi
+                memory: 1536Mi
           gotenberg:
             image:
               repository: gotenberg/gotenberg
@@ -136,10 +136,10 @@ spec:
               capabilities: {drop: ["ALL"]}
             resources:
               requests:
-                cpu: 5m
-                memory: 64Mi
-              limits:
+                cpu: 100m
                 memory: 256Mi
+              limits:
+                memory: 1Gi
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true

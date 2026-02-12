@@ -5,7 +5,7 @@ kind: Cluster
 metadata:
   name: paperless-ngx-db
 spec:
-  instances: 1
+  instances: 2
   imageName: ghcr.io/cloudnative-pg/postgresql:17.2-3
   primaryUpdateStrategy: unsupervised
   storage:
@@ -21,10 +21,10 @@ spec:
         name: paperless-ngx-db-secret
   resources:
     requests:
-      cpu: 10m
-      memory: 128Mi
+      cpu: 100m
+      memory: 256Mi
     limits:
-      memory: 512Mi
+      memory: 2Gi
   backup:
     barmanObjectStore:
       destinationPath: s3://paperless-ngx-db
