@@ -35,7 +35,7 @@ spec:
     proxyConfig:
       image:
         repository: tailscale/tailscale
-        tag: v1.94.1
+        tag: v1.94.2
       defaultTags: tag:k8s
       firewallMode: auto
       defaultProxyClass: ""
