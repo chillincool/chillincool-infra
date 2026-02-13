@@ -62,7 +62,7 @@ spec:
           hostnames:
             - immich.chillincool.net
           parentRefs:
-            - name: envoy-internal
+            - name: envoy-external
               namespace: network
 
     machine-learning:
