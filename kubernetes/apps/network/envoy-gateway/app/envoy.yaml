@@ -151,7 +151,7 @@ kind: Gateway
 metadata:
   name: envoy-tailscale
   annotations:
-    external-dns.alpha.kubernetes.io/target: &hostname tailscale.chillincool.xyz
+    external-dns.alpha.kubernetes.io/target: &hostname gateway-envoy.tail041000.ts.net
 spec:
   gatewayClassName: envoy-tailscale
   infrastructure:
