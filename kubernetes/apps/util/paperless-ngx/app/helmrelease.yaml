@@ -160,6 +160,12 @@ spec:
         parentRefs:
           - name: envoy-internal
             namespace: network
+      paperless-ngx-tailscale:
+        hostnames:
+          - paperless.ts.chillincool.net
+        parentRefs:
+          - name: envoy-tailscale
+            namespace: network
     persistence:
       data:
         existingClaim: "{{ .Release.Name }}"
