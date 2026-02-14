@@ -39,7 +39,7 @@ spec:
     txtOwnerId: default
     txtPrefix: k8s.
     domainFilters:
-      - chillincool.net
+      - ts.chillincool.net
     serviceMonitor:
       enabled: true
     podAnnotations:
