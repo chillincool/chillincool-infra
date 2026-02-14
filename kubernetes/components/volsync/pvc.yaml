@@ -6,7 +6,6 @@ metadata:
 spec:
   accessModes:
     - ${VOLSYNC_ACCESSMODES:=ReadWriteOnce}
-  ${VOLSYNC_RESTORE_DATA_SOURCE:=}
   # dataSourceRef:
   #   kind: ReplicationDestination
   #   apiGroup: volsync.backube
