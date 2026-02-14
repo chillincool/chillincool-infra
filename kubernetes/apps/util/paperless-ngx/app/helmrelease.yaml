@@ -70,7 +70,7 @@ spec:
               PAPERLESS_OCR_SKIP_ARCHIVE_FILE: "with_text"
               # OIDC
               PAPERLESS_APPS: allauth.socialaccount.providers.openid_connect
-              PAPERLESS_REDIRECT_LOGIN_TO_SSO: "true"
+              PAPERLESS_REDIRECT_LOGIN_TO_SSO: "false"
               PAPERLESS_SOCIAL_ACCOUNT_SYNC_GROUPS: "true"
             envFrom:
               - secretRef:

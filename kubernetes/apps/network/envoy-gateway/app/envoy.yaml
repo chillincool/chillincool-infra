@@ -31,6 +31,21 @@ spec:
         compression:
           type: Zstd
 ---
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: EnvoyProxy
+metadata:
+  name: envoy-tailscale
+  namespace: network
+spec:
+  provider:
+    type: Kubernetes
+    kubernetes:
+      envoyService:
+        type: LoadBalancer
+        loadBalancerClass: envoy-tailscale
+        annotations:
+          tailscale.com/hostname: gateway-envoy
+---
 # yaml-language-server: $schema=https://kubernetes-schemas-cvg.pages.dev/gateway.networking.k8s.io/gatewayclass_v1.json
 apiVersion: gateway.networking.k8s.io/v1
 kind: GatewayClass
@@ -42,6 +57,18 @@ spec:
     group: gateway.envoyproxy.io
     kind: EnvoyProxy
     name: envoy
+    namespace: network
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: GatewayClass
+metadata:
+  name: envoy-tailscale
+spec:
+  controllerName: gateway.envoyproxy.io/gatewayclass-controller
+  parametersRef:
+    group: gateway.envoyproxy.io
+    kind: EnvoyProxy
+    name: envoy-tailscale
     namespace: network
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas-cvg.pages.dev/gateway.networking.k8s.io/gateway_v1.json
@@ -98,6 +125,36 @@ spec:
     annotations:
       external-dns.alpha.kubernetes.io/hostname: *hostname
       lbipam.cilium.io/ips: 10.60.60.50
+  listeners:
+    - name: http
+      protocol: HTTP
+      port: 80
+      allowedRoutes:
+        namespaces:
+          from: Same
+    - name: https
+      protocol: HTTPS
+      port: 443
+      allowedRoutes:
+        namespaces:
+          from: All
+      tls:
+        certificateRefs:
+          - kind: Secret
+            name: chillincool-net-tls
+---
+# yaml-language-server: $schema=https://kubernetes-schemas-cvg.pages.dev/gateway.networking.k8s.io/gateway_v1.json
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: envoy-tailscale
+  annotations:
+    external-dns.alpha.kubernetes.io/target: &hostname tailscale.chillincool.net
+spec:
+  gatewayClassName: envoy-tailscale
+  infrastructure:
+    annotations:
+      external-dns.alpha.kubernetes.io/hostname: *hostname
   listeners:
     - name: http
       protocol: HTTP
