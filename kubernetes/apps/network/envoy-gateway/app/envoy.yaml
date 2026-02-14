@@ -151,7 +151,7 @@ kind: Gateway
 metadata:
   name: envoy-tailscale
   annotations:
-    external-dns.alpha.kubernetes.io/target: &hostname tailscale.chillincool.net
+    external-dns.alpha.kubernetes.io/target: &hostname tailscale.chillincool.xyz
 spec:
   gatewayClassName: envoy-tailscale
   infrastructure:
@@ -173,7 +173,7 @@ spec:
       tls:
         certificateRefs:
           - kind: Secret
-            name: chillincool-net-tls
+            name: chillincool-xyz-tls
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas-cvg.pages.dev/gateway.envoyproxy.io/backendtrafficpolicy_v1alpha1.json
 apiVersion: gateway.envoyproxy.io/v1alpha1
