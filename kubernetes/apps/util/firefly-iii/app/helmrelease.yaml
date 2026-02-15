@@ -146,7 +146,7 @@ spec:
           http:
             port: 8080
     route:
-      firefly-iii:
+      firefly:
         hostnames:
           - firefly.chillincool.net
         parentRefs:
