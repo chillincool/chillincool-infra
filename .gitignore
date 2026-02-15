@@ -17,6 +17,5 @@ talosconfig
 kubernetes/apps/iot
 kubernetes/apps/system-upgrade
 kubernetes/apps/util/smtp-relay
-kubernetes/apps/util/firefly-iii
 talos/nodes/talos*.j2
 

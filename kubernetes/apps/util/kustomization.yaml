@@ -10,6 +10,7 @@ components:
 resources:
   - ./namespace.yaml
   - ./atuin/ks.yaml
+  - ./firefly-iii/ks.yaml
   - ./immich/ks.yaml
   - ./paperless-ngx/ks.yaml
   - ./thelounge/ks.yaml

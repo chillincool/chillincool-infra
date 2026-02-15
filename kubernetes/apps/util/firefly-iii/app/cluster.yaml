@@ -1,0 +1,43 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas-cvg.pages.dev/postgresql.cnpg.io/cluster_v1.json
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: firefly-iii-db
+spec:
+  instances: 2
+  imageName: ghcr.io/cloudnative-pg/postgresql:17.2-3
+  primaryUpdateStrategy: unsupervised
+  storage:
+    size: 5Gi
+    storageClass: longhorn
+  monitoring:
+    enablePodMonitor: true
+  bootstrap:
+    initdb:
+      database: firefly-iii
+      owner: firefly-iii
+      secret:
+        name: firefly-iii-db-secret
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      memory: 2Gi
+  backup:
+    barmanObjectStore:
+      destinationPath: s3://firefly-iii-db
+      endpointURL: https://80035b568c77008106a1c2320cb9b69d.r2.cloudflarestorage.com
+      s3Credentials:
+        accessKeyId:
+          name: firefly-iii-r2-secret
+          key: R2_ACCESS_KEY_ID
+        secretAccessKey:
+          name: firefly-iii-r2-secret
+          key: R2_SECRET_ACCESS_KEY
+      wal:
+        compression: gzip
+      data:
+        compression: gzip
+    retentionPolicy: "3d"

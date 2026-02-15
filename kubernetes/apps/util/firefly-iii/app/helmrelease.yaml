@@ -1,0 +1,193 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: firefly-iii
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: firefly-iii
+  interval: 1h
+  values:
+    controllers:
+      firefly-iii:
+        replicas: 1
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: fireflyiii/core
+              tag: version-6.4.21@sha256:a72b749ec801e4001c75dffd4f02ef17baf4a381a60f987ec6c5cbc47a982e5c
+            env:
+              TZ: America/Chicago
+              APP_URL: https://firefly.chillincool.net
+              TRUSTED_PROXIES: "**"
+              # Database
+              DB_CONNECTION: pgsql
+              DB_HOST: firefly-iii-db-rw
+              DB_PORT: "5432"
+              DB_DATABASE: firefly-iii
+              DB_USERNAME: firefly-iii
+              DB_PASSWORD:
+                valueFrom:
+                  secretKeyRef:
+                    name: firefly-iii-db-secret
+                    key: password
+              # Redis/Cache
+              CACHE_DRIVER: redis
+              SESSION_DRIVER: redis
+              REDIS_HOST: localhost
+              REDIS_PORT: "6379"
+              # App settings
+              DEFAULT_LANGUAGE: en_US
+              DEFAULT_LOCALE: equal
+              SEND_REGISTRATION_MAIL: "false"
+              SEND_ERROR_MESSAGE: "false"
+              SEND_LOGIN_NEW_IP_WARNING: "false"
+              AUTHENTICATION_GUARD: web
+            envFrom:
+              - secretRef:
+                  name: firefly-iii-secret
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 5
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: false
+              capabilities: {drop: ["ALL"]}
+            resources:
+              requests:
+                cpu: 50m
+                memory: 256Mi
+              limits:
+                memory: 1Gi
+          redis:
+            image:
+              repository: ghcr.io/dragonflydb/dragonfly
+              tag: v1.36.0@sha256:af221b68138afb0b0238401c335493cfc2b060d577c5d6c018ddf6a29d3119f9
+            args: ["--logtostderr", "--proactor_threads=2"]
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: {drop: ["ALL"]}
+            resources:
+              requests:
+                cpu: 10m
+                memory: 64Mi
+              limits:
+                memory: 256Mi
+      data-importer:
+        replicas: 1
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: fireflyiii/data-importer
+              tag: version-2.1.0@sha256:38e4b4c6da8617e9cdca5fec43fc292915894a8b1621b97cab64cda14d8a037e
+            env:
+              TZ: America/Chicago
+              FIREFLY_III_URL: http://firefly-iii:8080
+              VANITY_URL: https://firefly.chillincool.net
+              TRUSTED_PROXIES: "**"
+              CAN_POST_AUTOIMPORT: "false"
+              CAN_POST_FILES: "false"
+            envFrom:
+              - secretRef:
+                  name: firefly-iii-secret
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 5
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: false
+              capabilities: {drop: ["ALL"]}
+            resources:
+              requests:
+                cpu: 10m
+                memory: 128Mi
+              limits:
+                memory: 512Mi
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+    service:
+      app:
+        controller: firefly-iii
+        ports:
+          http:
+            port: 8080
+      data-importer:
+        controller: data-importer
+        ports:
+          http:
+            port: 8080
+    route:
+      firefly-iii:
+        hostnames:
+          - firefly.chillincool.net
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+      tailscale:
+        hostnames:
+          - firefly.chillincool.xyz
+        parentRefs:
+          - name: envoy-tailscale
+            namespace: network
+      data-importer:
+        hostnames:
+          - firefly-import.chillincool.net
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        rules:
+          - backendRefs:
+              - name: firefly-iii-data-importer
+                port: 8080
+      data-importer-tailscale:
+        hostnames:
+          - firefly-import.chillincool.xyz
+        parentRefs:
+          - name: envoy-tailscale
+            namespace: network
+        rules:
+          - backendRefs:
+              - name: firefly-iii-data-importer
+                port: 8080
+    persistence:
+      data:
+        existingClaim: "{{ .Release.Name }}"
+        advancedMounts:
+          firefly-iii:
+            app:
+              - path: /var/www/html/storage/upload
+      tmp:
+        type: emptyDir
+        advancedMounts:
+          firefly-iii:
+            app:
+              - path: /tmp
+          data-importer:
+            app:
+              - path: /tmp

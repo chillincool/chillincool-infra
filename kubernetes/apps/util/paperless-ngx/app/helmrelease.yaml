@@ -160,7 +160,7 @@ spec:
         parentRefs:
           - name: envoy-internal
             namespace: network
-      paperless-ngx-tailscale:
+      tailscale:
         hostnames:
           - paperless.chillincool.xyz
         parentRefs:
