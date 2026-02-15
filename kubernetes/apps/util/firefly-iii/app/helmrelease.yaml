@@ -15,6 +15,16 @@ spec:
         replicas: 1
         annotations:
           reloader.stakater.com/auto: "true"
+        initContainers:
+          init-nginx:
+            image:
+              repository: fireflyiii/core
+              tag: version-6.4.21@sha256:a72b749ec801e4001c75dffd4f02ef17baf4a381a60f987ec6c5cbc47a982e5c
+            command: ["sh", "-c", "cp -r /etc/nginx/* /nginx-config/"]
+            securityContext:
+              runAsUser: 0
+              runAsGroup: 0
+              runAsNonRoot: false
         containers:
           app:
             image:
@@ -89,6 +99,16 @@ spec:
         replicas: 1
         annotations:
           reloader.stakater.com/auto: "true"
+        initContainers:
+          init-nginx:
+            image:
+              repository: fireflyiii/data-importer
+              tag: version-2.1.0@sha256:38e4b4c6da8617e9cdca5fec43fc292915894a8b1621b97cab64cda14d8a037e
+            command: ["sh", "-c", "cp -r /etc/nginx/* /nginx-config/"]
+            securityContext:
+              runAsUser: 0
+              runAsGroup: 0
+              runAsNonRoot: false
         containers:
           app:
             image:
@@ -199,3 +219,16 @@ spec:
           data-importer:
             app:
               - path: /tmp
+      nginx-config:
+        type: emptyDir
+        advancedMounts:
+          firefly-iii:
+            init-nginx:
+              - path: /nginx-config
+            app:
+              - path: /etc/nginx
+          data-importer:
+            init-nginx:
+              - path: /nginx-config
+            app:
+              - path: /etc/nginx
