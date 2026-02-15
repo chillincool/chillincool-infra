@@ -14,7 +14,7 @@ spec:
       - ${VOLSYNC_ACCESSMODES:=ReadWriteOnce}
     capacity: ${VOLSYNC_CAPACITY:=5Gi}
     cleanupCachePVC: true
-    cleanupTempPVC: true
+    cleanupTempPVC: false
     copyMethod: Snapshot
     enableFileDeletion: true
     moverSecurityContext:
