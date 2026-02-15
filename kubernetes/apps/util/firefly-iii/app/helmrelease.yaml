@@ -149,12 +149,20 @@ spec:
         parentRefs:
           - name: envoy-internal
             namespace: network
+        rules:
+          - backendRefs:
+              - name: firefly-iii-app
+                port: 8080
       tailscale:
         hostnames:
           - firefly.chillincool.xyz
         parentRefs:
           - name: envoy-tailscale
             namespace: network
+        rules:
+          - backendRefs:
+              - name: firefly-iii-app
+                port: 8080
       data-importer:
         hostnames:
           - firefly-import.chillincool.net
