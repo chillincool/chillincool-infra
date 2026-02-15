@@ -73,7 +73,7 @@ spec:
             image:
               repository: ghcr.io/dragonflydb/dragonfly
               tag: v1.36.0@sha256:af221b68138afb0b0238401c335493cfc2b060d577c5d6c018ddf6a29d3119f9
-            args: ["--logtostderr", "--proactor_threads=2"]
+            args: ["--logtostderr", "--proactor_threads=1"]
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
@@ -81,9 +81,9 @@ spec:
             resources:
               requests:
                 cpu: 10m
-                memory: 64Mi
-              limits:
                 memory: 256Mi
+              limits:
+                memory: 512Mi
       data-importer:
         replicas: 1
         annotations:
