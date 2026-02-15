@@ -70,6 +70,12 @@ spec:
           parentRefs:
             - name: envoy-external
               namespace: network
+        tailscale:
+          hostnames:
+            - immich.chillincool.xyz
+          parentRefs:
+            - name: envoy-tailscale
+              namespace: network
 
     machine-learning:
       enabled: true

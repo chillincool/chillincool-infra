@@ -107,7 +107,7 @@ spec:
           - port: management
             path: /metrics
     route:
-      app:
+      keycloak:
         hostnames:
           - login.chillincool.net
         parentRefs:
