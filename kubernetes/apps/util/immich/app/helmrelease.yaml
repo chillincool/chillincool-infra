@@ -68,7 +68,7 @@ spec:
           hostnames:
             - immich.chillincool.net
           parentRefs:
-            - name: envoy-external
+            - name: envoy-internal
               namespace: network
         tailscale:
           hostnames:
