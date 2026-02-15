@@ -113,6 +113,12 @@ spec:
         parentRefs:
           - name: envoy-external
             namespace: network
+      tailscale:
+        hostnames:
+          - login.chillincool.xyz
+        parentRefs:
+          - name: envoy-tailscale
+            namespace: network
     persistence:
       tmp:
         type: emptyDir
