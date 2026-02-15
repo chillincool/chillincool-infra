@@ -25,3 +25,5 @@ spec:
         claimToHeaders:
           - claim: preferred_username
             header: Remote-User
+          - claim: email
+            header: Remote-Email
