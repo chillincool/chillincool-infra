@@ -22,7 +22,7 @@ spec:
               tag: version-6.4.21@sha256:a72b749ec801e4001c75dffd4f02ef17baf4a381a60f987ec6c5cbc47a982e5c
             env:
               TZ: America/Chicago
-              APP_URL: https://firefly.chillincool.net
+              APP_URL: https://firefly-iii.chillincool.net
               TRUSTED_PROXIES: "**"
               # Database
               DB_CONNECTION: pgsql
@@ -99,7 +99,7 @@ spec:
             env:
               TZ: America/Chicago
               FIREFLY_III_URL: http://firefly-iii-app:8080
-              VANITY_URL: https://firefly.chillincool.net
+              VANITY_URL: https://firefly-iii.chillincool.net
               TRUSTED_PROXIES: "**"
               CAN_POST_AUTOIMPORT: "false"
               CAN_POST_FILES: "false"
@@ -146,9 +146,9 @@ spec:
           http:
             port: 8080
     route:
-      firefly:
+      firefly-iii:
         hostnames:
-          - firefly.chillincool.net
+          - firefly-iii.chillincool.net
         parentRefs:
           - name: envoy-internal
             namespace: network
@@ -158,7 +158,7 @@ spec:
                 port: 8080
       tailscale:
         hostnames:
-          - firefly.chillincool.xyz
+          - firefly-iii.chillincool.xyz
         parentRefs:
           - name: envoy-tailscale
             namespace: network

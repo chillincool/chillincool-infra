@@ -17,7 +17,7 @@ spec:
   path: ./kubernetes/apps/util/firefly-iii/app
   postBuild:
     substitute:
-      APP: firefly
+      APP: firefly-iii
       VOLSYNC_CAPACITY: 5Gi
   prune: true
   sourceRef:
