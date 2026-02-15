@@ -6,6 +6,7 @@ metadata:
   name: firefly-iii
 spec:
   components:
+    - ../../../../components/oidc
     - ../../../../components/volsync
   dependsOn:
     - name: cloudnative-pg

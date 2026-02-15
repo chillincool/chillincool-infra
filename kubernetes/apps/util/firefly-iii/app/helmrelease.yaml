@@ -43,10 +43,13 @@ spec:
               # App settings
               DEFAULT_LANGUAGE: en_US
               DEFAULT_LOCALE: equal
-              SEND_REGISTRATION_MAIL: "false"
+              SEND_REGISTRATION_MAIL: "true"
               SEND_ERROR_MESSAGE: "false"
               SEND_LOGIN_NEW_IP_WARNING: "false"
-              AUTHENTICATION_GUARD: web
+              # Remote user authentication (via Keycloak OIDC)
+              AUTHENTICATION_GUARD: remote_user_guard
+              AUTHENTICATION_GUARD_HEADER: HTTP_REMOTE_USER
+              AUTHENTICATION_GUARD_EMAIL: HTTP_REMOTE_USER
             envFrom:
               - secretRef:
                   name: firefly-iii-secret
