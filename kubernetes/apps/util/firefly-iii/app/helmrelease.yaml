@@ -15,16 +15,6 @@ spec:
         replicas: 1
         annotations:
           reloader.stakater.com/auto: "true"
-        initContainers:
-          init-nginx:
-            image:
-              repository: fireflyiii/core
-              tag: version-6.4.21@sha256:a72b749ec801e4001c75dffd4f02ef17baf4a381a60f987ec6c5cbc47a982e5c
-            command: ["sh", "-c", "cp -r /etc/nginx/* /nginx-config/"]
-            securityContext:
-              runAsUser: 0
-              runAsGroup: 0
-              runAsNonRoot: false
         containers:
           app:
             image:
@@ -72,7 +62,6 @@ spec:
                   periodSeconds: 5
             securityContext:
               allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: false
               capabilities: {drop: ["ALL"]}
             resources:
               requests:
@@ -99,16 +88,6 @@ spec:
         replicas: 1
         annotations:
           reloader.stakater.com/auto: "true"
-        initContainers:
-          init-nginx:
-            image:
-              repository: fireflyiii/data-importer
-              tag: version-2.1.0@sha256:38e4b4c6da8617e9cdca5fec43fc292915894a8b1621b97cab64cda14d8a037e
-            command: ["sh", "-c", "cp -r /etc/nginx/* /nginx-config/"]
-            securityContext:
-              runAsUser: 0
-              runAsGroup: 0
-              runAsNonRoot: false
         containers:
           app:
             image:
@@ -116,7 +95,7 @@ spec:
               tag: version-2.1.0@sha256:38e4b4c6da8617e9cdca5fec43fc292915894a8b1621b97cab64cda14d8a037e
             env:
               TZ: America/Chicago
-              FIREFLY_III_URL: http://firefly-iii:8080
+              FIREFLY_III_URL: http://firefly-iii-app:8080
               VANITY_URL: https://firefly.chillincool.net
               TRUSTED_PROXIES: "**"
               CAN_POST_AUTOIMPORT: "false"
@@ -136,7 +115,6 @@ spec:
                   periodSeconds: 5
             securityContext:
               allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: false
               capabilities: {drop: ["ALL"]}
             resources:
               requests:
@@ -147,10 +125,12 @@ spec:
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
+        runAsUser: 33
+        runAsGroup: 33
+        fsGroup: 33
         fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
     service:
       app:
         controller: firefly-iii
@@ -210,25 +190,6 @@ spec:
           firefly-iii:
             app:
               - path: /var/www/html/storage/upload
-      tmp:
-        type: emptyDir
-        advancedMounts:
-          firefly-iii:
-            app:
-              - path: /tmp
           data-importer:
             app:
-              - path: /tmp
-      nginx-config:
-        type: emptyDir
-        advancedMounts:
-          firefly-iii:
-            init-nginx:
-              - path: /nginx-config
-            app:
-              - path: /etc/nginx
-          data-importer:
-            init-nginx:
-              - path: /nginx-config
-            app:
-              - path: /etc/nginx
+              - path: /var/www/html/storage/uploads
