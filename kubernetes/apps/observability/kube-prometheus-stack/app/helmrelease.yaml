@@ -52,6 +52,9 @@ spec:
               namespace: network
       prometheusSpec:
         externalUrl: https://prometheus.chillincool.net
+        startupProbe:
+          failureThreshold: 120
+          periodSeconds: 5
         podMonitorSelectorNilUsesHelmValues: false
         probeSelectorNilUsesHelmValues: false
         ruleSelectorNilUsesHelmValues: false
