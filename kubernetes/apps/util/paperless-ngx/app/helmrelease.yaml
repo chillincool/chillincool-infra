@@ -63,7 +63,7 @@ spec:
               PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS: "true"
               PAPERLESS_CONSUMER_DELETE_DUPLICATES: "true"
               # Performance
-              PAPERLESS_TASK_WORKERS: "4"
+              PAPERLESS_TASK_WORKERS: "2"
               PAPERLESS_THREADS_PER_WORKER: "2"
               PAPERLESS_WEBSERVER_WORKERS: "2"
               PAPERLESS_OCR_PAGES: "0"
