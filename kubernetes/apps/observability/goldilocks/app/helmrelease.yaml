@@ -31,5 +31,12 @@ spec:
           memory: 64Mi
         limits:
           memory: 128Mi
+      httpRoute:
+        enabled: true
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        hostnames:
+          - goldilocks.chillincool.net
     serviceMonitor:
       enabled: true
