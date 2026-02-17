@@ -91,6 +91,14 @@ spec:
         replicas: 1
         annotations:
           reloader.stakater.com/auto: "true"
+        pod:
+          affinity:
+            podAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                - labelSelector:
+                    matchLabels:
+                      app.kubernetes.io/controller: firefly-iii
+                  topologyKey: kubernetes.io/hostname
         containers:
           app:
             image:
