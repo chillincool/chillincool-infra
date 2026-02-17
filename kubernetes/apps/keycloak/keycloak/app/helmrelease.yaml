@@ -114,6 +114,8 @@ spec:
           - name: envoy-external
             namespace: network
       tailscale:
+        annotations:
+          gatus.home-operations.com/enabled: "false"
         hostnames:
           - login.chillincool.xyz
         parentRefs:

@@ -161,6 +161,8 @@ spec:
           - name: envoy-internal
             namespace: network
       tailscale:
+        annotations:
+          gatus.home-operations.com/enabled: "false"
         hostnames:
           - paperless.chillincool.xyz
         parentRefs:

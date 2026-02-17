@@ -165,6 +165,8 @@ spec:
               - name: firefly-iii-app
                 port: 8080
       tailscale:
+        annotations:
+          gatus.home-operations.com/enabled: "false"
         hostnames:
           - firefly-iii.chillincool.xyz
         parentRefs:
@@ -185,6 +187,8 @@ spec:
               - name: firefly-iii-data-importer
                 port: 8080
       data-importer-tailscale:
+        annotations:
+          gatus.home-operations.com/enabled: "false"
         hostnames:
           - firefly-import.chillincool.xyz
         parentRefs:
