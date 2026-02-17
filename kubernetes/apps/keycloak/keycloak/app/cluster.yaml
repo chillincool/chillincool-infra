@@ -27,6 +27,7 @@ spec:
       memory: 512Mi
   backup:
     barmanObjectStore:
+      serverName: keycloak-db-restored
       destinationPath: s3://keycloak-db
       endpointURL: https://80035b568c77008106a1c2320cb9b69d.r2.cloudflarestorage.com
       s3Credentials:
