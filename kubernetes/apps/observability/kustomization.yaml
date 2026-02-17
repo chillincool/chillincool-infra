@@ -12,6 +12,7 @@ resources:
   - ./blackbox-exporter/ks.yaml
   - ./fluent-bit/ks.yaml
   - ./gatus/ks.yaml
+  - ./goldilocks/ks.yaml
   - ./grafana/ks.yaml
   - ./keda/ks.yaml
   - ./kromgo/ks.yaml
@@ -20,3 +21,4 @@ resources:
   - ./smartctl-exporter/ks.yaml
   # - ./snmp-exporter/ks.yaml
   - ./victoria-logs/ks.yaml
+  - ./vpa/ks.yaml
