@@ -5,9 +5,13 @@ kind: HelmRelease
 metadata:
   name: vpa
 spec:
-  chartRef:
-    kind: OCIRepository
-    name: vpa
+  chart:
+    spec:
+      chart: vpa
+      version: 4.7.1
+      sourceRef:
+        kind: HelmRepository
+        name: fairwinds
   interval: 1h
   values:
     recommender:
