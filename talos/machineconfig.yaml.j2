@@ -44,6 +44,13 @@ machine:
         hard=True
         nconnect=16
         noatime=True
+  disks:
+    - device: /dev/sdb
+      partitions:
+        - mountpoint: /var/mnt/longhorn
+    - device: /dev/sdc
+      partitions:
+        - mountpoint: /var/mnt/longhorn2
   install:
     disk: /dev/sda
     image: factory.talos.dev/metal-installer/c9078f9419961640c712a8bf2bb9174933dfcf1da383fd8ea2b7dc21493f8bac:v1.12.1
