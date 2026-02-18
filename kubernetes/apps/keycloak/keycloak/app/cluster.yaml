@@ -5,7 +5,7 @@ kind: Cluster
 metadata:
   name: keycloak-db
 spec:
-  instances: 1  # reduced temporarily due to storage constraints
+  instances: 2
   imageName: ghcr.io/cloudnative-pg/postgresql:17.2-3
   primaryUpdateStrategy: unsupervised
   storage:
