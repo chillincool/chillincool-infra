@@ -13,8 +13,9 @@ spec:
       static:
         - dsm1.chillincool.net
         - hdhomerun.chillincool.net
-        - k8s-0.chillincool.net
-        - k8s-1.chillincool.net
+        - talos1.chillincool.net
+        - talos2.chillincool.net
+        - talos3.chillincool.net
         - hass.chillincool.net
         - pve1.chillincool.net
         - zwave.chillincool.net
