@@ -10,6 +10,7 @@
 .DS_Store
 Brewfile.lock.json
 Thumbs.db
+CLAUDE.md
 kubeconfig
 talosconfig
 
@@ -18,4 +19,3 @@ kubernetes/apps/iot
 kubernetes/apps/system-upgrade
 kubernetes/apps/util/smtp-relay
 talos/nodes/talos*.j2
-
