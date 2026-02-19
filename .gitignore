@@ -16,6 +16,5 @@ talosconfig
 
 #### Tempoary ####
 kubernetes/apps/iot
-kubernetes/apps/system-upgrade
 kubernetes/apps/util/smtp-relay
 talos/nodes/talos*.j2
