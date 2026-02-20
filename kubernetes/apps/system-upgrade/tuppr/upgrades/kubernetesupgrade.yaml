@@ -22,4 +22,4 @@ spec:
       kind: Volume
       namespace: longhorn-system
       expr: |-
-        status.robustness == "healthy" || metadata.name in ["pvc-6581dada-4ae6-4efc-b813-2c695cf12d64", "pvc-f6e6ca2f-4b42-4c7b-8e5c-43fc6ad797b0"]
+        status.robustness == "healthy" || status.state == "detached"
