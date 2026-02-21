@@ -21,7 +21,7 @@ spec:
               tag: v0.20.0@sha256:3f33c13cc1613e9d63d42050898c07a2dd63662a87ab3a7d71a33a8abb4a097e
             command: ["/usr/local/bin/wrtagweb"]
             env:
-              WRTAG_ADDON: "lyrics lrclib genius musixmatch,replaygain,musicdesc"
+              WRTAG_ADDON: "lyrics lrclib genius musixmatch,replaygain"
               WRTAG_PATH_FORMAT: '/media/media/music/{{`{{ artists .Release.Artists | sort | join "; " | safepath }}`}}/({{`{{ .Release.ReleaseGroup.FirstReleaseDate.Year }}`}}) {{`{{ .Release.Title | safepath }}`}}{{`{{ if not (eq .ReleaseDisambiguation "") }}`}} ({{`{{ .ReleaseDisambiguation | safepath }}`}}){{`{{ end }}`}}/{{`{{ pad0 2 .TrackNum }}`}} {{`{{ .Track.Title | safepath }}`}}{{`{{ .Ext }}`}}'
               WRTAG_WEB_AUTH: disabled
               WRTAG_WEB_LISTEN_ADDR: :80
@@ -50,10 +50,10 @@ spec:
               capabilities: {drop: ["ALL"]}
             resources:
               requests:
-                cpu: 100m
-                memory: 512Mi
+                cpu: 50m
+                memory: 128Mi
               limits:
-                memory: 1Gi
+                memory: 256Mi
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
