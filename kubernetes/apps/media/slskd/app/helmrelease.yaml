@@ -118,6 +118,8 @@ spec:
               file:
                 mode: 750
             shares:
+              cache:
+                enabled: true
               directories:
                 - /media/media/music
               filters:
