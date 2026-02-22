@@ -9,6 +9,7 @@ spec:
     kind: OCIRepository
     name: slskd
   interval: 1h
+  timeout: 10m
   values:
     controllers:
       slskd:
@@ -52,9 +53,9 @@ spec:
                     path: /health
                     port: *port
                   initialDelaySeconds: 0
-                  periodSeconds: 10
-                  timeoutSeconds: 1
-                  failureThreshold: 3
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 6
               readiness: *probes
             securityContext:
               allowPrivilegeEscalation: false
