@@ -45,18 +45,23 @@ spec:
                   periodSeconds: 10
                   timeoutSeconds: 1
                   failureThreshold: 60
-              liveness: &probes
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /health
-                    port: *port
-                  initialDelaySeconds: 0
-                  periodSeconds: 30
-                  timeoutSeconds: 5
-                  failureThreshold: 6
-              readiness: *probes
+              # TODO: re-enable after cache is populated
+              # liveness: &probes
+              #   enabled: true
+              #   custom: true
+              #   spec:
+              #     httpGet:
+              #       path: /health
+              #       port: *port
+              #     initialDelaySeconds: 0
+              #     periodSeconds: 30
+              #     timeoutSeconds: 5
+              #     failureThreshold: 6
+              # readiness: *probes
+              liveness:
+                enabled: false
+              readiness:
+                enabled: false
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
