@@ -34,17 +34,20 @@ spec:
               - secretRef:
                   name: "{{ .Release.Name }}-secret"
             probes:
+              # TODO: re-enable after cache is populated
+              # startup:
+              #   enabled: true
+              #   custom: true
+              #   spec:
+              #     httpGet:
+              #       path: /health
+              #       port: *port
+              #     initialDelaySeconds: 0
+              #     periodSeconds: 10
+              #     timeoutSeconds: 1
+              #     failureThreshold: 60
               startup:
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /health
-                    port: *port
-                  initialDelaySeconds: 0
-                  periodSeconds: 10
-                  timeoutSeconds: 1
-                  failureThreshold: 60
+                enabled: false
               # TODO: re-enable after cache is populated
               # liveness: &probes
               #   enabled: true
