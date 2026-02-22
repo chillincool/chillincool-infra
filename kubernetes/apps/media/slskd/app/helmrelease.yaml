@@ -9,7 +9,7 @@ spec:
     kind: OCIRepository
     name: slskd
   interval: 1h
-  timeout: 10m
+  timeout: 30m
   values:
     controllers:
       slskd:
