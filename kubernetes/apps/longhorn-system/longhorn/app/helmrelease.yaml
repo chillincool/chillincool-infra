@@ -26,6 +26,10 @@ spec:
       defaultClass: true
       defaultClassReplicaCount: 3
       reclaimPolicy: Delete
+      extraStorageClasses:
+        - name: longhorn-single
+          numberOfReplicas: 1
+          reclaimPolicy: Delete
     csi:
       kubeletRootDir: /var/lib/kubelet
     longhornUI:
