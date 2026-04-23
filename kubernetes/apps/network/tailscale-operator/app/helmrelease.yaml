@@ -15,7 +15,7 @@ spec:
         - tag:k8s-operator
       image:
         repository: tailscale/k8s-operator
-        tag: v1.94.2
+        tag: v1.96.5
         pullPolicy: Always
       logging: info
       hostname: tailscale-operator
