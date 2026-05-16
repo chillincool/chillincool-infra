@@ -18,7 +18,7 @@ spec:
           app:
             image:
               repository: ghcr.io/sentriz/wrtag
-              tag: v0.20.0@sha256:3f33c13cc1613e9d63d42050898c07a2dd63662a87ab3a7d71a33a8abb4a097e
+              tag: v0.31.0@sha256:fce750a3b90242f1b31eae73e959fad550e53782b36cdb6b97b7945d749f6697
             command: ["/usr/local/bin/wrtagweb"]
             env:
               WRTAG_ADDON: "lyrics musixmatch lrclib genius,replaygain"
