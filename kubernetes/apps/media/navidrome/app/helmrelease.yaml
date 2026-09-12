@@ -18,7 +18,7 @@ spec:
           app:
             image:
               repository: ghcr.io/navidrome/navidrome
-              tag: 0.61.2@sha256:6d0b0a670a488adc3ee8101aa9e054378c024f4c9d934cfaf6f5ce2a112fbb9e
+              tag: 0.63.2@sha256:38246ebb80d6f7e2724eecab4acafa7b14ec66ae800b2454aa6da4c19f80a9ce
             env:
               ND_DATAFOLDER: /config
               ND_MUSICFOLDER: /music
