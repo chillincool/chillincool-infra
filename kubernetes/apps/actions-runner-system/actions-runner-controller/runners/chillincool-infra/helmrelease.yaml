@@ -12,7 +12,7 @@ spec:
   values:
     githubConfigUrl: https://github.com/chillincool/chillincool-infra
     githubConfigSecret: chillincool-infra-runner-secret
-    minRunners: 1
+    minRunners: 0
     maxRunners: 10
     containerMode:
       type: kubernetes
