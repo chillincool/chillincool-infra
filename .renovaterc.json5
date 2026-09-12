@@ -13,7 +13,6 @@
     ":timezone(America/Chicago)",
   ],
   dependencyDashboardTitle: "Renovate Dashboard 🤖",
-  reopenPRs: true,
   suppressNotifications: [
     "prEditedNotification",
     "prIgnoreNotification",
