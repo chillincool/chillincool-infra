@@ -11,4 +11,5 @@ spec:
   interval: 1h
   values:
     fullnameOverride: *name
-    updateStrategy: eventual
+    flags:
+      updateStrategy: eventual
