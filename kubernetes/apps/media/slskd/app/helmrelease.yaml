@@ -135,7 +135,7 @@ spec:
                 - \.ini$
                 - Thumbs.db$
                 - \.DS_Store$
-            integration:
+            integrations:
               scripts:
                 write_tags:
                   on:
