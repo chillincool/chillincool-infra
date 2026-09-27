@@ -65,6 +65,9 @@ machine:
     nodeIP:
       validSubnets:
         - 172.16.60.0/24
+  network:
+    nameservers:
+      - 172.16.60.1
   nodeLabels:
     node.kubernetes.io/gpu: "true"
     topology.kubernetes.io/region: main
