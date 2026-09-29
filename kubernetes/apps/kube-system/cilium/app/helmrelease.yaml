@@ -93,4 +93,4 @@ spec:
           - SYS_RESOURCE
     socketLB:
       enabled: true
-      hostNamespaceOnly: true
+      hostNamespaceOnly: false
