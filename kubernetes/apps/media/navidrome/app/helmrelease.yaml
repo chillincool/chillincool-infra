@@ -9,6 +9,7 @@ spec:
     kind: OCIRepository
     name: navidrome
   interval: 1h
+  timeout: 20m
   values:
     controllers:
       navidrome:
