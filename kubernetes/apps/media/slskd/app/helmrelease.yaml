@@ -75,7 +75,7 @@ spec:
                 memory: 443Mi
               limits:
                 cpu: 203m
-                memory: 443Mi
+                memory: 768Mi
         statefulset:
           volumeClaimTemplates:
             - name: config
@@ -131,6 +131,7 @@ spec:
             shares:
               cache:
                 enabled: true
+                storageMode: Disk
               directories:
                 - /media/media/music
               filters:
