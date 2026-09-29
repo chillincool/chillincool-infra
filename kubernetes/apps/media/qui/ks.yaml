@@ -8,6 +8,7 @@ spec:
   components:
     - ../../../../components/nfs-scaler
     - ../../../../components/volsync
+    - ../../../../components/volsync-restore
   dependsOn:
     - name: longhorn
       namespace: longhorn-system
