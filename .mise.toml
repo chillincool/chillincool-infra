@@ -12,4 +12,4 @@ _.file = [
 [tools]
 "uv" = "latest"
 "pipx:flux-local" = "latest"
-"talosctl" = "1.13.10"
+"talosctl" = "1.14.1"
