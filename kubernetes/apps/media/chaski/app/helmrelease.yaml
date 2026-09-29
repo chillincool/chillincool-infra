@@ -1,0 +1,77 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas-cvg.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: chaski
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: chaski
+  interval: 1h
+  values:
+    replicaCount: 2
+    envFrom:
+      - secretRef:
+          name: chaski-secret
+    config:
+      targets:
+        radarr:
+          apprise:
+            url: '{{ env "RADARR_PUSHOVER_URL" }}'
+        sonarr:
+          apprise:
+            url: '{{ env "SONARR_PUSHOVER_URL" }}'
+        seerr:
+          apprise:
+            url: '{{ env "SEERR_PUSHOVER_URL" }}'
+        plex:
+          apprise:
+            url: '{{ env "PLEX_DISCORD_URL" }}'
+      routes:
+        radarr:
+          target: radarr
+          title: "{{ if eq .payload.eventType \"ManualInteractionRequired\" }}Movie Requires Manual Interaction{{ else }}Movie {{ if .payload.isUpgrade }}Upgraded{{ else }}Added{{ end }}{{ end }}"
+          message: |-
+            <b>{{ .payload.movie.title }} ({{ .payload.movie.year }})</b>
+            {{ if eq .payload.eventType "Download" }}<small>{{ .payload.movie.overview | truncate 300 }}</small>{{ end }}
+            <small><b>Client:</b> {{ .payload.downloadClient | default "unknown" }}</small>
+          params:
+            format: html
+            priority: '{{ ternary "high" "low" (eq .payload.eventType "ManualInteractionRequired") }}'
+            url: "{{ if eq .payload.eventType \"ManualInteractionRequired\" }}{{ .payload.applicationUrl }}/activity/queue{{ else }}{{ .payload.applicationUrl }}/movie/{{ .payload.movie.tmdbId }}{{ end }}"
+            url_title: "{{ if eq .payload.eventType \"ManualInteractionRequired\" }}View Queue{{ else }}View Movie{{ end }}"
+          whenExpr: payload.eventType in ["Download", "ManualInteractionRequired"]
+        sonarr:
+          target: sonarr
+          title: "{{ if eq .payload.eventType \"ManualInteractionRequired\" }}Episode Requires Manual Interaction{{ else }}Episode {{ if .payload.isUpgrade }}Upgraded{{ else }}Added{{ end }}{{ end }}"
+          message: |-
+            <b>{{ .payload.series.title }}{{ if eq .payload.eventType "Download" }} (S{{ printf "%02d" (index .payload.episodes 0).seasonNumber }}E{{ printf "%02d" (index .payload.episodes 0).episodeNumber }}){{ end }}</b>
+            {{ if eq .payload.eventType "Download" }}<small>{{ (index .payload.episodes 0).title }}</small>{{ end }}
+            <small><b>Client:</b> {{ .payload.downloadClient | default "unknown" }}</small>
+          params:
+            format: html
+            priority: '{{ ternary "high" "low" (eq .payload.eventType "ManualInteractionRequired") }}'
+            url: "{{ if eq .payload.eventType \"ManualInteractionRequired\" }}{{ .payload.applicationUrl }}/activity/queue{{ else }}{{ .payload.applicationUrl }}/series/{{ .payload.series.titleSlug }}{{ end }}"
+            url_title: "{{ if eq .payload.eventType \"ManualInteractionRequired\" }}View Queue{{ else }}View Series{{ end }}"
+          whenExpr: payload.eventType in ["Download", "ManualInteractionRequired"]
+        seerr:
+          target: seerr
+          title: Test Notification
+          message: Howdy this is a test notification from <b>Seerr</b>
+          params:
+            format: html
+            priority: low
+            url: https://requests.chillincool.net
+            url_title: Open Seerr
+          whenExpr: payload.notification_type == "TEST_NOTIFICATION"
+        plex:
+          target: plex
+          title: "Added to Library: {{ if eq .payload.Metadata.type \"episode\" }}{{ .payload.Metadata.grandparentTitle }} - S{{ .payload.Metadata.parentIndex }}E{{ .payload.Metadata.index }}{{ else }}{{ .payload.Metadata.title }}{{ if .payload.Metadata.year }} ({{ .payload.Metadata.year }}){{ end }}{{ end }}"
+          message: "{{ if eq .payload.Metadata.type \"episode\" }}{{ .payload.Metadata.title }}{{ else }}{{ .payload.Metadata.summary | default \"\" | truncate 200 }}{{ end }}"
+          whenExpr: payload.event == "library.new"
+    resources:
+      requests:
+        cpu: 10m
+      limits:
+        memory: 64Mi
