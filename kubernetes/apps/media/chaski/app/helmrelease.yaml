@@ -34,7 +34,7 @@ spec:
           title: "{{ if eq .payload.eventType \"ManualInteractionRequired\" }}Movie Requires Manual Interaction{{ else }}Movie {{ if .payload.isUpgrade }}Upgraded{{ else }}Added{{ end }}{{ end }}"
           message: |-
             <b>{{ .payload.movie.title }} ({{ .payload.movie.year }})</b>
-            {{ if eq .payload.eventType "Download" }}<small>{{ .payload.movie.overview | truncate 300 }}</small>{{ end }}
+            {{ if eq .payload.eventType "Download" }}<small>{{ .payload.movie.overview | trunc 300 }}</small>{{ end }}
             <small><b>Client:</b> {{ .payload.downloadClient | default "unknown" }}</small>
           params:
             format: html
@@ -68,7 +68,7 @@ spec:
         plex:
           target: plex
           title: "Added to Library: {{ if eq .payload.Metadata.type \"episode\" }}{{ .payload.Metadata.grandparentTitle }} - S{{ .payload.Metadata.parentIndex }}E{{ .payload.Metadata.index }}{{ else }}{{ .payload.Metadata.title }}{{ if .payload.Metadata.year }} ({{ .payload.Metadata.year }}){{ end }}{{ end }}"
-          message: "{{ if eq .payload.Metadata.type \"episode\" }}{{ .payload.Metadata.title }}{{ else }}{{ .payload.Metadata.summary | default \"\" | truncate 200 }}{{ end }}"
+          message: "{{ if eq .payload.Metadata.type \"episode\" }}{{ .payload.Metadata.title }}{{ else }}{{ .payload.Metadata.summary | default \"\" | trunc 200 }}{{ end }}"
           whenExpr: payload.event == "library.new"
     resources:
       requests:
