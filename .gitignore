@@ -4,6 +4,7 @@
 .venv/
 *.crt
 *.env
+etcd-*.db
 *.iso
 *.key
 .decrypted~*
