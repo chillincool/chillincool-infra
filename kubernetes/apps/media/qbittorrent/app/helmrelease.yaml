@@ -85,6 +85,13 @@ spec:
           - backendRefs:
               - identifier: app
                 port: *port
+            # oidc forwards the Keycloak token as a Bearer header; qBittorrent 5.2+
+            # treats it as an invalid API key and returns 404
+            filters:
+              - type: RequestHeaderModifier
+                requestHeaderModifier:
+                  remove:
+                    - Authorization
     configMaps:
       config:
         data:
