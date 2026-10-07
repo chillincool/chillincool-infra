@@ -23,6 +23,7 @@ spec:
               # Layer-2 scanners (ARPSCAN, AVAHISCAN, NBTSCAN) need hostNetwork - SNMPDSC covers discovery instead
               LOADED_PLUGINS: "['SNMPDSC', 'CSVBCKP', 'DBCLNP', 'DIGSCAN', 'INTRNT', 'MAINT', 'NEWDEV', 'NSLOOKUP', 'NTFPRCS', 'SETPWD', 'SMTP', 'SYNC', 'VNDRPDT', 'WORKFLOWS', 'UI']"
               PORT: &port 20211
+              SNMPCONFPATH: /etc/snmp-netalertx
               TZ: America/Chicago
             envFrom:
               - secretRef:
@@ -71,5 +72,12 @@ spec:
         existingClaim: "{{ .Release.Name }}"
         globalMounts:
           - path: /data
+      snmp-conf:
+        type: secret
+        name: "{{ .Release.Name }}-snmp-secret"
+        globalMounts:
+          - path: /etc/snmp-netalertx/snmp.conf
+            subPath: snmp.conf
+            readOnly: true
       tmp:
         type: emptyDir
