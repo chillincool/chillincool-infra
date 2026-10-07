@@ -30,7 +30,8 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: {drop: ["ALL"]}
+              # python3 in the image has file caps (+eip) and won't exec unless these are in the bounding set
+              capabilities: {drop: ["ALL"], add: ["NET_ADMIN", "NET_RAW"]}
             probes:
               liveness:
                 enabled: true
