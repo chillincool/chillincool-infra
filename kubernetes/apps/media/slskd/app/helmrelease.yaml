@@ -74,7 +74,6 @@ spec:
                 cpu: 203m
                 memory: 443Mi
               limits:
-                cpu: 203m
                 memory: 768Mi
         statefulset:
           volumeClaimTemplates:
