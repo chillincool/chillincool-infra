@@ -33,6 +33,15 @@ spec:
           skip_empty_lines on
           skip_long_lines on
 
+        [INPUT]
+          name tail
+          alias hubble
+          path /var/run/cilium/hubble/events.log
+          parser hubble
+          tag hubble.flows
+          skip_empty_lines on
+          skip_long_lines on
+
       filters: |-
         [FILTER]
           name kubernetes
@@ -65,6 +74,12 @@ spec:
           rename k_labels_app app
           rename k_labels_k8s-app app
 
+        [FILTER]
+          name modify
+          match hubble.*
+          add app hubble
+          add log hubble-flow
+
       customParsers: |-
         [PARSER]
           name containerd
@@ -72,6 +87,13 @@ spec:
           regex ^(?<time>[^ ]+) (?<stream>stdout|stderr) (?<logtag>[^ ]*) (?<log>.*)$
           time_key time
           time_format %Y-%m-%dT%H:%M:%S.%L%z
+
+        [PARSER]
+          name hubble
+          format json
+          time_key time
+          time_format %Y-%m-%dT%H:%M:%S.%L%z
+          time_keep on
 
       outputs: |-
         [OUTPUT]
@@ -84,8 +106,29 @@ spec:
           json_date_format iso8601
           compress gzip
           log_response_payload false
+
+        [OUTPUT]
+          name http
+          match hubble.*
+          host victoria-logs-server.observability.svc.cluster.local
+          port 9428
+          uri /insert/jsonline?_stream_fields=app&_msg_field=log&_time_field=date
+          format json_lines
+          json_date_format iso8601
+          compress gzip
+          log_response_payload false
     dashboards:
       enabled: true
+    # Cilium writes its Hubble flow log under /var/run/cilium/hubble on the host
+    extraVolumeMounts:
+      - name: hubble
+        mountPath: /var/run/cilium/hubble
+        readOnly: true
+    extraVolumes:
+      - name: hubble
+        hostPath:
+          path: /var/run/cilium/hubble
+          type: DirectoryOrCreate
     serviceMonitor:
       enabled: true
     logLevel: warn
