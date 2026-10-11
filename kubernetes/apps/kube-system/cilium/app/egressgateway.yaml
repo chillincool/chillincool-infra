@@ -62,6 +62,10 @@ spec:
         matchLabels:
           app.kubernetes.io/name: prometheus
           io.kubernetes.pod.namespace: observability
+    - podSelector:
+        matchLabels:
+          app.kubernetes.io/name: fluent-bit
+          io.kubernetes.pod.namespace: observability
   destinationCIDRs:
     - 172.16.0.0/12
   egressGateway:
