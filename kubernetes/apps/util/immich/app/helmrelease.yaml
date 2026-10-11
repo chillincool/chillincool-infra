@@ -74,7 +74,7 @@ spec:
           annotations:
             gatus.home-operations.com/enabled: "false"
           hostnames:
-            - immich.chillincool.xyz
+            - immich.chillincool.com
           parentRefs:
             - name: envoy-tailscale
               namespace: network

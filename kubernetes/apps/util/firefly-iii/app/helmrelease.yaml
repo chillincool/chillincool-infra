@@ -168,7 +168,7 @@ spec:
         annotations:
           gatus.home-operations.com/enabled: "false"
         hostnames:
-          - firefly-iii.chillincool.xyz
+          - firefly-iii.chillincool.com
         parentRefs:
           - name: envoy-tailscale
             namespace: network
@@ -190,7 +190,7 @@ spec:
         annotations:
           gatus.home-operations.com/enabled: "false"
         hostnames:
-          - firefly-import.chillincool.xyz
+          - firefly-import.chillincool.com
         parentRefs:
           - name: envoy-tailscale
             namespace: network

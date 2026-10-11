@@ -164,7 +164,7 @@ spec:
         annotations:
           gatus.home-operations.com/enabled: "false"
         hostnames:
-          - paperless.chillincool.xyz
+          - paperless.chillincool.com
         parentRefs:
           - name: envoy-tailscale
             namespace: network

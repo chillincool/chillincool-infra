@@ -18,13 +18,13 @@ spec:
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: chillincool-xyz
+  name: chillincool-com
 spec:
-  secretName: chillincool-xyz-tls
+  secretName: chillincool-com-tls
   issuerRef:
     name: letsencrypt-production
     kind: ClusterIssuer
-  commonName: chillincool.xyz
+  commonName: chillincool.com
   dnsNames:
-    - chillincool.xyz
-    - "*.chillincool.xyz"
+    - chillincool.com
+    - "*.chillincool.com"

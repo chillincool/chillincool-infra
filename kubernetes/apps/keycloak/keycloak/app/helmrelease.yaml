@@ -117,7 +117,7 @@ spec:
         annotations:
           gatus.home-operations.com/enabled: "false"
         hostnames:
-          - login.chillincool.xyz
+          - login.chillincool.com
         parentRefs:
           - name: envoy-tailscale
             namespace: network
