@@ -44,3 +44,28 @@ spec:
       matchLabels:
         kubernetes.io/hostname: talos2
     egressIP: 172.16.60.62
+---
+# yaml-language-server: $schema=https://kubernetes-schemas-cvg.pages.dev/cilium.io/ciliumegressgatewaypolicy_v2.json
+# Pod IPs are routable, but the FortiGate only allows the node subnet into other VLANs.
+# LAN monitoring (incl. the NFS probe nfs-scaler depends on) keeps using the node IP.
+apiVersion: cilium.io/v2
+kind: CiliumEgressGatewayPolicy
+metadata:
+  name: lan-monitoring
+spec:
+  selectors:
+    - podSelector:
+        matchLabels:
+          app.kubernetes.io/instance: blackbox-exporter-lan
+          io.kubernetes.pod.namespace: observability
+    - podSelector:
+        matchLabels:
+          app.kubernetes.io/name: prometheus
+          io.kubernetes.pod.namespace: observability
+  destinationCIDRs:
+    - 172.16.0.0/12
+  egressGateway:
+    nodeSelector:
+      matchLabels:
+        kubernetes.io/hostname: talos2
+    egressIP: 172.16.60.51
