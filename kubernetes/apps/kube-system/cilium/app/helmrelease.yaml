@@ -67,6 +67,10 @@ spec:
                 excludeFilters:
                   - source_pod: ["media/qbittorrent", "media/slskd"]
                   - destination_pod: ["media/qbittorrent", "media/slskd"]
+                  # LoadBalancer traffic is already identifiable by its fixed IP and carries no pod name
+                  - source_ip: ["10.60.60.0/24"]
+                  - destination_ip: ["10.60.60.0/24"]
+                  - reply: [true]
                 fileMaxSizeMb: 20
                 fileMaxBackups: 2
     ipam:
