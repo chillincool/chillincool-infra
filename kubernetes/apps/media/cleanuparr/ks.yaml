@@ -6,7 +6,6 @@ metadata:
   name: cleanuparr
 spec:
   components:
-    - ../../../../components/oidc
     - ../../../../components/volsync
   dependsOn:
     - name: longhorn
