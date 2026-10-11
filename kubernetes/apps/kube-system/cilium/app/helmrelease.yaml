@@ -135,4 +135,5 @@ spec:
           - SYS_RESOURCE
     socketLB:
       enabled: true
-      hostNamespaceOnly: false
+      # true = pods use per-packet service LB. Needed for the tailscale proxy, which forwards packets to a ClusterIP
+      hostNamespaceOnly: true
