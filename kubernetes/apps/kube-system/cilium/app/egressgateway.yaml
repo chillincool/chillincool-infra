@@ -1,0 +1,46 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas-cvg.pages.dev/cilium.io/ciliumegressgatewaypolicy_v2.json
+apiVersion: cilium.io/v2
+kind: CiliumEgressGatewayPolicy
+metadata:
+  name: qbittorrent
+spec:
+  selectors:
+    - podSelector:
+        matchLabels:
+          app.kubernetes.io/name: qbittorrent
+          io.kubernetes.pod.namespace: media
+  destinationCIDRs:
+    - 0.0.0.0/0
+  excludedCIDRs:
+    - 10.42.0.0/16 # pods
+    - 10.43.0.0/16 # services
+    - 10.60.60.0/24 # LoadBalancer IPs
+  egressGateway:
+    nodeSelector:
+      matchLabels:
+        kubernetes.io/hostname: talos2
+    egressIP: 172.16.60.61
+---
+# yaml-language-server: $schema=https://kubernetes-schemas-cvg.pages.dev/cilium.io/ciliumegressgatewaypolicy_v2.json
+apiVersion: cilium.io/v2
+kind: CiliumEgressGatewayPolicy
+metadata:
+  name: slskd
+spec:
+  selectors:
+    - podSelector:
+        matchLabels:
+          app.kubernetes.io/name: slskd
+          io.kubernetes.pod.namespace: media
+  destinationCIDRs:
+    - 0.0.0.0/0
+  excludedCIDRs:
+    - 10.42.0.0/16 # pods
+    - 10.43.0.0/16 # services
+    - 10.60.60.0/24 # LoadBalancer IPs
+  egressGateway:
+    nodeSelector:
+      matchLabels:
+        kubernetes.io/hostname: talos2
+    egressIP: 172.16.60.62
