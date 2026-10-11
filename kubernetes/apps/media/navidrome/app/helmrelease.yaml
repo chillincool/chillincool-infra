@@ -99,6 +99,9 @@ spec:
               - identifier: app
                 port: *port
       public:
+        annotations:
+          gatus.home-operations.com/endpoint: |-
+            path: /rest/ping
         hostnames:
           - "{{ .Release.Name }}.chillincool.net"
         parentRefs:
