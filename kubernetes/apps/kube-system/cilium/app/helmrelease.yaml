@@ -43,13 +43,13 @@ spec:
       enabled: false
     ipam:
       mode: kubernetes
-    # Destinations listed here keep the pod's own source IP; everything else is masqueraded to the node IP
+    # Destinations listed here keep the pod's own source IP. With 0.0.0.0/0 nothing is masqueraded to the
+    # node IP: pod IPs are routable (pod CIDR is advertised over BGP) and the FortiGate does the internet NAT.
     ipMasqAgent:
       enabled: true
       config:
         nonMasqueradeCIDRs:
-          - 10.42.0.0/16
-          - 1.1.1.1/32
+          - 0.0.0.0/0
     ipv4NativeRoutingCIDR: 10.42.0.0/16
     k8sServiceHost: 127.0.0.1
     k8sServicePort: 7445
