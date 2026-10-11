@@ -28,9 +28,13 @@ spec:
         plex:
           apprise:
             url: '{{ env "PLEX_DISCORD_URL" }}'
-        arr-discord:
+        # Same Discord webhook for both; the user part of the URL sets the name the message is posted as
+        radarr-discord:
           apprise:
-            url: '{{ env "ARR_DISCORD_URL" }}'
+            url: '{{ env "ARR_DISCORD_URL" | replace "discord://" "discord://Radarr@" }}'
+        sonarr-discord:
+          apprise:
+            url: '{{ env "ARR_DISCORD_URL" | replace "discord://" "discord://Sonarr@" }}'
       routes:
         radarr:
           target: radarr
@@ -75,18 +79,22 @@ spec:
           whenExpr: payload.event == "library.new"
         # Discord only hears about new imports; upgrades and manual-interaction events stay on Pushover
         radarr-discord:
-          target: arr-discord
+          target: radarr-discord
           title: Movie Added
           message: |-
             **{{ .payload.movie.title }} ({{ .payload.movie.year }})**
             {{ .payload.movie.overview | default "" | trunc 300 }}
+          params:
+            avatar_url: https://raw.githubusercontent.com/Radarr/Radarr/develop/Logo/256.png
           whenExpr: payload.eventType == "Download" && !(has(payload.isUpgrade) && payload.isUpgrade)
         sonarr-discord:
-          target: arr-discord
+          target: sonarr-discord
           title: Episode Added
           message: |-
             **{{ .payload.series.title }} (S{{ printf "%02.0f" (index .payload.episodes 0).seasonNumber }}E{{ printf "%02.0f" (index .payload.episodes 0).episodeNumber }})**
             {{ (index .payload.episodes 0).title }}
+          params:
+            avatar_url: https://raw.githubusercontent.com/Sonarr/Sonarr/develop/Logo/256.png
           whenExpr: payload.eventType == "Download" && !(has(payload.isUpgrade) && payload.isUpgrade)
     resources:
       requests:
