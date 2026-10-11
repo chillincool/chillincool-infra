@@ -1,0 +1,103 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: unpackerr
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: unpackerr
+  interval: 1h
+  values:
+    controllers:
+      unpackerr:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/unpackerr/unpackerr
+              tag: v0.16.1@sha256:406586865431b40b29353d899fb75a788f5384743f7f381444db5fe55d206914
+            env:
+              TZ: America/Chicago
+              # Extracts archives found in completed torrents so the arrs can import them.
+              # The original rar files are kept for seeding; extracted copies are removed after import.
+              UN_SONARR_0_API_KEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: sonarr-secret
+                    key: SONARR__AUTH__APIKEY
+              UN_SONARR_0_DELETE_DELAY: 5m
+              UN_SONARR_0_DELETE_ORIG: "false"
+              UN_SONARR_0_PATHS_0: /media/torrents
+              UN_SONARR_0_PROTOCOLS: torrent
+              UN_SONARR_0_URL: http://sonarr.media.svc.cluster.local
+              UN_SONARR_1_API_KEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: sonarr-4k-secret
+                    key: SONARR__AUTH__APIKEY
+              UN_SONARR_1_DELETE_DELAY: 5m
+              UN_SONARR_1_DELETE_ORIG: "false"
+              UN_SONARR_1_PATHS_0: /media/torrents
+              UN_SONARR_1_PROTOCOLS: torrent
+              UN_SONARR_1_URL: http://sonarr-4k.media.svc.cluster.local
+              UN_SONARR_2_API_KEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: sonarr-anime-secret
+                    key: SONARR__AUTH__APIKEY
+              UN_SONARR_2_DELETE_DELAY: 5m
+              UN_SONARR_2_DELETE_ORIG: "false"
+              UN_SONARR_2_PATHS_0: /media/torrents
+              UN_SONARR_2_PROTOCOLS: torrent
+              UN_SONARR_2_URL: http://sonarr-anime.media.svc.cluster.local
+              UN_RADARR_0_API_KEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: radarr-secret
+                    key: RADARR__AUTH__APIKEY
+              UN_RADARR_0_DELETE_DELAY: 5m
+              UN_RADARR_0_DELETE_ORIG: "false"
+              UN_RADARR_0_PATHS_0: /media/torrents
+              UN_RADARR_0_PROTOCOLS: torrent
+              UN_RADARR_0_URL: http://radarr.media.svc.cluster.local
+              UN_RADARR_1_API_KEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: radarr-4k-secret
+                    key: RADARR__AUTH__APIKEY
+              UN_RADARR_1_DELETE_DELAY: 5m
+              UN_RADARR_1_DELETE_ORIG: "false"
+              UN_RADARR_1_PATHS_0: /media/torrents
+              UN_RADARR_1_PROTOCOLS: torrent
+              UN_RADARR_1_URL: http://radarr-4k.media.svc.cluster.local
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: {drop: ["ALL"]}
+            resources:
+              requests:
+                cpu: 10m
+                memory: 128Mi
+              limits:
+                memory: 1Gi
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+    persistence:
+      config:
+        type: emptyDir
+      media:
+        type: nfs
+        server: dsm1.chillincool.net
+        path: /volume2/data
+        globalMounts:
+          - path: /media
+      tmp:
+        type: emptyDir
