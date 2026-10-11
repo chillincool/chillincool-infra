@@ -12,7 +12,9 @@ resources:
   - ./agregarr/ks.yaml
   - ./autobrr/ks.yaml
   # - ./bazarr/ks.yaml
+  - ./brrpolice/ks.yaml
   - ./chaski/ks.yaml
+  - ./cleanuparr/ks.yaml
   - ./navidrome/ks.yaml
   # - ./nzbget/ks.yaml
   - ./plex/ks.yaml
