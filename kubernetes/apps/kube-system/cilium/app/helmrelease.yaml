@@ -31,7 +31,10 @@ spec:
       enabled: true
     devices: eno1 ens18
     directRoutingDevice: eno1 ens18
-    enableIPv4BIGTCP: true
+    egressGateway:
+      enabled: true
+    # BIG TCP cannot be combined with the tunneling the egress gateway uses
+    enableIPv4BIGTCP: false
     endpointRoutes:
       enabled: true
     envoy:
