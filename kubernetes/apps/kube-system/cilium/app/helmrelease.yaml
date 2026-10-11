@@ -40,7 +40,35 @@ spec:
     envoy:
       enabled: false
     hubble:
-      enabled: false
+      enabled: true
+      # Flow log for traffic crossing the cluster boundary, so an IP seen by Security Onion can be mapped to a pod.
+      # qbittorrent/slskd are excluded: they have fixed egress IPs and would be most of the volume.
+      export:
+        dynamic:
+          enabled: true
+          config:
+            content:
+              - name: boundary
+                filePath: /var/run/cilium/hubble/events.log
+                fieldMask:
+                  - time
+                  - verdict
+                  - source.namespace
+                  - source.pod_name
+                  - destination.namespace
+                  - destination.pod_name
+                  - IP
+                  - l4
+                  - traffic_direction
+                  - is_reply
+                includeFilters:
+                  - source_label: ["reserved:world"]
+                  - destination_label: ["reserved:world"]
+                excludeFilters:
+                  - source_pod: ["media/qbittorrent", "media/slskd"]
+                  - destination_pod: ["media/qbittorrent", "media/slskd"]
+                fileMaxSizeMb: 20
+                fileMaxBackups: 2
     ipam:
       mode: kubernetes
     # Destinations listed here keep the pod's own source IP. With 0.0.0.0/0 nothing is masqueraded to the
