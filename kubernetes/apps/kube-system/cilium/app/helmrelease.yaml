@@ -31,6 +31,8 @@ spec:
       enabled: true
     devices: eno1 ens18
     directRoutingDevice: eno1 ens18
+    egressGateway:
+      enabled: true
     enableIPv4BIGTCP: true
     endpointRoutes:
       enabled: true
