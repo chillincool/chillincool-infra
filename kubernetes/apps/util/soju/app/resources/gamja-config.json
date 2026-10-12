@@ -1,0 +1,11 @@
+{
+  "server": {
+    "url": "/socket",
+    "auth": "oauth2"
+  },
+  "oauth2": {
+    "url": "https://login.chillincool.net/realms/chillincool",
+    "client_id": "gamja",
+    "scope": "openid"
+  }
+}

@@ -1,0 +1,139 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: soju
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: soju
+  interval: 1h
+  values:
+    controllers:
+      soju:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: codeberg.org/emersion/soju
+              tag: v0.11.1@sha256:d96e0e796eab43fdea143e2ccfdd586bb5b04e3bb6a6dc544b01c35ebeaef74a
+            env:
+              TZ: America/Chicago
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: &port 8080
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+            securityContext: &securityContext
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: {drop: ["ALL"]}
+            resources:
+              requests:
+                cpu: 10m
+                memory: 64Mi
+              limits:
+                memory: 256Mi
+      # Web client. Its own pod so that updating it never restarts the bouncer.
+      gamja:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: codeberg.org/emersion/gamja
+              tag: v1.0.0-beta.11@sha256:e3eac67e221e58d78809d253ba0486fef0ae9f1a0e3fbe8914c56c1e66dd372d
+            probes:
+              liveness: &gamjaProbes
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: &gamjaPort 80
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *gamjaProbes
+            securityContext: *securityContext
+            resources:
+              requests:
+                cpu: 10m
+                memory: 16Mi
+              limits:
+                memory: 64Mi
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+    service:
+      app:
+        controller: soju
+        ports:
+          http:
+            port: *port
+      gamja:
+        controller: gamja
+        ports:
+          http:
+            port: *gamjaPort
+    route:
+      app:
+        hostnames:
+          - irc.chillincool.net
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        rules:
+          # gamja only serves static files; the WebSocket goes straight to soju
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /socket
+            backendRefs:
+              - identifier: app
+                port: *port
+          - backendRefs:
+              - identifier: gamja
+                port: *gamjaPort
+    persistence:
+      config:
+        existingClaim: "{{ .Release.Name }}"
+        advancedMounts:
+          soju:
+            app:
+              - path: /db
+      gamja-config:
+        type: configMap
+        name: "{{ .Release.Name }}-configmap"
+        advancedMounts:
+          gamja:
+            app:
+              - path: /gamja-config.json
+                subPath: gamja-config.json
+      run:
+        type: emptyDir
+        advancedMounts:
+          soju:
+            app:
+              - path: /run/soju
+      soju-config:
+        type: secret
+        name: "{{ .Release.Name }}-secret"
+        advancedMounts:
+          soju:
+            app:
+              - path: /soju-config
+                subPath: soju-config
