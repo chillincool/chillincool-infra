@@ -1,0 +1,62 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: tl-keep
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: tl-keep
+  interval: 1h
+  values:
+    controllers:
+      tl-keep:
+        type: cronjob
+        cronjob:
+          # Runs before Cleanuparr's Download Cleaner (hourly at :00), which ignores the tag.
+          schedule: 50 * * * *
+          backoffLimit: 0
+          concurrencyPolicy: Forbid
+          successfulJobsHistory: 1
+          failedJobsHistory: 1
+          ttlSecondsAfterFinished: 3600
+        containers:
+          app:
+            image:
+              repository: docker.io/library/python
+              tag: 3.14-alpine@sha256:f6a589d43c42b9e7f7dc67a12d37132491f362859a5d750607710cc56da3bc72
+            env:
+              KEEP_COUNT: 100
+              KEEP_TAG: tl-keep
+              TRACKER_PATTERN: torrentleech|tleechreload
+            envFrom:
+              - secretRef:
+                  name: "{{ .Release.Name }}-secret"
+            command:
+              - python
+              - /app/tl-keep.py
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: {drop: ["ALL"]}
+            resources:
+              requests:
+                cpu: 10m
+                memory: 32Mi
+              limits:
+                memory: 128Mi
+        pod:
+          restartPolicy: Never
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+    persistence:
+      script:
+        type: configMap
+        name: "{{ .Release.Name }}-configmap"
+        globalMounts:
+          - path: /app/tl-keep.py
+            subPath: tl-keep.py

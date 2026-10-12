@@ -32,5 +32,6 @@ resources:
   - ./sonarr-4k/ks.yaml
   - ./sonarr-anime/ks.yaml
   - ./tautulli/ks.yaml
+  - ./tl-keep/ks.yaml
   - ./unpackerr/ks.yaml
   - ./wrtag/ks.yaml
