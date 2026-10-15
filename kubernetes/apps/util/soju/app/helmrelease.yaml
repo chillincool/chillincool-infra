@@ -20,6 +20,8 @@ spec:
               repository: codeberg.org/emersion/soju
               tag: v0.11.1@sha256:d96e0e796eab43fdea143e2ccfdd586bb5b04e3bb6a6dc544b01c35ebeaef74a
             env:
+              # Some P2P-Network servers only offer RSA key exchange, which Go disables by default
+              GODEBUG: tlsrsakex=1
               TZ: America/Chicago
             probes:
               liveness: &probes
