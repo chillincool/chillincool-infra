@@ -72,6 +72,18 @@ spec:
               limits:
                 memory: 64Mi
     defaultPodOptions:
+      # Two of P2P-Network's servers only offer TLS that soju's Go runtime no longer supports
+      hostAliases:
+        - ip: 144.217.95.54
+          hostnames: ["irc.p2p-network.net"]
+        - ip: 139.162.154.78
+          hostnames: ["irc.p2p-network.net"]
+        - ip: 172.234.113.27
+          hostnames: ["irc.p2p-network.net"]
+        - ip: 139.162.106.227
+          hostnames: ["irc.p2p-network.net"]
+        - ip: 159.65.204.61
+          hostnames: ["irc.p2p-network.net"]
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
