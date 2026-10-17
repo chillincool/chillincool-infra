@@ -40,6 +40,10 @@ spec:
                   httpGet:
                     path: /ping
                     port: *port
+                    # Host must be allowed if Allowed Hosts is set; localhost always is
+                    httpHeaders:
+                      - name: Host
+                        value: localhost
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
