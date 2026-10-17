@@ -77,3 +77,25 @@ spec:
       matchLabels:
         kubernetes.io/hostname: talos2
     egressIP: 172.16.60.51
+---
+# yaml-language-server: $schema=https://kubernetes-schemas-cvg.pages.dev/cilium.io/ciliumegressgatewaypolicy_v2.json
+# The Tailscale subnet router (Connector home-lan) forwards tailnet traffic into the VLANs,
+# so it has to leave as the node IP too.
+apiVersion: cilium.io/v2
+kind: CiliumEgressGatewayPolicy
+metadata:
+  name: tailscale-subnet-router
+spec:
+  selectors:
+    - podSelector:
+        matchLabels:
+          tailscale.com/parent-resource: home-lan
+          tailscale.com/parent-resource-type: connector
+          io.kubernetes.pod.namespace: network
+  destinationCIDRs:
+    - 172.16.0.0/12
+  egressGateway:
+    nodeSelector:
+      matchLabels:
+        kubernetes.io/hostname: talos2
+    egressIP: 172.16.60.51
