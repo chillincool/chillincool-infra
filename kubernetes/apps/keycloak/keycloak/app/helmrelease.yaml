@@ -29,7 +29,9 @@ spec:
               KC_DB_URL_PORT: "5432"
               KC_DB_URL_DATABASE: keycloak
               # Keycloak
-              KC_HOSTNAME: login.chillincool.net
+              # No fixed hostname: the master realm and admin console follow whichever host they are
+              # opened on (login-admin.chillincool.net / .com). The chillincool realm is pinned to
+              # https://login.chillincool.net by its own Frontend URL setting.
               KC_HOSTNAME_STRICT: "false"
               KC_HTTP_ENABLED: "true"
               KC_HTTP_PORT: &port 8080
@@ -110,9 +112,44 @@ spec:
       keycloak:
         hostnames:
           - login.chillincool.net
+        # Public, and also on the LAN so local logins don't go out through Cloudflare and back
         parentRefs:
           - name: envoy-external
             namespace: network
+          - name: envoy-internal
+            namespace: network
+            sectionName: https
+        rules:
+          # The bare hostname lands on the chillincool realm
+          - filters:
+              - type: RequestRedirect
+                requestRedirect:
+                  path:
+                    type: ReplaceFullPath
+                    replaceFullPath: /realms/chillincool/account/
+                  statusCode: 302
+            matches:
+              - path:
+                  type: Exact
+                  value: /
+          # The admin console and the master realm are not served publicly (see login-admin below)
+          - filters:
+              - type: RequestRedirect
+                requestRedirect:
+                  path:
+                    type: ReplaceFullPath
+                    replaceFullPath: /realms/chillincool/account/
+                  statusCode: 302
+            matches:
+              - path:
+                  type: PathPrefix
+                  value: /admin
+              - path:
+                  type: PathPrefix
+                  value: /realms/master
+          - backendRefs:
+              - identifier: app
+                port: *port
       tailscale:
         annotations:
           gatus.home-operations.com/enabled: "false"
@@ -121,6 +158,69 @@ spec:
         parentRefs:
           - name: envoy-tailscale
             namespace: network
+        rules:
+          - filters:
+              - type: RequestRedirect
+                requestRedirect:
+                  path:
+                    type: ReplaceFullPath
+                    replaceFullPath: /realms/chillincool/account/
+                  statusCode: 302
+            matches:
+              - path:
+                  type: Exact
+                  value: /
+          - backendRefs:
+              - identifier: app
+                port: *port
+      # Admin console and master realm: LAN only
+      admin:
+        annotations:
+          gatus.home-operations.com/enabled: "false"
+        hostnames:
+          - login-admin.chillincool.net
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        rules:
+          - filters:
+              - type: RequestRedirect
+                requestRedirect:
+                  path:
+                    type: ReplaceFullPath
+                    replaceFullPath: /admin/master/console/
+                  statusCode: 302
+            matches:
+              - path:
+                  type: Exact
+                  value: /
+          - backendRefs:
+              - identifier: app
+                port: *port
+      # Admin console and master realm: tailnet only
+      admin-tailscale:
+        annotations:
+          gatus.home-operations.com/enabled: "false"
+        hostnames:
+          - login-admin.chillincool.com
+        parentRefs:
+          - name: envoy-tailscale
+            namespace: network
+        rules:
+          - filters:
+              - type: RequestRedirect
+                requestRedirect:
+                  path:
+                    type: ReplaceFullPath
+                    replaceFullPath: /admin/master/console/
+                  statusCode: 302
+            matches:
+              - path:
+                  type: Exact
+                  value: /
+          - backendRefs:
+              - identifier: app
+                port: *port
     persistence:
       tmp:
         type: emptyDir
