@@ -127,6 +127,62 @@ html, body.pf-v5-c-login, #keycloak-bg {
   border-radius: 0 10px 10px 0;
 }
 
+/* read-only "signing in as" username on later steps (passkey, OTP, password) */
+.pf-v5-c-form-control.pf-m-readonly {
+  --pf-v5-c-form-control--BackgroundColor: rgba(0, 0, 0, 0.25);
+  --pf-v5-c-form-control--m-readonly--BackgroundColor: rgba(0, 0, 0, 0.25);
+  --pf-v5-c-form-control--Color: var(--cc-text);
+  --pf-v5-c-form-control--before--BorderColor: rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.25);
+  color: var(--cc-text);
+}
+.pf-v5-c-form-control.pf-m-readonly input,
+#kc-attempted-username {
+  color: var(--cc-text);
+  -webkit-text-fill-color: var(--cc-text);
+  background: transparent;
+  font-weight: 500;
+}
+
+/* passkey / authenticator lists and OTP device tiles */
+.pf-v5-c-data-list,
+.pf-v5-c-data-list__item,
+.pf-v5-c-tile {
+  --pf-v5-c-data-list--BackgroundColor: transparent;
+  --pf-v5-c-data-list__item--BackgroundColor: rgba(0, 0, 0, 0.3);
+  --pf-v5-c-tile--BackgroundColor: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.3);
+  color: var(--cc-text);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+.pf-v5-c-data-list { border: 0; background: transparent; margin-block: 1.25rem; }
+.pf-v5-c-data-list__item {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  margin-bottom: 0.5rem;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+.pf-v5-c-data-list__item.pf-m-clickable:hover,
+.pf-v5-c-tile:hover { background-color: rgba(255, 255, 255, 0.06); border-color: rgba(255, 255, 255, 0.2); }
+.pf-v5-c-data-list__item::before, .pf-v5-c-data-list__item::after { display: none; }
+.select-auth-box-headline, .pf-v5-c-tile__title { color: var(--cc-text); }
+.select-auth-box-desc, .pf-v5-c-data-list__cell, .pf-v5-c-tile__body { color: var(--cc-muted); }
+.pf-v5-c-tile.pf-m-selected { border-color: #d9d9d9; }
+
+/* secondary buttons ("Try Another Way") */
+.pf-v5-c-button.pf-m-secondary {
+  --pf-v5-c-button--m-secondary--Color: var(--cc-text);
+  --pf-v5-c-button--m-secondary--after--BorderColor: rgba(255, 255, 255, 0.35);
+  --pf-v5-c-button--m-secondary--hover--Color: #fff;
+  --pf-v5-c-button--m-secondary--hover--after--BorderColor: #fff;
+  --pf-v5-c-button--BorderRadius: 10px;
+  --pf-v5-c-button--after--BorderRadius: 10px;
+  border-radius: 10px;
+}
+
+#kc-form-webauthn .pf-v5-c-button + .pf-v5-c-button,
+#kc-form-webauthn .pf-v5-c-form__group + .pf-v5-c-form__group { margin-top: 0.75rem; }
+
 /* primary button */
 .pf-v5-c-button.pf-m-primary {
   background: linear-gradient(135deg, #f4f4f4, #a9a9a9);
