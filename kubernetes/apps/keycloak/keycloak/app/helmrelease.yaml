@@ -129,3 +129,20 @@ spec:
         name: "{{ .Release.Name }}-realm"
         globalMounts:
           - path: /opt/keycloak/data/import
+      # Custom login theme "chillincool"; select it under Realm settings -> Themes
+      theme:
+        type: configMap
+        name: "{{ .Release.Name }}-theme"
+        globalMounts:
+          - path: /opt/keycloak/themes/chillincool/login/theme.properties
+            subPath: theme.properties
+          - path: /opt/keycloak/themes/chillincool/login/resources/css/chillincool.css
+            subPath: chillincool.css
+          - path: /opt/keycloak/themes/chillincool/login/resources/js/chillincool.js
+            subPath: chillincool.js
+          - path: /opt/keycloak/themes/chillincool/login/resources/img/logo.svg
+            subPath: logo.svg
+          - path: /opt/keycloak/themes/chillincool/login/resources/img/wear.svg
+            subPath: wear.svg
+          - path: /opt/keycloak/themes/chillincool/login/resources/fonts/outfit.woff2
+            subPath: outfit.woff2

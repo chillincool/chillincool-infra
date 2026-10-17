@@ -14,5 +14,13 @@ configMapGenerator:
   - name: keycloak-realm
     files:
       - chillincool-realm.json=./resources/chillincool-realm.json
+  - name: keycloak-theme
+    files:
+      - theme.properties=./resources/theme/theme.properties
+      - chillincool.css=./resources/theme/chillincool.css
+      - chillincool.js=./resources/theme/chillincool.js
+      - logo.svg=./resources/theme/logo.svg
+      - wear.svg=./resources/theme/wear.svg
+      - outfit.woff2=./resources/theme/outfit.woff2
 generatorOptions:
   disableNameSuffixHash: true
