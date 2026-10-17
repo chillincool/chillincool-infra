@@ -6,6 +6,7 @@ metadata:
   name: cleanuparr
 spec:
   components:
+    - ../../../../components/nfs-scaler
     - ../../../../components/volsync
   dependsOn:
     - name: longhorn

@@ -71,5 +71,12 @@ spec:
     persistence:
       config:
         existingClaim: "{{ .Release.Name }}"
+      # Same path qBittorrent uses, so Cleanuparr can find orphaned files in the download folders
+      media:
+        type: nfs
+        server: dsm1.chillincool.net
+        path: /volume2/data
+        globalMounts:
+          - path: /media
       tmp:
         type: emptyDir
