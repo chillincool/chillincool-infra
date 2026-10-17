@@ -56,6 +56,8 @@ html, body.pf-v5-c-login, #keycloak-bg {
   color: transparent;
   filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.7));
 }
+/* the master realm's display name is Keycloak's own logo; hide it so only ours shows */
+#kc-header-wrapper .kc-logo-text { display: none; }
 
 /* black frosted glass card; the frosting is worn thin and speckled around the edges */
 .pf-v5-c-login__main {
@@ -155,7 +157,7 @@ html, body.pf-v5-c-login, #keycloak-bg {
   color: var(--cc-text);
   border-color: rgba(255, 255, 255, 0.1);
 }
-.pf-v5-c-data-list { border: 0; background: transparent; margin-block: 1.25rem; }
+.pf-v5-c-data-list { border: 0; background: transparent; }
 .pf-v5-c-data-list__item {
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 10px;
