@@ -18,7 +18,7 @@ spec:
           app:
             image:
               repository: ghcr.io/unpackerr/unpackerr
-              tag: nightly@sha256:10e62833fb6d3ceb51de9c3d5b5d7107115d96ef77defa3ca563b0980343ef1a
+              tag: nightly@sha256:15d4193e511c6a3f0bda3889c6cd0cc909fb0113230ac78ff33d197606cdd563
             env:
               TZ: America/Chicago
               # Extracts archives found in completed torrents so the arrs can import them.
