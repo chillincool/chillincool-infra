@@ -1,0 +1,17 @@
+/* chillincool-master: the chillincool login theme with a "Master Realm" caption under the logo */
+#kc-header {
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 0;
+}
+#kc-header::after {
+  content: "Master Realm";
+  margin: 0 0 3.5rem; /* equal gaps to the logo above and the login box below */
+  font-family: "Outfit", system-ui, sans-serif;
+  font-size: 2.1rem;
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--cc-text);
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.85);
+}

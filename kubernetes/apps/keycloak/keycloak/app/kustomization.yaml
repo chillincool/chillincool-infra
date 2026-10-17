@@ -22,5 +22,7 @@ configMapGenerator:
       - logo.svg=./resources/theme/logo.svg
       - wear.svg=./resources/theme/wear.svg
       - outfit.woff2=./resources/theme/outfit.woff2
+      - master-theme.properties=./resources/theme-master/theme.properties
+      - master.css=./resources/theme-master/master.css
 generatorOptions:
   disableNameSuffixHash: true
