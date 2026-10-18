@@ -17,6 +17,9 @@ KEEP_COUNT = int(os.environ.get("KEEP_COUNT", "100"))
 KEEP_TAG = os.environ.get("KEEP_TAG", "tl-keep")
 TRACKER = re.compile(os.environ.get("TRACKER_PATTERN", "torrentleech|tleechreload"))
 DRY_RUN = os.environ.get("DRY_RUN", "").lower() in ("1", "true")
+# Tracker messages meaning the torrent was removed from the site. These earn no seeding
+# points, so they are never kept and Cleanuparr's dead-torrent handling can remove them.
+UNREGISTERED = re.compile(r"unregistered|not registered|torrent not found|does not exist|deleted|nuked|trumped|dupe", re.I)
 
 
 def api(path, data=None):
@@ -27,6 +30,12 @@ def api(path, data=None):
 
 def tags(torrent):
     return {tag.strip() for tag in torrent["tags"].split(",") if tag.strip()}
+
+
+def unregistered(torrent):
+    trackers = json.loads(api(f"torrents/trackers?hash={torrent['hash']}"))
+    # Skip the DHT/PeX/LSD pseudo-entries, which have no real URL
+    return any("://" in t["url"] and UNREGISTERED.search(t.get("msg") or "") for t in trackers)
 
 
 def main():
@@ -42,6 +51,10 @@ def main():
         t for t in torrents
         if t["progress"] == 1 and (TRACKER.search(t["tracker"]) or (not t["tracker"] and t in tagged))
     ]
+    dropped = [t for t in candidates if unregistered(t)]
+    candidates = [t for t in candidates if t not in dropped]
+    for torrent in dropped:
+        print(f"unregistered, not keeping: {torrent['name']}")
 
     # Hardlinked torrents first (keeping them costs no disk), then the newest.
     candidates.sort(key=lambda t: ("no-hardlink" in tags(t), -t["added_on"]))
