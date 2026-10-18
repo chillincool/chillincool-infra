@@ -87,3 +87,6 @@ spec:
             subPath: tmp
           - path: /var/log
             subPath: var-log
+          # it refuses to start unless its home directory is writable
+          - path: /home/shelfmark
+            subPath: home
