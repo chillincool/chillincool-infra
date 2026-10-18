@@ -61,9 +61,6 @@ spec:
             port: *port
     route:
       app:
-        annotations:
-          # Point the public record at the Cloudflare tunnel; external-dns otherwise uses the gateway's LAN address
-          external-dns.alpha.kubernetes.io/target: external.chillincool.net
         hostnames:
           - "{{ .Release.Name }}.chillincool.net"
         parentRefs:
