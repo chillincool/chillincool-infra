@@ -27,6 +27,8 @@ spec:
               # Ebooks go to BookBoss's import folder, audiobooks straight into the Audiobookshelf library
               INGEST_DIR: /media/media/bookdrop
               DESTINATION_AUDIOBOOK: /media/media/audiobooks
+              # Navigation buttons to the libraries (the book one is named after Calibre-Web but works for any app)
+              CALIBRE_WEB_URL: https://bookboss.chillincool.net
               AUDIOBOOK_LIBRARY_URL: https://audiobookshelf.chillincool.net
               TZ: America/Chicago
             probes:
