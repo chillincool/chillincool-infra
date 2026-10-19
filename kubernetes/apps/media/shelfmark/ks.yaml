@@ -17,6 +17,7 @@ spec:
   postBuild:
     substitute:
       APP: shelfmark
+      OIDC_DEFAULT_ACTION: Deny
       VOLSYNC_CAPACITY: 2Gi
   prune: true
   sourceRef:
