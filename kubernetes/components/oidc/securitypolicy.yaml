@@ -27,3 +27,19 @@ spec:
             header: Remote-User
           - claim: email
             header: Remote-Email
+  # Only users holding the app's own Keycloak client role "access" get in. The role arrives in
+  # the ${APP}_roles claim from a client scope of the same name. Apps not moved to this yet set
+  # nothing and stay on Allow.
+  authorization:
+    defaultAction: ${OIDC_DEFAULT_ACTION:=Allow}
+    rules:
+      - name: access
+        action: Allow
+        principal:
+          jwt:
+            provider: keycloak
+            claims:
+              - name: ${APP}_roles
+                valueType: StringArray
+                values:
+                  - access
