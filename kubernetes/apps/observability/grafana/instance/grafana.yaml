@@ -16,7 +16,26 @@ spec:
     auth:
       disable_login_form: "false"
     auth.anonymous:
+      enabled: "false"
+    # Keycloak login. The grafana_roles claim carries the grafana client roles; strict mode
+    # refuses anyone without one. The local admin login stays as break-glass.
+    auth.generic_oauth:
       enabled: "true"
+      name: Keycloak
+      client_id: grafana
+      scopes: openid email profile
+      auth_url: https://login.chillincool.net/realms/chillincool/protocol/openid-connect/auth
+      token_url: https://login.chillincool.net/realms/chillincool/protocol/openid-connect/token
+      api_url: https://login.chillincool.net/realms/chillincool/protocol/openid-connect/userinfo
+      signout_redirect_url: https://login.chillincool.net/realms/chillincool/protocol/openid-connect/logout?client_id=grafana
+      use_pkce: "true"
+      allow_sign_up: "true"
+      login_attribute_path: preferred_username
+      email_attribute_path: email
+      name_attribute_path: name
+      role_attribute_path: contains(grafana_roles || `[]`, 'admin') && 'GrafanaAdmin' || contains(grafana_roles || `[]`, 'viewer') && 'Viewer'
+      role_attribute_strict: "true"
+      allow_assign_grafana_admin: "true"
     log:
       mode: console
     metrics:
@@ -44,6 +63,11 @@ spec:
                     secretKeyRef:
                       name: grafana-admin-password-secret
                       key: GF_SECURITY_ADMIN_PASSWORD
+                - name: GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET
+                  valueFrom:
+                    secretKeyRef:
+                      name: grafana-admin-password-secret
+                      key: GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET
               securityContext:
                 allowPrivilegeEscalation: false
                 readOnlyRootFilesystem: true
