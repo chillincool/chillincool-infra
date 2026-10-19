@@ -17,6 +17,7 @@ spec:
   postBuild:
     substitute:
       APP: maintainerr
+      OIDC_DEFAULT_ACTION: Deny
       VOLSYNC_CAPACITY: 1Gi
   prune: true
   sourceRef:
