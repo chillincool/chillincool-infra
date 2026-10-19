@@ -30,3 +30,17 @@ spec:
             header: Remote-User
           - claim: email
             header: Remote-Email
+  # Same role check as the oidc component
+  authorization:
+    defaultAction: Deny
+    rules:
+      - name: access
+        action: Allow
+        principal:
+          jwt:
+            provider: keycloak
+            claims:
+              - name: firefly-iii_roles
+                valueType: StringArray
+                values:
+                  - access
