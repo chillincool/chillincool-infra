@@ -17,7 +17,6 @@ spec:
   postBuild:
     substitute:
       APP: sonarr
-      OIDC_DEFAULT_ACTION: Deny
       VOLSYNC_CAPACITY: 5Gi
   prune: true
   sourceRef:
