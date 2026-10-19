@@ -1,0 +1,38 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas-cvg.pages.dev/gateway.envoyproxy.io/securitypolicy_v1alpha1.json
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: goldilocks-auth
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: goldilocks-dashboard
+  oidc:
+    provider:
+      issuer: https://login.chillincool.net/realms/chillincool
+    clientID: goldilocks
+    clientSecret:
+      name: goldilocks-oidc-secret
+    redirectURL: https://goldilocks.chillincool.net/oauth2/callback
+    forwardAccessToken: true
+  jwt:
+    providers:
+      - name: keycloak
+        issuer: https://login.chillincool.net/realms/chillincool
+        remoteJWKS:
+          uri: https://login.chillincool.net/realms/chillincool/protocol/openid-connect/certs
+  authorization:
+    defaultAction: Deny
+    rules:
+      - name: access
+        action: Allow
+        principal:
+          jwt:
+            provider: keycloak
+            claims:
+              - name: goldilocks_roles
+                valueType: StringArray
+                values:
+                  - access
