@@ -1,0 +1,52 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas-cvg.pages.dev/cilium.io/ciliumclusterwidenetworkpolicy_v2.json
+# Pod IPs are routable from the LAN (advertised over BGP so Security Onion sees them), which
+# lets a client skip Envoy and its Keycloak check by connecting to a pod IP directly. Only pods
+# behind a LoadBalancer accept connections from outside the cluster. Replies to connections pods
+# open themselves are unaffected, and nothing is denied between pods.
+apiVersion: cilium.io/v2
+kind: CiliumClusterwideNetworkPolicy
+metadata:
+  name: deny-world-to-pods
+spec:
+  endpointSelector:
+    matchExpressions:
+      - key: gateway.envoyproxy.io/owning-gateway-name
+        operator: DoesNotExist
+      - key: app.kubernetes.io/name
+        operator: NotIn
+        values:
+          - plex
+          - qbittorrent
+          - slskd
+  enableDefaultDeny:
+    ingress: false
+    egress: false
+  ingressDeny:
+    - fromEntities:
+        - world
+---
+# yaml-language-server: $schema=https://kubernetes-schemas-cvg.pages.dev/cilium.io/ciliumclusterwidenetworkpolicy_v2.json
+# qbittorrent and slskd take peer connections from outside, but their web UI only through Envoy
+apiVersion: cilium.io/v2
+kind: CiliumClusterwideNetworkPolicy
+metadata:
+  name: deny-world-to-p2p-web-ui
+spec:
+  endpointSelector:
+    matchExpressions:
+      - key: app.kubernetes.io/name
+        operator: In
+        values:
+          - qbittorrent
+          - slskd
+  enableDefaultDeny:
+    ingress: false
+    egress: false
+  ingressDeny:
+    - fromEntities:
+        - world
+      toPorts:
+        - ports:
+            - port: "80"
+              protocol: TCP
