@@ -30,6 +30,10 @@ spec:
       kubeletRootDir: /var/lib/kubelet
     longhornUI:
       replicas: 1
+    # The chart's NetworkPolicies break DNS replies for Longhorn's pods with Cilium netkit +
+    # socketLB.hostNamespaceOnly, which took storage down after the 2026-10-20 reboot
+    networkPolicies:
+      restrictInternalTraffic: false
     # Tolerations for control-plane nodes
     longhornManager:
       tolerations:
