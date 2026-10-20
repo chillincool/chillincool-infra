@@ -1,0 +1,265 @@
+/* chillincool account and admin consoles: the login theme's greyscale glass over the ring
+   background, on top of PatternFly 5 (forced into its dark theme by js/console.js) */
+@font-face {
+  font-family: "Outfit";
+  src: url("../fonts/outfit.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root,
+:root.pf-v5-theme-dark {
+  --cc-base: #0b0b0c;
+  --cc-text: #ececec;
+  --cc-muted: #a3a3a3;
+  --cc-glass: rgba(20, 20, 22, 0.62);
+  --cc-glass-strong: rgba(14, 14, 16, 0.42);
+  --cc-glass-border: rgba(255, 255, 255, 0.12);
+  --cc-input: rgba(0, 0, 0, 0.45);
+  --cc-input-border: rgba(255, 255, 255, 0.16);
+  --cc-radius: 18px;
+  --pf-v5-global--FontFamily--text: "Outfit", system-ui, sans-serif;
+  --pf-v5-global--FontFamily--heading: "Outfit", system-ui, sans-serif;
+  --pf-v5-global--FontFamily--redhat-updated--sans-serif: "Outfit", system-ui, sans-serif;
+  --pf-v5-global--FontFamily--redhat-updated--heading--sans-serif: "Outfit", system-ui, sans-serif;
+  /* PatternFly's blue accents (links, focus, active nav, toggles) become greys */
+  --pf-v5-global--primary-color--100: #d9d9d9;
+  --pf-v5-global--primary-color--200: #bdbdbd;
+  --pf-v5-global--active-color--100: #d9d9d9;
+  --pf-v5-global--link--Color: #d6d6d6;
+  --pf-v5-global--link--Color--hover: #ffffff;
+  --pf-v5-global--Color--100: var(--cc-text);
+  --pf-v5-global--Color--200: var(--cc-muted);
+  --pf-v5-global--BorderColor--100: var(--cc-glass-border);
+  --pf-v5-global--BackgroundColor--100: transparent;
+  --pf-v5-global--BackgroundColor--200: transparent;
+  --pf-v5-global--BackgroundColor--dark-100: transparent;
+}
+
+html, body {
+  background: var(--cc-base) !important;
+  color: var(--cc-text);
+  font-family: "Outfit", system-ui, sans-serif;
+}
+
+/* ring background, drawn by js/chillincool.js */
+#cc-rings {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+}
+#app { position: relative; z-index: 1; }
+.keycloak__loading-container { background: transparent !important; color: var(--cc-muted) !important; }
+
+/* page frame: everything transparent so the rings show, with glass where content sits */
+.pf-v5-c-page {
+  --pf-v5-c-page--BackgroundColor: transparent;
+  --pf-v5-c-page__main-section--BackgroundColor: transparent;
+  --pf-v5-c-page__main-section--m-light--BackgroundColor: transparent;
+  --pf-v5-c-page__sidebar--BackgroundColor: transparent;
+  background: transparent;
+}
+
+/* top bar */
+.pf-v5-c-masthead {
+  --pf-v5-c-masthead--BackgroundColor: var(--cc-glass-strong);
+  background: var(--cc-glass-strong);
+  backdrop-filter: blur(6px) saturate(0%);
+  -webkit-backdrop-filter: blur(6px) saturate(0%);
+  border-bottom: 1px solid var(--cc-glass-border);
+}
+.pf-v5-c-masthead .pf-v5-c-toolbar,
+.pf-v5-c-masthead__content {
+  --pf-v5-c-toolbar--BackgroundColor: transparent;
+  background: transparent;
+}
+/* logo with the name beside it */
+.pf-v5-c-masthead__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  text-decoration: none;
+}
+.pf-v5-c-masthead__brand img, .pf-v5-c-brand {
+  height: 58px;
+  width: auto;
+  max-height: none;
+  filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.7));
+}
+.pf-v5-c-masthead__brand::after {
+  content: "CHILLINCOOL";
+  font-family: "Outfit", system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 1.15rem;
+  letter-spacing: 0.32em;
+  color: #ffffff;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9);
+  white-space: nowrap;
+}
+
+/* side navigation */
+.pf-v5-c-page__sidebar {
+  background: rgba(14, 14, 16, 0.5);
+  backdrop-filter: blur(3px) saturate(0%);
+  -webkit-backdrop-filter: blur(3px) saturate(0%);
+  border-right: 1px solid var(--cc-glass-border);
+}
+.pf-v5-c-nav {
+  --pf-v5-c-nav--BackgroundColor: transparent;
+  --pf-v5-c-nav__link--Color: var(--cc-muted);
+  --pf-v5-c-nav__link--hover--Color: #ffffff;
+  --pf-v5-c-nav__link--m-current--Color: #ffffff;
+  --pf-v5-c-nav__link--BackgroundColor: transparent;
+  --pf-v5-c-nav__link--hover--BackgroundColor: rgba(255, 255, 255, 0.05);
+  --pf-v5-c-nav__link--m-current--BackgroundColor: rgba(255, 255, 255, 0.08);
+  --pf-v5-c-nav__link--before--BorderColor: var(--cc-glass-border);
+  --pf-v5-c-nav__link--after--BorderColor: #d9d9d9;
+  --pf-v5-c-nav__link--m-current--after--BorderColor: #d9d9d9;
+  --pf-v5-c-nav__subnav--BackgroundColor: transparent;
+}
+
+.pf-v5-c-nav__link.pf-m-current::after,
+.pf-v5-c-nav__link.pf-m-current:hover::after { border-color: #d9d9d9 !important; }
+
+/* main content sits on one glass panel */
+.pf-v5-c-page__main {
+  margin: 1.5rem;
+  background: var(--cc-glass);
+  backdrop-filter: blur(1.6px) brightness(0.9) saturate(0%);
+  -webkit-backdrop-filter: blur(1.6px) brightness(0.9) saturate(0%);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: var(--cc-radius);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+.pf-v5-c-page__main-section { background: transparent; }
+
+.pf-v5-c-title, h1, h2, h3 { color: var(--cc-text); font-weight: 600; letter-spacing: 0.01em; }
+.pf-v5-c-content, .pf-v5-c-content p, .pf-v5-c-description-list__text { color: var(--cc-text); }
+.pf-v5-c-form__label, .pf-v5-c-form__label-text, .pf-v5-c-helper-text__item-text,
+.pf-v5-c-page__main-section > p { color: var(--cc-muted); }
+
+/* lists of credentials, devices and applications */
+.pf-v5-c-data-list {
+  --pf-v5-c-data-list--BackgroundColor: transparent;
+  --pf-v5-c-data-list__item--BackgroundColor: rgba(0, 0, 0, 0.3);
+  --pf-v5-c-data-list__item--BorderBottomColor: transparent;
+  --pf-v5-c-data-list--BorderTopColor: transparent;
+  background: transparent;
+}
+.pf-v5-c-data-list__item {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  margin-bottom: 0.5rem;
+}
+.pf-v5-c-data-list__item::before, .pf-v5-c-data-list__item::after { display: none; }
+.pf-v5-c-card, .pf-v5-c-expandable-section, .pf-v5-c-table {
+  --pf-v5-c-card--BackgroundColor: rgba(0, 0, 0, 0.3);
+  --pf-v5-c-table--BackgroundColor: transparent;
+  background-color: transparent;
+}
+.pf-v5-c-card { background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px; }
+
+/* inputs */
+.pf-v5-c-form-control {
+  --pf-v5-c-form-control--BackgroundColor: var(--cc-input);
+  --pf-v5-c-form-control--Color: var(--cc-text);
+  --pf-v5-c-form-control--before--BorderColor: var(--cc-input-border);
+  --pf-v5-c-form-control--after--BorderColor: transparent;
+  --pf-v5-c-form-control--hover--after--BorderColor: #d8d8d8;
+  --pf-v5-c-form-control--focus--after--BorderColor: #ffffff;
+  --pf-v5-c-form-control--m-readonly--BackgroundColor: rgba(0, 0, 0, 0.25);
+  --pf-v5-c-form-control--m-disabled--BackgroundColor: rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+}
+.pf-v5-c-form-control:focus-within { box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.18); }
+.pf-v5-c-form-control input { color: var(--cc-text); }
+
+/* buttons, matching the login page */
+.pf-v5-c-button.pf-m-primary {
+  background: linear-gradient(135deg, #f4f4f4, #a9a9a9);
+  color: #111;
+  border: 0;
+  border-radius: 10px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+.pf-v5-c-button.pf-m-primary:hover { filter: brightness(1.08); }
+.pf-v5-c-button.pf-m-secondary {
+  --pf-v5-c-button--m-secondary--Color: var(--cc-text);
+  --pf-v5-c-button--m-secondary--after--BorderColor: rgba(255, 255, 255, 0.35);
+  --pf-v5-c-button--m-secondary--hover--Color: #fff;
+  --pf-v5-c-button--m-secondary--hover--after--BorderColor: #fff;
+  --pf-v5-c-button--after--BorderRadius: 10px;
+  border-radius: 10px;
+}
+.pf-v5-c-button.pf-m-link { --pf-v5-c-button--m-link--Color: #d6d6d6; --pf-v5-c-button--m-link--hover--Color: #fff; }
+a { color: #d6d6d6; }
+a:hover { color: #ffffff; }
+
+/* user menu and dropdowns */
+.pf-v5-c-menu-toggle {
+  --pf-v5-c-menu-toggle--BackgroundColor: rgba(0, 0, 0, 0.35);
+  --pf-v5-c-menu-toggle--Color: var(--cc-text);
+  --pf-v5-c-menu-toggle--before--BorderColor: rgba(255, 255, 255, 0.16);
+  border-radius: 10px;
+}
+.pf-v5-c-menu {
+  --pf-v5-c-menu--BackgroundColor: #141416;
+  border: 1px solid var(--cc-glass-border);
+  border-radius: 10px;
+}
+
+.pf-v5-c-alert { border-radius: 10px; }
+
+/* on/off switches: dark knob on a light track when on, light knob on a dark track when off */
+.pf-v5-c-switch {
+  --pf-v5-c-switch__toggle--BackgroundColor: rgba(255, 255, 255, 0.16);
+  --pf-v5-c-switch__toggle--before--BackgroundColor: #e6e6e6;
+  --pf-v5-c-switch__input--checked__toggle--BackgroundColor: #d9d9d9;
+  --pf-v5-c-switch__input--checked__toggle--before--BackgroundColor: #111111;
+  --pf-v5-c-switch__input--focus__toggle--OutlineColor: #ffffff;
+}
+.pf-v5-c-switch__input:checked ~ .pf-v5-c-switch__toggle::before { background-color: #111111; }
+
+/* tags like "Current realm" or "Built-in": grey instead of PatternFly's colours */
+:root {
+  --pf-v5-c-label--m-blue--BackgroundColor: rgba(255, 255, 255, 0.1);
+  --pf-v5-c-label--m-blue__content--Color: #e6e6e6;
+  --pf-v5-c-label--m-blue__content--before--BorderColor: rgba(255, 255, 255, 0.18);
+  --pf-v5-c-label--m-blue__icon--Color: #e6e6e6;
+}
+.pf-v5-c-label.pf-m-blue {
+  --pf-v5-c-label--BackgroundColor: rgba(255, 255, 255, 0.1);
+  --pf-v5-c-label__content--Color: #e6e6e6;
+  --pf-v5-c-label__content--before--BorderColor: rgba(255, 255, 255, 0.18);
+}
+.pf-v5-c-label {
+  --pf-v5-c-label--BackgroundColor: rgba(255, 255, 255, 0.1);
+  --pf-v5-c-label__content--Color: #e6e6e6;
+  --pf-v5-c-label__content--before--BorderColor: rgba(255, 255, 255, 0.18);
+  --pf-v5-c-label__icon--Color: #e6e6e6;
+}
+
+/* page sections that bring their own background */
+.pf-v5-c-page__main-breadcrumb,
+.pf-v5-c-page__main-tabs,
+.pf-v5-c-page__main-nav,
+.pf-v5-c-page__main-group,
+.pf-v5-c-tabs,
+.pf-v5-c-toolbar {
+  --pf-v5-c-page__main-breadcrumb--BackgroundColor: transparent;
+  --pf-v5-c-tabs--m-page-insets--BackgroundColor: transparent;
+  --pf-v5-c-toolbar--BackgroundColor: transparent;
+  background-color: transparent;
+}
+
+@media (max-width: 768px) {
+  .pf-v5-c-page__main { margin: 0.75rem; }
+  .pf-v5-c-masthead__brand img, .pf-v5-c-brand { height: 44px; }
+  .pf-v5-c-masthead__brand::after { font-size: 0.95rem; letter-spacing: 0.24em; }
+}

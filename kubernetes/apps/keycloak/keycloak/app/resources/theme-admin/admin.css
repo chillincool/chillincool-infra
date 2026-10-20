@@ -1,0 +1,19 @@
+/* admin console only: pieces the account console doesn't have */
+
+/* the Save / Revert bar pinned to the bottom of long forms needs its own glass, or the fields
+   scrolling underneath show through it */
+.keycloak__form > .pf-v5-c-form__group.pf-m-action,
+[class*="_buttonGroup_"] {
+  background: rgba(14, 14, 16, 0.94);
+  backdrop-filter: blur(8px) saturate(0%);
+  -webkit-backdrop-filter: blur(8px) saturate(0%);
+  border-top: 1px solid var(--cc-glass-border);
+}
+
+/* the "temporary admin" warning banner keeps its colour so it still stands out */
+
+/* header name follows the realm being managed (set by js/admin.js) */
+html[data-cc-realm="master"] .pf-v5-c-masthead__brand::after { content: "MASTER REALM"; }
+
+/* header name follows the realm being managed (set by js/admin.js) */
+html[data-cc-realm="master"] .pf-v5-c-masthead__brand::after { content: "MASTER REALM"; }

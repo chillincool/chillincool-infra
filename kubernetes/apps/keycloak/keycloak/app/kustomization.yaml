@@ -29,5 +29,11 @@ configMapGenerator:
       - email-executeActions.ftl=./resources/theme-email/executeActions.ftl
       - email-password-reset.ftl=./resources/theme-email/password-reset.ftl
       - email-messages_en.properties=./resources/theme-email/messages_en.properties
+      - account-theme.properties=./resources/theme-account/theme.properties
+      - admin-theme.properties=./resources/theme-admin/theme.properties
+      - admin.css=./resources/theme-admin/admin.css
+      - admin.js=./resources/theme-admin/admin.js
+      - console.css=./resources/theme-console/console.css
+      - console.js=./resources/theme-console/console.js
 generatorOptions:
   disableNameSuffixHash: true

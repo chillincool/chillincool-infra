@@ -229,7 +229,8 @@ spec:
         name: "{{ .Release.Name }}-realm"
         globalMounts:
           - path: /opt/keycloak/data/import
-      # Custom login themes "chillincool" and "chillincool-master" and email theme "chillincool"; select them under Realm settings -> Themes
+      # Custom themes, selected under Realm settings -> Themes: login "chillincool" and "chillincool-master",
+      # email, account and admin "chillincool" (the admin theme is picked in the master realm)
       theme:
         type: configMap
         name: "{{ .Release.Name }}-theme"
@@ -260,3 +261,31 @@ spec:
             subPath: email-password-reset.ftl
           - path: /opt/keycloak/themes/chillincool/email/messages/messages_en.properties
             subPath: email-messages_en.properties
+          - path: /opt/keycloak/themes/chillincool/account/theme.properties
+            subPath: account-theme.properties
+          - path: /opt/keycloak/themes/chillincool/account/resources/css/console.css
+            subPath: console.css
+          - path: /opt/keycloak/themes/chillincool/account/resources/js/console.js
+            subPath: console.js
+          - path: /opt/keycloak/themes/chillincool/account/resources/js/chillincool.js
+            subPath: chillincool.js
+          - path: /opt/keycloak/themes/chillincool/account/resources/img/logo.svg
+            subPath: logo.svg
+          - path: /opt/keycloak/themes/chillincool/account/resources/fonts/outfit.woff2
+            subPath: outfit.woff2
+          - path: /opt/keycloak/themes/chillincool/admin/theme.properties
+            subPath: admin-theme.properties
+          - path: /opt/keycloak/themes/chillincool/admin/resources/css/console.css
+            subPath: console.css
+          - path: /opt/keycloak/themes/chillincool/admin/resources/css/admin.css
+            subPath: admin.css
+          - path: /opt/keycloak/themes/chillincool/admin/resources/js/console.js
+            subPath: console.js
+          - path: /opt/keycloak/themes/chillincool/admin/resources/js/admin.js
+            subPath: admin.js
+          - path: /opt/keycloak/themes/chillincool/admin/resources/js/chillincool.js
+            subPath: chillincool.js
+          - path: /opt/keycloak/themes/chillincool/admin/resources/img/logo.svg
+            subPath: logo.svg
+          - path: /opt/keycloak/themes/chillincool/admin/resources/fonts/outfit.woff2
+            subPath: outfit.woff2

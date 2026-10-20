@@ -7,14 +7,18 @@
   var RING_PX = 1.6, PERIOD_PX = 5.5, SPEED_PX = 2.25; // CSS px, px per second
 
   var center = { x: window.innerWidth / 2, y: 180 };
+  // Login page: the header's background logo. Account console: the logo in the top bar, which
+  // React renders after this script runs, so frame() keeps looking it up.
   function locate() {
-    var el = document.getElementById("kc-header-wrapper");
-    if (!el) return;
+    var el = document.getElementById("kc-header-wrapper") ||
+      document.querySelector(".pf-v5-c-masthead__brand img, .pf-v5-c-brand");
+    if (!el || !el.getBoundingClientRect().width) return false;
     var r = el.getBoundingClientRect();
     var s = Math.min(r.width / VB.w, r.height / VB.h); // background-size: contain
     var ox = r.left + (r.width - VB.w * s) / 2, oy = r.top + (r.height - VB.h * s) / 2;
     center.x = ox + (CIRCLE.x - VB.x) * s;
     center.y = oy + (CIRCLE.y - VB.y) * s;
+    return true;
   }
 
   function start() {
@@ -99,7 +103,9 @@
 
     var still = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     var t0 = performance.now();
+    var frames = 0, found = false;
     function frame(now) {
+      if (!found || frames++ % 30 === 0) found = locate();
       gl.uniform2f(u.res, canvas.width, canvas.height);
       gl.uniform2f(u.ctr, center.x, center.y);
       gl.uniform1f(u.t, still ? 0 : (now - t0) / 1000);
