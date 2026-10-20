@@ -15,7 +15,10 @@ spec:
       enabled: true
       bbr: true
     bpf:
-      datapathMode: netkit
+      # veth, not netkit: with netkit and socketLB.hostNamespaceOnly=true, replies to a pod that has an
+      # ingress NetworkPolicy are processed twice and the reverse-NATed copy is dropped (broke DNS for
+      # Longhorn's manager after the 2026-10-20 reboot). Pods only switch when they are recreated.
+      datapathMode: veth
       masquerade: true
       preallocateMaps: true
     bpfClockProbe: true
