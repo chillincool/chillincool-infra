@@ -41,6 +41,9 @@ spec:
               KC_METRICS_ENABLED: "true"
               KC_LOG_LEVEL: info
               KC_FEATURES: token-exchange,admin-fine-grained-authz
+              # One replica, so no clustering. With the default clustered cache, each Recreate rollout
+              # left the old pod in the jgroups_ping table and the new pod logged a split-brain error.
+              KC_CACHE: local
               TZ: America/Chicago
             envFrom:
               - secretRef:
