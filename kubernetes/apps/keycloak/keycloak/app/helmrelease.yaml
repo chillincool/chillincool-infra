@@ -229,7 +229,7 @@ spec:
         name: "{{ .Release.Name }}-realm"
         globalMounts:
           - path: /opt/keycloak/data/import
-      # Custom login themes "chillincool" and "chillincool-master"; select them under Realm settings -> Themes
+      # Custom login themes "chillincool" and "chillincool-master" and email theme "chillincool"; select them under Realm settings -> Themes
       theme:
         type: configMap
         name: "{{ .Release.Name }}-theme"
@@ -250,3 +250,13 @@ spec:
             subPath: master-theme.properties
           - path: /opt/keycloak/themes/chillincool-master/login/resources/css/master.css
             subPath: master.css
+          - path: /opt/keycloak/themes/chillincool/email/theme.properties
+            subPath: email-theme.properties
+          - path: /opt/keycloak/themes/chillincool/email/html/template.ftl
+            subPath: email-template.ftl
+          - path: /opt/keycloak/themes/chillincool/email/html/executeActions.ftl
+            subPath: email-executeActions.ftl
+          - path: /opt/keycloak/themes/chillincool/email/html/password-reset.ftl
+            subPath: email-password-reset.ftl
+          - path: /opt/keycloak/themes/chillincool/email/messages/messages_en.properties
+            subPath: email-messages_en.properties

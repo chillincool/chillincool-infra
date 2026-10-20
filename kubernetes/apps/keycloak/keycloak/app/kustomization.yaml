@@ -24,5 +24,10 @@ configMapGenerator:
       - outfit.woff2=./resources/theme/outfit.woff2
       - master-theme.properties=./resources/theme-master/theme.properties
       - master.css=./resources/theme-master/master.css
+      - email-theme.properties=./resources/theme-email/theme.properties
+      - email-template.ftl=./resources/theme-email/template.ftl
+      - email-executeActions.ftl=./resources/theme-email/executeActions.ftl
+      - email-password-reset.ftl=./resources/theme-email/password-reset.ftl
+      - email-messages_en.properties=./resources/theme-email/messages_en.properties
 generatorOptions:
   disableNameSuffixHash: true
