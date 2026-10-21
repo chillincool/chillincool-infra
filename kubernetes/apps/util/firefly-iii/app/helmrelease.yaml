@@ -176,6 +176,24 @@ spec:
           - backendRefs:
               - name: firefly-iii-app
                 port: 8080
+      # The API on its own route with no Keycloak SecurityPolicy, so mobile apps (Abacus, Waterfly III)
+      # can use a Firefly personal access token; Firefly rejects API calls without a valid token
+      api-tailscale:
+        annotations:
+          gatus.home-operations.com/enabled: "false"
+        hostnames:
+          - firefly-iii.chillincool.com
+        parentRefs:
+          - name: envoy-tailscale
+            namespace: network
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /api/
+            backendRefs:
+              - name: firefly-iii-app
+                port: 8080
       data-importer:
         hostnames:
           - firefly-import.chillincool.net
