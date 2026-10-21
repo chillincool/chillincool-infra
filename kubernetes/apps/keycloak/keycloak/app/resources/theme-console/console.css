@@ -125,12 +125,12 @@ html, body {
 .pf-v5-c-nav__link.pf-m-current::after,
 .pf-v5-c-nav__link.pf-m-current:hover::after { border-color: #d9d9d9 !important; }
 
-/* main content sits on one glass panel */
+/* main content sits on one glass panel. No backdrop-filter here: it would make this panel the
+   containing block for position:fixed children, so the admin console's Save/Revert bar would pin
+   to the middle of the panel instead of the bottom of the window. */
 .pf-v5-c-page__main {
   margin: 1.5rem;
-  background: var(--cc-glass);
-  backdrop-filter: blur(1.6px) brightness(0.9) saturate(0%);
-  -webkit-backdrop-filter: blur(1.6px) brightness(0.9) saturate(0%);
+  background: rgba(20, 20, 22, 0.74);
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: var(--cc-radius);
   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.1);
