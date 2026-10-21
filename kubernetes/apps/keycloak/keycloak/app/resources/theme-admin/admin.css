@@ -9,11 +9,11 @@
   -webkit-backdrop-filter: blur(8px) saturate(0%);
   border-top: 1px solid var(--cc-glass-border);
 }
+/* Keycloak pins the bar to the window (position: fixed, width: 100%), so it runs past the main
+   panel; js/admin.js moves and sizes it to the panel's bottom edge */
+[class*="_buttonGroup_"] { border-radius: 0 0 var(--cc-radius) var(--cc-radius); }
 
 /* the "temporary admin" warning banner keeps its colour so it still stands out */
-
-/* header name follows the realm being managed (set by js/admin.js) */
-html[data-cc-realm="master"] .pf-v5-c-masthead__brand::after { content: "MASTER REALM"; }
 
 /* header name follows the realm being managed (set by js/admin.js) */
 html[data-cc-realm="master"] .pf-v5-c-masthead__brand::after { content: "MASTER REALM"; }
