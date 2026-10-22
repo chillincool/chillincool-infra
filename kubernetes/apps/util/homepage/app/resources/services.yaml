@@ -2,6 +2,26 @@
 # https://gethomepage.dev/configs/services/
 # Icons by name come from https://dashboardicons.com; mdi-* are Material Design icons.
 # Widgets call the apps' in-cluster addresses with API keys from homepage-secret.
+- Upcoming:
+    - Calendar:
+        icon: mdi-calendar-month
+        widget:
+          type: calendar
+          view: agenda
+          maxEvents: 12
+          showTime: true
+          # Reuses the Sonarr and Radarr widgets' keys and addresses
+          integrations:
+            - type: sonarr
+              service_group: Downloads
+              service_name: Sonarr
+            - type: sonarr
+              service_group: Downloads
+              service_name: Sonarr Anime
+            - type: radarr
+              service_group: Downloads
+              service_name: Radarr
+
 - Media:
     - Plex:
         href: https://plex.chillincool.net
@@ -157,6 +177,9 @@
     - Prometheus:
         href: https://prometheus.chillincool.net
         icon: prometheus.svg
+        widget:
+          type: prometheus
+          url: http://prometheus-operated.observability.svc.cluster.local:9090
     - Alertmanager:
         href: https://alertmanager.chillincool.net
         icon: alertmanager.svg
@@ -170,6 +193,9 @@
         href: https://status.chillincool.net
         icon: gatus.svg
         description: Status
+        widget:
+          type: gatus
+          url: http://gatus.observability.svc.cluster.local
     - Kopia:
         href: https://kopia.chillincool.net
         icon: kopia.svg

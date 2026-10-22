@@ -6,6 +6,7 @@ resources:
   - ./externalsecret.yaml
   - ./helmrelease.yaml
   - ./ocirepository.yaml
+  - ./rbac.yaml
 configMapGenerator:
   - name: homepage-config
     files:
@@ -13,6 +14,7 @@ configMapGenerator:
       - services.yaml=./resources/services.yaml
       - widgets.yaml=./resources/widgets.yaml
       - custom.css=./resources/custom.css
+      - kubernetes.yaml=./resources/kubernetes.yaml
   - name: homepage-assets
     files:
       # .bin because Flux's source controller skips *.jpg/*.png by default

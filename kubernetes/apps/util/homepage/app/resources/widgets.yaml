@@ -3,6 +3,23 @@
 - greeting:
     text_size: xl
     text: CHILLINCOOL
+# Node CPU and memory, through the read-only ClusterRole in rbac.yaml
+- kubernetes:
+    cluster:
+      show: true
+      cpu: true
+      memory: true
+      showLabel: true
+      label: cluster
+    nodes:
+      show: false
+# Longhorn disk usage (its API has no login; it is only reachable inside the cluster)
+- longhorn:
+    url: http://longhorn-frontend.longhorn-system.svc.cluster.local
+    expanded: true
+    total: true
+    labels: true
+    nodes: true
 - datetime:
     text_size: md
     format:

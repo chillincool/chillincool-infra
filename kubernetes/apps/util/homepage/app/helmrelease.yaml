@@ -53,6 +53,8 @@ spec:
               limits:
                 memory: 512Mi
     defaultPodOptions:
+      # The Kubernetes widget reads node metrics with this pod's service account (rbac.yaml)
+      automountServiceAccountToken: true
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
@@ -103,5 +105,7 @@ spec:
             subPath: widgets.yaml
           - path: /app/config/custom.css
             subPath: custom.css
+          - path: /app/config/kubernetes.yaml
+            subPath: kubernetes.yaml
       tmp:
         type: emptyDir
