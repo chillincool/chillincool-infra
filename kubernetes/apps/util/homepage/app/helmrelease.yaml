@@ -31,6 +31,10 @@ spec:
                   httpGet:
                     path: /api/healthcheck
                     port: &port 3000
+                    # Homepage rejects hosts not in HOMEPAGE_ALLOWED_HOSTS, and probes use the pod IP
+                    httpHeaders:
+                      - name: Host
+                        value: homepage.chillincool.net
                   periodSeconds: 30
                   timeoutSeconds: 5
                   failureThreshold: 3
