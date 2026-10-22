@@ -51,6 +51,11 @@
         href: https://audiobookshelf.chillincool.net
         icon: audiobookshelf.svg
         description: Audiobooks
+        # API token of a homepage user with no permissions
+        widget:
+          type: audiobookshelf
+          url: http://audiobookshelf.media.svc.cluster.local
+          key: "{{HOMEPAGE_VAR_ABS_API_KEY}}"
     - BookBoss:
         href: https://bookboss.chillincool.net
         icon: mdi-book-open-page-variant
@@ -59,6 +64,13 @@
         href: https://navidrome.chillincool.net
         icon: navidrome.svg
         description: Music
+        # Subsonic token of a non-admin homepage user: md5(password + salt)
+        widget:
+          type: navidrome
+          url: http://navidrome.media.svc.cluster.local
+          user: homepage
+          token: "{{HOMEPAGE_VAR_NAVIDROME_TOKEN}}"
+          salt: "{{HOMEPAGE_VAR_NAVIDROME_SALT}}"
 
 - Downloads:
     - Sonarr:
@@ -144,10 +156,21 @@
         href: https://immich.chillincool.net
         icon: immich.svg
         description: Photos
+        # API key limited to the server.statistics permission
+        widget:
+          type: immich
+          url: http://immich-server.util.svc.cluster.local:2283
+          key: "{{HOMEPAGE_VAR_IMMICH_API_KEY}}"
+          version: 2
     - Paperless:
         href: https://paperless.chillincool.net
         icon: paperless-ngx.svg
         description: Documents
+        # Token of a homepage user with only the global statistics permission
+        widget:
+          type: paperlessngx
+          url: http://paperless-ngx.util.svc.cluster.local
+          key: "{{HOMEPAGE_VAR_PAPERLESS_API_KEY}}"
     - Firefly III:
         href: https://firefly-iii.chillincool.net
         icon: firefly-iii.svg
