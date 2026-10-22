@@ -161,6 +161,13 @@
     - Proxmox:
         href: https://pve1.chillincool.net
         icon: proxmox.svg
+        # Read-only API token: homepage@pve has PVEAuditor on /
+        widget:
+          type: proxmox
+          url: https://pve1.chillincool.net
+          username: homepage@pve!homepage
+          password: "{{HOMEPAGE_VAR_PVE_API_KEY}}"
+          node: pve1
     - Synology:
         href: https://dsm1.chillincool.net
         icon: synology.svg
