@@ -14,7 +14,8 @@ configMapGenerator:
       - custom.css=./resources/custom.css
   - name: homepage-assets
     files:
-      - background.jpg=./resources/background.jpg
+      # .bin because Flux's source controller skips *.jpg/*.png by default
+      - background.jpg=./resources/background.jpg.bin
       - logo.svg=./resources/logo.svg
       - outfit.woff2=./resources/outfit.woff2
 generatorOptions:
