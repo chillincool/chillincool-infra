@@ -13,9 +13,8 @@
       label: cluster
     nodes:
       show: false
-# Longhorn disk usage (its API has no login; it is only reachable inside the cluster)
+# Longhorn disk usage; its address is under providers in settings.yaml
 - longhorn:
-    url: http://longhorn-frontend.longhorn-system.svc.cluster.local
     expanded: true
     total: true
     labels: true

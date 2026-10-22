@@ -29,3 +29,7 @@ layout:
   Infrastructure:
     style: row
     columns: 4
+# Longhorn's API has no login and is only reachable inside the cluster
+providers:
+  longhorn:
+    url: http://longhorn-frontend.longhorn-system.svc.cluster.local
