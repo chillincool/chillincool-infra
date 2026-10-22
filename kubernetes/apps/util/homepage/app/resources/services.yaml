@@ -1,19 +1,32 @@
 ---
 # https://gethomepage.dev/configs/services/
-# Icons by name come from https://dashboardicons.com; mdi-* are Material Design icons
+# Icons by name come from https://dashboardicons.com; mdi-* are Material Design icons.
+# Widgets call the apps' in-cluster addresses with API keys from homepage-secret.
 - Media:
     - Plex:
         href: https://plex.chillincool.net
         icon: plex.svg
         description: Movies and TV
+        widget:
+          type: plex
+          url: http://plex.media.svc.cluster.local:32400
+          key: "{{HOMEPAGE_VAR_PLEX_TOKEN}}"
     - Seerr:
         href: https://requests.chillincool.net
         icon: overseerr.svg
         description: Requests
+        widget:
+          type: jellyseerr
+          url: http://seerr.media.svc.cluster.local
+          key: "{{HOMEPAGE_VAR_SEERR_API_KEY}}"
     - Tautulli:
         href: https://tautulli.chillincool.net
         icon: tautulli.svg
         description: Plex stats
+        widget:
+          type: tautulli
+          url: http://tautulli.media.svc.cluster.local
+          key: "{{HOMEPAGE_VAR_TAUTULLI_API_KEY}}"
     - Audiobookshelf:
         href: https://audiobookshelf.chillincool.net
         icon: audiobookshelf.svg
@@ -31,25 +44,55 @@
     - Sonarr:
         href: https://sonarr.chillincool.net
         icon: sonarr.svg
+        widget:
+          type: sonarr
+          url: http://sonarr.media.svc.cluster.local
+          key: "{{HOMEPAGE_VAR_SONARR_API_KEY}}"
     - Sonarr 4K:
         href: https://sonarr-4k.chillincool.net
         icon: sonarr.svg
+        widget:
+          type: sonarr
+          url: http://sonarr-4k.media.svc.cluster.local
+          key: "{{HOMEPAGE_VAR_SONARR_4K_API_KEY}}"
     - Sonarr Anime:
         href: https://sonarr-anime.chillincool.net
         icon: sonarr.svg
+        widget:
+          type: sonarr
+          url: http://sonarr-anime.media.svc.cluster.local
+          key: "{{HOMEPAGE_VAR_SONARR_ANIME_API_KEY}}"
     - Prowlarr:
         href: https://prowlarr.chillincool.net
         icon: prowlarr.svg
+        widget:
+          type: prowlarr
+          url: http://prowlarr.media.svc.cluster.local
+          key: "{{HOMEPAGE_VAR_PROWLARR_API_KEY}}"
     - Radarr:
         href: https://radarr.chillincool.net
         icon: radarr.svg
+        widget:
+          type: radarr
+          url: http://radarr.media.svc.cluster.local
+          key: "{{HOMEPAGE_VAR_RADARR_API_KEY}}"
     - Radarr 4K:
         href: https://radarr-4k.chillincool.net
         icon: radarr.svg
+        widget:
+          type: radarr
+          url: http://radarr-4k.media.svc.cluster.local
+          key: "{{HOMEPAGE_VAR_RADARR_4K_API_KEY}}"
     - qui:
         href: https://qui.chillincool.net
         icon: qbittorrent.svg
         description: qBittorrent
+        widget:
+          type: qbittorrent
+          url: http://qbittorrent.media.svc.cluster.local
+          # qBittorrent skips its login for in-cluster requests
+          username: ""
+          password: ""
     - autobrr:
         href: https://autobrr.chillincool.net
         icon: autobrr.svg
