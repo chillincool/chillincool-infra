@@ -41,3 +41,27 @@ body, #page_wrapper, #inner_wrapper {
 }
 .service-name { color: #ececec; font-weight: 500; }
 .service-description { color: #a3a3a3; }
+
+/* top bar: the kubernetes widget has its own left margin that nothing else has */
+#information-widgets .information-widget-kubernetes > div > div {
+  margin-left: 0;
+}
+
+/* below desktop width the bar wraps: wordmark and date on their own rows, the stats
+   left-aligned between them, instead of justify-between scattering them */
+@media (max-width: 1023px) {
+  #widgets-wrap {
+    justify-content: flex-start;
+    column-gap: 1.5rem;
+    row-gap: 0.75rem;
+  }
+  #widgets-wrap .information-widget-greeting,
+  #widgets-wrap #information-widgets-right {
+    flex-basis: 100%;
+  }
+  #widgets-wrap #information-widgets-right,
+  #widgets-wrap .information-widget-datetime > div {
+    justify-content: flex-start;
+    margin: 0;
+  }
+}

@@ -14,9 +14,10 @@
     nodes:
       show: false
 # Longhorn disk usage; its address is under providers in settings.yaml
+# Single node, so the node entry already is the total
 - longhorn:
     expanded: true
-    total: true
+    total: false
     labels: true
     nodes: true
 - datetime:

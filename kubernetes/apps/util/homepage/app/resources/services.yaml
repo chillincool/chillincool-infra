@@ -56,6 +56,8 @@
           type: audiobookshelf
           url: http://audiobookshelf.media.svc.cluster.local
           key: "{{HOMEPAGE_VAR_ABS_API_KEY}}"
+          # No podcast libraries, and their empty duration box sits out of line
+          fields: ["books", "booksDuration"]
     - BookBoss:
         href: https://bookboss.chillincool.net
         icon: mdi-book-open-page-variant
