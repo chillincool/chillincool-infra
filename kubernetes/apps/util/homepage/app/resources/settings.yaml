@@ -1,0 +1,28 @@
+---
+# https://gethomepage.dev/configs/settings/
+title: Chillincool
+description: Chillincool home dashboard
+favicon: /images/logo.svg
+theme: dark
+color: neutral
+headerStyle: clean
+hideVersion: true
+useEqualHeights: true
+statusStyle: dot
+cardBlur: md
+background:
+  image: /images/background.jpg
+  opacity: 100
+layout:
+  Media:
+    style: row
+    columns: 3
+  Downloads:
+    style: row
+    columns: 4
+  Home:
+    style: row
+    columns: 3
+  Infrastructure:
+    style: row
+    columns: 4

@@ -1,0 +1,137 @@
+---
+# https://gethomepage.dev/configs/services/
+# Icons by name come from https://dashboardicons.com; mdi-* are Material Design icons
+- Media:
+    - Plex:
+        href: https://plex.chillincool.net
+        icon: plex.svg
+        description: Movies and TV
+    - Seerr:
+        href: https://requests.chillincool.net
+        icon: overseerr.svg
+        description: Requests
+    - Tautulli:
+        href: https://tautulli.chillincool.net
+        icon: tautulli.svg
+        description: Plex stats
+    - Audiobookshelf:
+        href: https://audiobookshelf.chillincool.net
+        icon: audiobookshelf.svg
+        description: Audiobooks
+    - BookBoss:
+        href: https://bookboss.chillincool.net
+        icon: mdi-book-open-page-variant
+        description: Ebooks
+    - Navidrome:
+        href: https://navidrome.chillincool.net
+        icon: navidrome.svg
+        description: Music
+
+- Downloads:
+    - Sonarr:
+        href: https://sonarr.chillincool.net
+        icon: sonarr.svg
+    - Sonarr 4K:
+        href: https://sonarr-4k.chillincool.net
+        icon: sonarr.svg
+    - Sonarr Anime:
+        href: https://sonarr-anime.chillincool.net
+        icon: sonarr.svg
+    - Prowlarr:
+        href: https://prowlarr.chillincool.net
+        icon: prowlarr.svg
+    - Radarr:
+        href: https://radarr.chillincool.net
+        icon: radarr.svg
+    - Radarr 4K:
+        href: https://radarr-4k.chillincool.net
+        icon: radarr.svg
+    - qui:
+        href: https://qui.chillincool.net
+        icon: qbittorrent.svg
+        description: qBittorrent
+    - autobrr:
+        href: https://autobrr.chillincool.net
+        icon: autobrr.svg
+    - Shelfmark:
+        href: https://shelfmark.chillincool.net
+        icon: mdi-bookshelf
+        description: Book requests
+    - slskd:
+        href: https://slskd.chillincool.net
+        icon: slskd.svg
+        description: Soulseek
+    - wrtag:
+        href: https://wrtag.chillincool.net
+        icon: mdi-music-box-multiple
+        description: Music tagging
+    - Cleanuparr:
+        href: https://cleanuparr.chillincool.net
+        icon: mdi-broom
+    - Maintainerr:
+        href: https://maintainerr.chillincool.net
+        icon: maintainerr.svg
+    - Agregarr:
+        href: https://agregarr.chillincool.net
+        icon: mdi-playlist-star
+        description: Plex collections
+
+- Home:
+    - Immich:
+        href: https://immich.chillincool.net
+        icon: immich.svg
+        description: Photos
+    - Paperless:
+        href: https://paperless.chillincool.net
+        icon: paperless-ngx.svg
+        description: Documents
+    - Firefly III:
+        href: https://firefly-iii.chillincool.net
+        icon: firefly-iii.svg
+        description: Finances
+    - IRC:
+        href: https://irc.chillincool.net
+        icon: mdi-pound
+        description: gamja + soju
+
+- Infrastructure:
+    - Proxmox:
+        href: https://pve1.chillincool.net
+        icon: proxmox.svg
+    - Synology:
+        href: https://dsm1.chillincool.net
+        icon: synology.svg
+    - FortiGate:
+        href: https://fw.chillincool.net
+        icon: fortinet.svg
+    - Keycloak:
+        href: https://login-admin.chillincool.net
+        icon: keycloak.svg
+        description: Admin console
+    - Grafana:
+        href: https://grafana.chillincool.net
+        icon: grafana.svg
+    - Prometheus:
+        href: https://prometheus.chillincool.net
+        icon: prometheus.svg
+    - Alertmanager:
+        href: https://alertmanager.chillincool.net
+        icon: alertmanager.svg
+    - VictoriaLogs:
+        href: https://victoria-logs.chillincool.net
+        icon: victoriametrics.svg
+    - Flux:
+        href: https://flux-operator.chillincool.net
+        icon: flux-cd.svg
+    - Gatus:
+        href: https://status.chillincool.net
+        icon: gatus.svg
+        description: Status
+    - Kopia:
+        href: https://kopia.chillincool.net
+        icon: kopia.svg
+        description: Backups
+    - Goldilocks:
+        href: https://goldilocks.chillincool.net
+        icon: mdi-chart-box-outline
+        description: Resource advice

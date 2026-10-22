@@ -1,0 +1,11 @@
+---
+# https://gethomepage.dev/widgets/
+- greeting:
+    text_size: xl
+    text: CHILLINCOOL
+- datetime:
+    text_size: md
+    format:
+      dateStyle: long
+      timeStyle: short
+      hourCycle: h23

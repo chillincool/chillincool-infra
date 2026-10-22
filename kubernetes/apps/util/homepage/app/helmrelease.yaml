@@ -1,0 +1,100 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: homepage
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: homepage
+  interval: 1h
+  values:
+    controllers:
+      homepage:
+        # The config files are mounted with subPath, which never updates in a running pod
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/gethomepage/homepage
+              tag: v2.6.0@sha256:3e38fe788223cb46a3ce1f046ef11667b40f7707fdca0dcbfa3f86c5c42bf1e8
+            env:
+              HOMEPAGE_ALLOWED_HOSTS: homepage.chillincool.net
+              TZ: America/Chicago
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/healthcheck
+                    port: &port 3000
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              readiness: *probes
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: {drop: ["ALL"]}
+            resources:
+              requests:
+                cpu: 10m
+                memory: 128Mi
+              limits:
+                memory: 512Mi
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+    service:
+      app:
+        ports:
+          http:
+            port: *port
+    route:
+      app:
+        hostnames:
+          - "{{ .Release.Name }}.chillincool.net"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+    persistence:
+      config:
+        type: emptyDir
+        globalMounts:
+          - path: /app/config
+      # Homepage reads its config from /app/config and serves /app/public
+      assets:
+        type: configMap
+        name: "{{ .Release.Name }}-assets"
+        globalMounts:
+          - path: /app/public/images/background.jpg
+            subPath: background.jpg
+          - path: /app/public/images/logo.svg
+            subPath: logo.svg
+          - path: /app/public/fonts/outfit.woff2
+            subPath: outfit.woff2
+      cache:
+        type: emptyDir
+        globalMounts:
+          - path: /app/.next/cache
+      settings:
+        type: configMap
+        name: "{{ .Release.Name }}-config"
+        globalMounts:
+          - path: /app/config/settings.yaml
+            subPath: settings.yaml
+          - path: /app/config/services.yaml
+            subPath: services.yaml
+          - path: /app/config/widgets.yaml
+            subPath: widgets.yaml
+          - path: /app/config/custom.css
+            subPath: custom.css
+      tmp:
+        type: emptyDir
