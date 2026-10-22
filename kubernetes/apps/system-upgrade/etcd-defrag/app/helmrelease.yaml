@@ -1,0 +1,67 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: etcd-defrag
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: etcd-defrag
+  interval: 1h
+  values:
+    controllers:
+      etcd-defrag:
+        type: cronjob
+        cronjob:
+          # Compaction frees space inside etcd's file but only a defrag shrinks it. With one etcd
+          # member the API pauses for a second or two, so run it weekly in the middle of the night,
+          # clear of the VolSync backups on the hour.
+          schedule: 30 4 * * 0
+          timeZone: America/Chicago
+          backoffLimit: 1
+          concurrencyPolicy: Forbid
+          successfulJobsHistory: 1
+          failedJobsHistory: 1
+          ttlSecondsAfterFinished: 86400
+        containers:
+          app:
+            image:
+              repository: ghcr.io/siderolabs/talosctl
+              tag: v1.14.4@sha256:b3233234327350f20ed194f3fad83d90a64344c1940f839c7b0c0abef50c8c33
+            env:
+              TALOSCONFIG: /var/run/secrets/talos.dev/config
+              NODE_IP:
+                valueFrom:
+                  fieldRef:
+                    fieldPath: status.hostIP
+            args:
+              - --nodes
+              - $(NODE_IP)
+              - etcd
+              - defrag
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: {drop: ["ALL"]}
+            resources:
+              requests:
+                cpu: 10m
+                memory: 32Mi
+              limits:
+                memory: 128Mi
+        pod:
+          restartPolicy: Never
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534
+        runAsGroup: 65534
+    persistence:
+      talosconfig:
+        type: secret
+        name: etcd-defrag-talosconfig
+        defaultMode: 0444
+        globalMounts:
+          - path: /var/run/secrets/talos.dev
+            readOnly: true
