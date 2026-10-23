@@ -1,0 +1,16 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas-cvg.pages.dev/longhorn.io/recurringjob_v1beta2.json
+# Longhorn keeps every block a volume has ever written until the filesystem tells it the
+# block is free again. A weekly trim hands deleted files' space back to the NVMe.
+apiVersion: longhorn.io/v1beta2
+kind: RecurringJob
+metadata:
+  name: filesystem-trim
+spec:
+  task: filesystem-trim
+  # UTC: Sunday 06:30 Chicago, after the nightly backups
+  cron: "30 11 * * 0"
+  groups:
+    - default
+  concurrency: 1
+  retain: 0
