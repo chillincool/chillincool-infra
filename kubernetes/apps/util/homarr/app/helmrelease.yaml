@@ -43,6 +43,8 @@ spec:
               AUTH_OIDC_ISSUER: https://login.chillincool.net/realms/chillincool
               AUTH_OIDC_CLIENT_ID: homarr
               AUTH_OIDC_CLIENT_NAME: Chillincool
+              # The default asks for a groups scope, which this client doesn't have
+              AUTH_OIDC_SCOPE_OVERWRITE: openid email profile
               # Homarr groups are matched by name against this client's roles
               AUTH_OIDC_GROUPS_ATTRIBUTE: homarr_roles
               AUTH_OIDC_AUTO_LOGIN: "true"
