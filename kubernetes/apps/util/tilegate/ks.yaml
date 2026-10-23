@@ -14,15 +14,6 @@ spec:
       namespace: longhorn-system
   interval: 1h
   path: ./kubernetes/apps/util/tilegate/app
-  # Every user may open tilegate; it only shows tiles for apps they hold a role on,
-  # so drop the oidc component's tilegate_roles check
-  patches:
-    - patch: |-
-        - op: remove
-          path: /spec/authorization
-      target:
-        group: gateway.envoyproxy.io
-        kind: SecurityPolicy
   postBuild:
     substitute:
       APP: tilegate

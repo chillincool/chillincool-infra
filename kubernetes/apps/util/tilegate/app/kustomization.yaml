@@ -6,3 +6,13 @@ resources:
   - ./externalsecret.yaml
   - ./helmrelease.yaml
   - ./ocirepository.yaml
+# Every user may open tilegate; it only shows tiles for apps they hold a role on,
+# so drop the oidc component's tilegate_roles check. This lives here rather than in
+# ks.yaml because cluster-apps overwrites each Kustomization's spec.patches.
+patches:
+  - patch: |-
+      - op: remove
+        path: /spec/authorization
+    target:
+      group: gateway.envoyproxy.io
+      kind: SecurityPolicy
