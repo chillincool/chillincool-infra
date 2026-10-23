@@ -1,0 +1,141 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: homarr
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: homarr
+  interval: 1h
+  values:
+    controllers:
+      homarr:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        initContainers:
+          # The image renders nginx's config into /etc/nginx at startup, which needs a
+          # writable copy to run as non-root with a read-only root filesystem
+          nginx-dirs:
+            image: &image
+              repository: ghcr.io/homarr-labs/homarr
+              tag: v2.7.0@sha256:f532ce7cb2a388096d6dce30b7ee41ff4b413b48ddc219ad2321dedb758cd772
+            command:
+              - sh
+              - -c
+              - >-
+                cp -r /etc/nginx/. /nginx-etc/ &&
+                cd /nginx-lib &&
+                ln -sfn /var/log/nginx logs &&
+                ln -sfn /usr/lib/nginx/modules modules &&
+                ln -sfn /run/nginx run &&
+                mkdir -p tmp
+            securityContext: &securityContext
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: {drop: ["ALL"]}
+        containers:
+          app:
+            image: *image
+            env:
+              AUTH_PROVIDERS: oidc
+              AUTH_OIDC_ISSUER: https://login.chillincool.net/realms/chillincool
+              AUTH_OIDC_CLIENT_ID: homarr
+              AUTH_OIDC_CLIENT_NAME: Chillincool
+              # Homarr groups are matched by name against this client's roles
+              AUTH_OIDC_GROUPS_ATTRIBUTE: homarr_roles
+              AUTH_OIDC_AUTO_LOGIN: "true"
+              AUTH_LOGOUT_REDIRECT_URL: https://login.chillincool.net/realms/chillincool/protocol/openid-connect/logout
+              HOMARR_DISABLE_IPV6: "true"
+              TZ: America/Chicago
+            envFrom:
+              - secretRef:
+                  name: "{{ .Release.Name }}-secret"
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/health/live
+                    port: &port 7575
+                  initialDelaySeconds: 0
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              readiness:
+                <<: *probes
+                spec:
+                  httpGet:
+                    path: /api/health/ready
+                    port: *port
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              startup:
+                <<: *probes
+                spec:
+                  httpGet:
+                    path: /api/health/live
+                    port: *port
+                  periodSeconds: 5
+                  failureThreshold: 60
+            securityContext: *securityContext
+            resources:
+              requests:
+                cpu: 20m
+                memory: 256Mi
+              limits:
+                memory: 1Gi
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+    service:
+      app:
+        ports:
+          http:
+            port: *port
+    route:
+      app:
+        hostnames:
+          - "{{ .Release.Name }}.chillincool.net"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+    persistence:
+      config:
+        existingClaim: "{{ .Release.Name }}"
+        globalMounts:
+          - path: /appdata
+      nginx:
+        type: emptyDir
+        advancedMounts:
+          homarr:
+            nginx-dirs:
+              - path: /nginx-etc
+                subPath: etc
+              - path: /nginx-lib
+                subPath: lib
+            app:
+              - path: /etc/nginx
+                subPath: etc
+              - path: /var/lib/nginx
+                subPath: lib
+              - path: /var/log/nginx
+                subPath: log
+              - path: /run/nginx
+                subPath: run
+      tmp:
+        type: emptyDir
+        advancedMounts:
+          homarr:
+            app:
+              - path: /tmp
+                subPath: tmp
+              - path: /app/apps/nextjs/.next/cache
+                subPath: next
