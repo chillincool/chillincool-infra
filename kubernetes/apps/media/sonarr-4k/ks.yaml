@@ -18,6 +18,7 @@ spec:
     substitute:
       APP: sonarr-4k
       VOLSYNC_CAPACITY: 5Gi
+      VOLSYNC_SCHEDULE: "6 3 * * *"
   prune: true
   sourceRef:
     kind: GitRepository

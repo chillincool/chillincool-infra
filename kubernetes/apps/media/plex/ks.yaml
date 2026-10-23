@@ -17,6 +17,7 @@ spec:
     substitute:
       APP: plex
       VOLSYNC_CAPACITY: 50Gi
+      VOLSYNC_SCHEDULE: "30 4 * * *"
   prune: true
   sourceRef:
     kind: GitRepository

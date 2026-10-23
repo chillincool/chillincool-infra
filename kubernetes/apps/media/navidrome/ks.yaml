@@ -18,6 +18,7 @@ spec:
     substitute:
       APP: navidrome
       VOLSYNC_CAPACITY: 5Gi
+      VOLSYNC_SCHEDULE: "3 2 * * *"
   prune: true
   sourceRef:
     kind: GitRepository

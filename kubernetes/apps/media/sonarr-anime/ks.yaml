@@ -18,6 +18,7 @@ spec:
     substitute:
       APP: sonarr-anime
       VOLSYNC_CAPACITY: 5Gi
+      VOLSYNC_SCHEDULE: "13 3 * * *"
   prune: true
   sourceRef:
     kind: GitRepository

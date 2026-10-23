@@ -16,6 +16,7 @@ spec:
     substitute:
       APP: soju
       VOLSYNC_CAPACITY: 2Gi
+      VOLSYNC_SCHEDULE: "55 3 * * *"
   prune: true
   sourceRef:
     kind: GitRepository

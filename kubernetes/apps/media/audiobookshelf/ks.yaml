@@ -17,6 +17,7 @@ spec:
     substitute:
       APP: audiobookshelf
       VOLSYNC_CAPACITY: 5Gi
+      VOLSYNC_SCHEDULE: "40 * * * *"
   prune: true
   sourceRef:
     kind: GitRepository

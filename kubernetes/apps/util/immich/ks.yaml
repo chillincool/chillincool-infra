@@ -18,6 +18,7 @@ spec:
     substitute:
       APP: immich
       VOLSYNC_CAPACITY: 10Gi
+      VOLSYNC_SCHEDULE: "50 */6 * * *"
   prune: true
   sourceRef:
     kind: GitRepository
