@@ -17,3 +17,4 @@ resources:
   - ./paperless-ngx/ks.yaml
   - ./soju/ks.yaml
   - ./thelounge/ks.yaml
+  - ./tilegate/ks.yaml

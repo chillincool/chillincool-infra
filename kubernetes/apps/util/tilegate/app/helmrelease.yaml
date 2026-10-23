@@ -1,0 +1,274 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas-cvg.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: tilegate
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: tilegate
+  interval: 1h
+  values:
+    auth:
+      # The oidc component's SecurityPolicy does the Keycloak login and forwards
+      # the access token; tilegate verifies it and reads <app>_roles from it.
+      mode: proxy-jwt
+      proxyJWT:
+        issuer: https://login.chillincool.net/realms/chillincool
+    podSecurityContext:
+      runAsNonRoot: true
+      runAsUser: 1000
+      runAsGroup: 1000
+      seccompProfile:
+        type: RuntimeDefault
+    # Favourites and theme choices in a CloudNativePG cluster the chart creates,
+    # set up like the other apps' databases (credentials from 1Password, R2 backups).
+    database:
+      cnpg:
+        enabled: true
+        imageName: ghcr.io/cloudnative-pg/postgresql:17.2-3
+        storage:
+          size: 1Gi
+          storageClass: longhorn
+        database: tilegate
+        owner: tilegate
+        existingSecret: tilegate-db-secret
+        monitoring:
+          enablePodMonitor: true
+        resources:
+          requests:
+            cpu: 10m
+            memory: 128Mi
+          limits:
+            memory: 512Mi
+        backup:
+          barmanObjectStore:
+            destinationPath: s3://tilegate-db
+            endpointURL: https://80035b568c77008106a1c2320cb9b69d.r2.cloudflarestorage.com
+            s3Credentials:
+              accessKeyId:
+                name: tilegate-r2-secret
+                key: R2_ACCESS_KEY_ID
+              secretAccessKey:
+                name: tilegate-r2-secret
+                key: R2_SECRET_ACCESS_KEY
+            wal:
+              compression: gzip
+            data:
+              compression: gzip
+          retentionPolicy: "7d"
+        scheduledBackup:
+          enabled: true
+          schedule: "0 0 9 * * *" # UTC: 04:00 Chicago
+    route:
+      enabled: true
+      hostnames:
+        - tilegate.chillincool.net
+      parentRefs:
+        - name: envoy-internal
+          namespace: network
+    # A tile shows when the user holds one of its roles on that app's Keycloak
+    # client. The roles arrive under resource_access.<client>.roles because the
+    # tilegate client has Full scope allowed on and keeps the built-in roles scope.
+    config:
+      title: My Apps
+      apps:
+        - name: Audiobookshelf
+          url: https://audiobookshelf.chillincool.net
+          icon: di:audiobookshelf
+          category: Books
+          claim: resource_access.audiobookshelf.roles
+          roles: [admin, user]
+        - name: BookBoss
+          url: https://bookboss.chillincool.net
+          icon: di:book-lore
+          category: Books
+          claim: resource_access.bookboss.roles
+          roles: [access]
+        - name: Shelfmark
+          url: https://shelfmark.chillincool.net
+          icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/shelfmark.svg
+          category: Books
+          claim: resource_access.shelfmark.roles
+          roles: [access]
+        - name: Navidrome
+          url: https://navidrome.chillincool.net
+          icon: di:navidrome
+          category: Media
+          claim: resource_access.navidrome.roles
+          roles: [access]
+        - name: Immich
+          url: https://immich.chillincool.net
+          icon: di:immich
+          category: Home
+          claim: resource_access.immich.roles
+          roles: [admin, user]
+        - name: Paperless
+          url: https://paperless.chillincool.net
+          icon: di:paperless-ngx
+          category: Home
+          claim: resource_access.paperless-ngx.roles
+          roles: [admin, user]
+        - name: Firefly III
+          url: https://firefly-iii.chillincool.net
+          icon: di:firefly-iii
+          category: Home
+          claim: resource_access.firefly-iii.roles
+          roles: [access]
+        - name: IRC
+          url: https://irc.chillincool.net
+          icon: di:irc.png
+          category: Home
+          claim: resource_access.soju.roles
+          roles: [access]
+        - name: Sonarr
+          url: https://sonarr.chillincool.net
+          icon: di:sonarr
+          category: Downloads
+          claim: resource_access.sonarr.roles
+          roles: [access]
+        - name: Sonarr 4K
+          url: https://sonarr-4k.chillincool.net
+          icon: di:sonarr
+          category: Downloads
+          claim: resource_access.sonarr-4k.roles
+          roles: [access]
+        - name: Sonarr Anime
+          url: https://sonarr-anime.chillincool.net
+          icon: di:sonarr
+          category: Downloads
+          claim: resource_access.sonarr-anime.roles
+          roles: [access]
+        - name: Radarr
+          url: https://radarr.chillincool.net
+          icon: di:radarr
+          category: Downloads
+          claim: resource_access.radarr.roles
+          roles: [access]
+        - name: Radarr 4K
+          url: https://radarr-4k.chillincool.net
+          icon: di:radarr
+          category: Downloads
+          claim: resource_access.radarr-4k.roles
+          roles: [access]
+        - name: Prowlarr
+          url: https://prowlarr.chillincool.net
+          icon: di:prowlarr
+          category: Downloads
+          claim: resource_access.prowlarr.roles
+          roles: [access]
+        - name: qBittorrent
+          url: https://qbittorrent.chillincool.net
+          icon: di:qbittorrent
+          category: Downloads
+          claim: resource_access.qbittorrent.roles
+          roles: [access]
+        - name: qui
+          url: https://qui.chillincool.net
+          icon: di:qui
+          category: Downloads
+          claim: resource_access.qui.roles
+          roles: [access]
+        - name: autobrr
+          url: https://autobrr.chillincool.net
+          icon: di:autobrr
+          category: Downloads
+          claim: resource_access.autobrr.roles
+          roles: [access]
+        - name: slskd
+          url: https://slskd.chillincool.net
+          icon: di:slskd
+          category: Downloads
+          claim: resource_access.slskd.roles
+          roles: [access]
+        - name: wrtag
+          url: https://wrtag.chillincool.net
+          icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/wrtag.svg
+          category: Downloads
+          claim: resource_access.wrtag.roles
+          roles: [access]
+        - name: Cleanuparr
+          url: https://cleanuparr.chillincool.net
+          icon: di:cleanuparr.png
+          category: Downloads
+          claim: resource_access.cleanuparr.roles
+          roles: [access]
+        - name: Maintainerr
+          url: https://maintainerr.chillincool.net
+          icon: di:maintainerr
+          category: Downloads
+          claim: resource_access.maintainerr.roles
+          roles: [access]
+        - name: Proxmox
+          url: https://pve1.chillincool.net
+          icon: di:proxmox
+          category: Infrastructure
+          claim: resource_access.proxmox.roles
+          roles: [admin, user]
+        - name: Synology
+          url: https://dsm1.chillincool.net
+          icon: di:synology
+          category: Infrastructure
+          claim: resource_access.synology.roles
+          roles: [access]
+        - name: FortiGate
+          url: https://fw.chillincool.net
+          icon: di:fortinet
+          category: Infrastructure
+          claim: 'resource_access.http://fw\.chillincool\.net/metadata/.roles'
+          roles: [access]
+        - name: Tailscale
+          url: https://login.tailscale.com/admin
+          icon: di:tailscale
+          category: Infrastructure
+          claim: resource_access.tailscale.roles
+          roles: [access]
+        - name: Homepage
+          url: https://homepage.chillincool.net
+          icon: di:homepage.png
+          category: Infrastructure
+          claim: resource_access.homepage.roles
+          roles: [access]
+        - name: Homarr
+          url: https://homarr.chillincool.net
+          icon: di:homarr
+          category: Infrastructure
+          claim: resource_access.homarr.roles
+          roles: [access]
+        - name: Grafana
+          url: https://grafana.chillincool.net
+          icon: di:grafana
+          category: Monitoring
+          claim: resource_access.grafana.roles
+          roles: [admin, viewer]
+        - name: Prometheus
+          url: https://prometheus.chillincool.net
+          icon: di:prometheus
+          category: Monitoring
+          claim: resource_access.prometheus.roles
+          roles: [access]
+        - name: Alertmanager
+          url: https://alertmanager.chillincool.net
+          icon: di:alertmanager
+          category: Monitoring
+          claim: resource_access.alertmanager.roles
+          roles: [access]
+        - name: VictoriaLogs
+          url: https://victoria-logs.chillincool.net
+          icon: di:victoriametrics
+          category: Monitoring
+          claim: resource_access.victoria-logs.roles
+          roles: [access]
+        - name: Flux
+          url: https://flux-operator.chillincool.net
+          icon: di:flux-cd
+          category: Monitoring
+          claim: resource_access.flux-operator.roles
+          roles: [access]
+        - name: Goldilocks
+          url: https://goldilocks.chillincool.net
+          icon: di:goldilocks
+          category: Monitoring
+          claim: resource_access.goldilocks.roles
+          roles: [access]
