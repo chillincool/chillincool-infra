@@ -18,7 +18,7 @@ spec:
     substitute:
       APP: bazarr
       VOLSYNC_CAPACITY: 5Gi
-      VOLSYNC_SCHEDULE: "28 1 * * *"
+      VOLSYNC_SCHEDULE: "28 7 * * *"
   prune: true
   sourceRef:
     kind: GitRepository

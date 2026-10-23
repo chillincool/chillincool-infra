@@ -17,7 +17,7 @@ spec:
     substitute:
       APP: autobrr
       VOLSYNC_CAPACITY: 5Gi
-      VOLSYNC_SCHEDULE: "21 1 * * *"
+      VOLSYNC_SCHEDULE: "21 7 * * *"
   prune: true
   sourceRef:
     kind: GitRepository

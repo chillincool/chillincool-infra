@@ -18,7 +18,7 @@ spec:
     substitute:
       APP: radarr-4k
       VOLSYNC_CAPACITY: 5Gi
-      VOLSYNC_SCHEDULE: "31 2 * * *"
+      VOLSYNC_SCHEDULE: "31 8 * * *"
   prune: true
   sourceRef:
     kind: GitRepository

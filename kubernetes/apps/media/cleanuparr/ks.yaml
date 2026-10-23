@@ -17,7 +17,7 @@ spec:
     substitute:
       APP: cleanuparr
       VOLSYNC_CAPACITY: 1Gi
-      VOLSYNC_SCHEDULE: "49 1 * * *"
+      VOLSYNC_SCHEDULE: "49 7 * * *"
   prune: true
   sourceRef:
     kind: GitRepository

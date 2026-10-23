@@ -16,7 +16,7 @@ spec:
     substitute:
       APP: plextraktsync
       VOLSYNC_CAPACITY: 1Gi
-      VOLSYNC_SCHEDULE: "10 2 * * *"
+      VOLSYNC_SCHEDULE: "10 8 * * *"
   prune: true
   sourceRef:
     kind: GitRepository

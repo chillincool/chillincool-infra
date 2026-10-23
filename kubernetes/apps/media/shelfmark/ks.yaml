@@ -18,7 +18,7 @@ spec:
     substitute:
       APP: shelfmark
       VOLSYNC_CAPACITY: 2Gi
-      VOLSYNC_SCHEDULE: "59 2 * * *"
+      VOLSYNC_SCHEDULE: "59 8 * * *"
   prune: true
   sourceRef:
     kind: GitRepository

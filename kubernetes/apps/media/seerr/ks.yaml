@@ -17,7 +17,7 @@ spec:
     substitute:
       APP: seerr
       VOLSYNC_CAPACITY: 5Gi
-      VOLSYNC_SCHEDULE: "52 2 * * *"
+      VOLSYNC_SCHEDULE: "52 8 * * *"
   prune: true
   sourceRef:
     kind: GitRepository

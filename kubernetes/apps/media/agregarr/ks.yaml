@@ -17,7 +17,7 @@ spec:
     substitute:
       APP: agregarr
       VOLSYNC_CAPACITY: 5Gi
-      VOLSYNC_SCHEDULE: "14 1 * * *"
+      VOLSYNC_SCHEDULE: "14 7 * * *"
   prune: true
   sourceRef:
     kind: GitRepository

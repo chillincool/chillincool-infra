@@ -19,7 +19,7 @@ spec:
     substitute:
       APP: paperless-ngx
       VOLSYNC_CAPACITY: 5Gi
-      VOLSYNC_SCHEDULE: "20 */6 * * *"
+      VOLSYNC_SCHEDULE: "20 3,9,15,21 * * *"
   prune: true
   sourceRef:
     kind: GitRepository

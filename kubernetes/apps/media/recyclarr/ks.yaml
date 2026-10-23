@@ -16,7 +16,7 @@ spec:
     substitute:
       APP: recyclarr
       VOLSYNC_CAPACITY: 1Gi
-      VOLSYNC_SCHEDULE: "45 2 * * *"
+      VOLSYNC_SCHEDULE: "45 8 * * *"
   prune: true
   sourceRef:
     kind: GitRepository
