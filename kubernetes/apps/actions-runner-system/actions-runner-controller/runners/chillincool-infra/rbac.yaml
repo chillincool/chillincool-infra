@@ -4,23 +4,39 @@ kind: ServiceAccount
 metadata:
   name: chillincool-infra-runner
 ---
+# The runner only needs what its two jobs use. schemas.yaml lists and reads CRDs
+# (crd-extractor.sh); image-pull.yaml only talks to Talos. This repo is public and
+# pull requests can run on this runner, so keep it far away from cluster-admin.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: chillincool-infra-runner
+rules:
+  - apiGroups: ["apiextensions.k8s.io"]
+    resources: ["customresourcedefinitions"]
+    verbs: ["get", "list"]
+---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: chillincool-infra-runner
+  # Renamed from the old cluster-admin binding: a binding's roleRef can't be changed
+  name: chillincool-infra-runner-crd-reader
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: cluster-admin
+  name: chillincool-infra-runner
 subjects:
   - kind: ServiceAccount
     name: chillincool-infra-runner
     namespace: actions-runner-system
 ---
+# os:operator is the lowest Talos role allowed to pull images
+# (machine.ImageService/Pull in machined's permission table); it can't change the
+# machine config or read its secrets
 apiVersion: talos.dev/v1alpha1
 kind: ServiceAccount
 metadata:
   name: chillincool-infra-runner
 spec:
   roles:
-    - os:admin
+    - os:operator
