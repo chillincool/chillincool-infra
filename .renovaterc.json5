@@ -20,6 +20,53 @@
       matchPackageNames: ["ghcr.io/home-operations/qbittorrent"],
       allowedVersions: "<5.3.0",
     },
+    // Auto-merge. home-operations/renovate-presets ships no automerge rules, so without
+    // these every update waits for a manual merge. Renovate merges as a PR once its checks
+    // (flux-local) pass; platformAutomerge is off so it never merges ahead of those checks.
+    {
+      description: "Auto-merge container and chart digests (same version, rebuilt)",
+      matchDatasources: ["docker"],
+      matchUpdateTypes: ["digest"],
+      automerge: true,
+      automergeType: "pr",
+      platformAutomerge: false,
+    },
+    {
+      description: "Auto-merge patch updates once they've been out three days",
+      matchUpdateTypes: ["patch"],
+      minimumReleaseAge: "3 days",
+      automerge: true,
+      automergeType: "pr",
+      platformAutomerge: false,
+    },
+    {
+      description: "Auto-merge GitHub Actions and mise tool updates; CI-only, can't touch the cluster",
+      matchManagers: ["github-actions", "mise"],
+      matchUpdateTypes: ["minor", "patch", "digest"],
+      automerge: true,
+      automergeType: "pr",
+      platformAutomerge: false,
+    },
+    {
+      description: "Never auto-merge core infrastructure; on one node a bad update takes everything down",
+      matchPackageNames: [
+        "/cilium/",
+        "/siderolabs/",
+        "/talos/",
+        "/kube-apiserver|kube-controller-manager|kube-scheduler|kubelet|kube-proxy/",
+        "/kubectl/",
+        "/fluxcd|flux-operator|flux-instance|flux2/",
+        "/longhorn/",
+        "/cloudnative-pg|cnpg/",
+        "/keycloak/",
+        "/envoyproxy|gateway-helm|gateway-api/",
+        "/cert-manager|jetstack/",
+        "/external-secrets/",
+        "/1password/",
+        "/coredns/",
+      ],
+      automerge: false,
+    },
   ],
   suppressNotifications: [
     "prEditedNotification",
