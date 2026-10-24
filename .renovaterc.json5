@@ -23,6 +23,8 @@
     // Auto-merge. home-operations/renovate-presets ships no automerge rules, so without
     // these every update waits for a manual merge. Renovate merges as a PR once its checks
     // (flux-local) pass; platformAutomerge is off so it never merges ahead of those checks.
+    // rebaseWhen "conflicted": otherwise automerge forces every PR to be retested after
+    // each merge, and only one PR gets merged per hourly run.
     {
       description: "Auto-merge container and chart digests (same version, rebuilt)",
       matchDatasources: ["docker"],
@@ -30,6 +32,7 @@
       automerge: true,
       automergeType: "pr",
       platformAutomerge: false,
+      rebaseWhen: "conflicted",
     },
     {
       description: "Auto-merge patch updates once they've been out three days",
@@ -38,6 +41,7 @@
       automerge: true,
       automergeType: "pr",
       platformAutomerge: false,
+      rebaseWhen: "conflicted",
     },
     {
       description: "Auto-merge GitHub Actions and mise tool updates; CI-only, can't touch the cluster",
@@ -46,6 +50,7 @@
       automerge: true,
       automergeType: "pr",
       platformAutomerge: false,
+      rebaseWhen: "conflicted",
     },
     {
       description: "Never auto-merge core infrastructure; on one node a bad update takes everything down",
