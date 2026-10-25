@@ -38,6 +38,24 @@
       description: "Auto-merge patch updates once they've been out three days",
       matchUpdateTypes: ["patch"],
       minimumReleaseAge: "3 days",
+      // Many registries don't report release dates; without this those updates wait forever
+      minimumReleaseAgeBehaviour: "timestamp-optional",
+      automerge: true,
+      automergeType: "pr",
+      platformAutomerge: false,
+      rebaseWhen: "conflicted",
+    },
+    {
+      description: "Auto-merge minor updates of low-impact apps (media, dashboards, small utilities)",
+      matchFileNames: [
+        "kubernetes/apps/media/**",
+        "kubernetes/apps/util/{atuin,homarr,homepage,soju,thelounge,tilegate}/**",
+      ],
+      matchUpdateTypes: ["minor"],
+      // 0.x minors can break; the preset leaves this guard to each repo
+      matchCurrentVersion: "!/^v?0\\./",
+      minimumReleaseAge: "3 days",
+      minimumReleaseAgeBehaviour: "timestamp-optional",
       automerge: true,
       automergeType: "pr",
       platformAutomerge: false,
