@@ -29,6 +29,7 @@ spec:
               BOOK_DOCK_PATH: /media/media/book-import
               NODE_MAX_OLD_SPACE_SIZE: "2048"
               OIDC_ALLOW_LOCAL_ISSUERS: true
+              LOG_LEVEL: debug
               PUID: "1000"
               PGID: "1000"
               BOOKORBIT_FIX_PERMISSIONS: "false"
