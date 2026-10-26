@@ -29,7 +29,7 @@ spec:
               BOOK_DOCK_PATH: /media/media/book-import
               NODE_MAX_OLD_SPACE_SIZE: "2048"
               OIDC_ALLOW_LOCAL_ISSUERS: true
-              DISABLE_LOCAL_AUTH: false
+              DISABLE_LOCAL_AUTH: true
               LOG_LEVEL: debug
               PUID: "1000"
               PGID: "1000"
