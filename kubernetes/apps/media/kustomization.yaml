@@ -10,10 +10,10 @@ components:
 resources:
   - ./namespace.yaml
   - ./agregarr/ks.yaml
-  - ./audiobookshelf/ks.yaml
+  # - ./audiobookshelf/ks.yaml
   - ./autobrr/ks.yaml
   # - ./bazarr/ks.yaml
-  - ./bookboss/ks.yaml
+  # - ./bookboss/ks.yaml
   - ./bookorbit/ks.yaml
   - ./brrpolice/ks.yaml
   - ./chaski/ks.yaml
@@ -30,7 +30,7 @@ resources:
   - ./radarr-4k/ks.yaml
   - ./recyclarr/ks.yaml
   - ./seerr/ks.yaml
-  - ./shelfmark/ks.yaml
+  # - ./shelfmark/ks.yaml
   - ./slskd/ks.yaml
   # # - ./smtp-relay/ks.yaml
   - ./sonarr/ks.yaml
