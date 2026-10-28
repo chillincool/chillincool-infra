@@ -5,7 +5,8 @@ kind: ScheduledBackup
 metadata:
   name: keycloak-db
 spec:
-  schedule: "0 0 * * *"
+  # CNPG cron has a seconds field; UTC: 01:00 Chicago
+  schedule: "0 0 6 * * *"
   backupOwnerReference: self
   cluster:
     name: keycloak-db

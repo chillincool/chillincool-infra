@@ -5,7 +5,8 @@ kind: ScheduledBackup
 metadata:
   name: immich-db
 spec:
-  schedule: "0 0 * * *"
+  # CNPG cron has a seconds field; UTC: 01:15 Chicago
+  schedule: "0 15 6 * * *"
   backupOwnerReference: self
   cluster:
     name: immich-db

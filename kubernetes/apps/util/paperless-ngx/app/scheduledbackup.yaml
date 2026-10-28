@@ -5,7 +5,8 @@ kind: ScheduledBackup
 metadata:
   name: paperless-ngx-db
 spec:
-  schedule: "0 0 * * *"
+  # CNPG cron has a seconds field; UTC: 01:20 Chicago
+  schedule: "0 20 6 * * *"
   backupOwnerReference: self
   cluster:
     name: paperless-ngx-db

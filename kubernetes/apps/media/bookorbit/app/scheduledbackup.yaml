@@ -5,7 +5,8 @@ kind: ScheduledBackup
 metadata:
   name: bookorbit-db
 spec:
-  schedule: "0 0 * * *"
+  # CNPG cron has a seconds field; UTC: 01:05 Chicago
+  schedule: "0 5 6 * * *"
   backupOwnerReference: self
   cluster:
     name: bookorbit-db
