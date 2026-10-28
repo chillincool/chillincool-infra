@@ -34,6 +34,8 @@ spec:
               PUID: "1000"
               PGID: "1000"
               BOOKORBIT_FIX_PERMISSIONS: "false"
+              # Sidecar below; READ_ALOUD_WORKER_TOKEN comes from the secret
+              READ_ALOUD_WORKER_URL: http://localhost:8787
               # Database
               POSTGRES_HOST: bookorbit-db-rw
               POSTGRES_PORT: "5432"
@@ -78,6 +80,42 @@ spec:
                 memory: 512Mi
               limits:
                 memory: 2Gi
+          read-aloud-worker:
+            image:
+              repository: ghcr.io/bookorbit/bookorbit-read-aloud-worker
+              tag: 3.6.0@sha256:4ca7f141f346365af8970809f7fb3947c309082c81b5b00cee0cdec5ed6c5f96
+            env:
+              TZ: America/Chicago
+              READ_ALOUD_LIBRARY_ROOTS: /media/media
+              READ_ALOUD_WORK_ROOT: /data/read-aloud/jobs
+              READ_ALOUD_CTC_DEVICE: cpu
+              READ_ALOUD_WORKER_TOKEN:
+                valueFrom:
+                  secretKeyRef:
+                    name: "{{ .Release.Name }}-secret"
+                    key: READ_ALOUD_WORKER_TOKEN
+            # /health needs the token, so probe the port
+            probes:
+              liveness: &workerProbes
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: 8787
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              readiness: *workerProbes
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: {drop: ["ALL"]}
+            resources:
+              requests:
+                cpu: 50m
+                memory: 256Mi
+              limits:
+                memory: 4Gi
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -101,14 +139,26 @@ spec:
     persistence:
       data:
         existingClaim: "{{ .Release.Name }}"
-        globalMounts:
-          - path: /data
+        advancedMounts:
+          bookorbit:
+            app:
+              - path: /data
+            # The worker sees only the server's <APP_DATA_PATH>/read-aloud
+            read-aloud-worker:
+              - path: /data/read-aloud
+                subPath: read-aloud
       media:
         type: nfs
         server: dsm1.chillincool.net
         path: /volume2/data
-        globalMounts:
-          - path: /media
+        advancedMounts:
+          bookorbit:
+            app:
+              - path: /media
+            # Same path as the app; the worker resolves book files by the server's paths
+            read-aloud-worker:
+              - path: /media
+                readOnly: true
       tmp:
         type: emptyDir
         globalMounts:

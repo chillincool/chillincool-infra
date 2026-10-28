@@ -20,11 +20,6 @@
       matchPackageNames: ["ghcr.io/home-operations/qbittorrent"],
       allowedVersions: "<5.3.0",
     },
-    {
-      description: "Storyteller tags server releases web-vX.Y.Z; skip mobile-* and v3 betas",
-      matchPackageNames: ["registry.gitlab.com/storyteller-platform/storyteller"],
-      versioning: "regex:^web-v(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)$",
-    },
     // Auto-merge. home-operations/renovate-presets ships no automerge rules, so without
     // these every update waits for a manual merge. Renovate merges as a PR once its checks
     // (flux-local) pass; platformAutomerge is off so it never merges ahead of those checks.
