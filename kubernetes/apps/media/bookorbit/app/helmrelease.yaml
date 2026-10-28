@@ -114,7 +114,9 @@ spec:
               requests:
                 cpu: 50m
                 memory: 256Mi
+              # Transcription takes every core it can see; without a cap it starves the node
               limits:
+                cpu: 8
                 memory: 4Gi
     defaultPodOptions:
       securityContext:
