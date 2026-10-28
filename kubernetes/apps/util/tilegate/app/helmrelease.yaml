@@ -74,23 +74,11 @@ spec:
     config:
       title: My Apps
       apps:
-        - name: Audiobookshelf
-          url: https://audiobookshelf.chillincool.net
-          icon: di:audiobookshelf
+        - name: BookOrbit
+          url: https://bookorbit.chillincool.net
+          icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/bookorbit.png
           category: Books
-          claim: resource_access.audiobookshelf.roles
-          roles: [admin, user]
-        - name: BookBoss
-          url: https://bookboss.chillincool.net
-          icon: di:book-lore
-          category: Books
-          claim: resource_access.bookboss.roles
-          roles: [access]
-        - name: Shelfmark
-          url: https://shelfmark.chillincool.net
-          icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/shelfmark.svg
-          category: Books
-          claim: resource_access.shelfmark.roles
+          claim: resource_access.bookorbit.roles
           roles: [access]
         - name: Navidrome
           url: https://navidrome.chillincool.net
