@@ -12,7 +12,6 @@ resources:
   - ./atuin/ks.yaml
   - ./firefly-iii/ks.yaml
   - ./homarr/ks.yaml
-  - ./homepage/ks.yaml
   - ./immich/ks.yaml
   - ./paperless-ngx/ks.yaml
   - ./soju/ks.yaml

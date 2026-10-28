@@ -1,7 +1,0 @@
----
-# https://gethomepage.dev/configs/kubernetes/
-# Only the cluster stats widget uses the API; no discovery of routes or ingresses
-mode: cluster
-ingress: false
-gateway: false
-traefik: false

@@ -70,10 +70,6 @@ spec:
         matchLabels:
           app.kubernetes.io/name: gatus
           io.kubernetes.pod.namespace: observability
-    - podSelector:
-        matchLabels:
-          app.kubernetes.io/name: homepage
-          io.kubernetes.pod.namespace: util
   destinationCIDRs:
     - 172.16.0.0/12
   egressGateway:

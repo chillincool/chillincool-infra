@@ -224,12 +224,6 @@ spec:
           category: Infrastructure
           claim: resource_access.tailscale.roles
           roles: [access]
-        - name: Homepage
-          url: https://homepage.chillincool.net
-          icon: di:homepage.png
-          category: Infrastructure
-          claim: resource_access.homepage.roles
-          roles: [access]
         - name: Homarr
           url: https://homarr.chillincool.net
           icon: di:homarr

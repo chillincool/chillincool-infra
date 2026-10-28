@@ -49,7 +49,7 @@
       description: "Auto-merge minor updates of low-impact apps (media, dashboards, small utilities)",
       matchFileNames: [
         "kubernetes/apps/media/**",
-        "kubernetes/apps/util/{atuin,homarr,homepage,soju,thelounge,tilegate}/**",
+        "kubernetes/apps/util/{atuin,homarr,soju,thelounge,tilegate}/**",
       ],
       matchUpdateTypes: ["minor"],
       // 0.x minors can break; the preset leaves this guard to each repo
