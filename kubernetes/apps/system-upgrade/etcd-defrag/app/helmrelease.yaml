@@ -15,9 +15,9 @@ spec:
         type: cronjob
         cronjob:
           # Compaction frees space inside etcd's file but only a defrag shrinks it. With one etcd
-          # member the API pauses for a second or two, so run it weekly in the middle of the night,
-          # clear of the VolSync backups on the hour.
-          schedule: 30 4 * * 0
+          # member the API pauses for a second or two. Weekly let the file pass the 50% fragmentation
+          # alert within a few days, so run it daily, after the VolSync backups (02:00-05:30).
+          schedule: 0 6 * * *
           timeZone: America/Chicago
           backoffLimit: 1
           concurrencyPolicy: Forbid
