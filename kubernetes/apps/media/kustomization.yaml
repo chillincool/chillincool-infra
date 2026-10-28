@@ -33,6 +33,7 @@ resources:
   - ./sonarr/ks.yaml
   - ./sonarr-4k/ks.yaml
   - ./sonarr-anime/ks.yaml
+  - ./storyteller/ks.yaml
   - ./tautulli/ks.yaml
   - ./tl-keep/ks.yaml
   - ./unpackerr/ks.yaml
