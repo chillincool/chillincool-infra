@@ -21,7 +21,6 @@ spec:
               tag: 26.8.1@sha256:a78d6b79572168cb25886b80a8b5b8d4ed4390743e3eecb810538683e209dd6b
             args:
               - start
-              - --import-realm
             env:
               # Database
               KC_DB: postgres
@@ -227,11 +226,6 @@ spec:
     persistence:
       tmp:
         type: emptyDir
-      realm-config:
-        type: configMap
-        name: "{{ .Release.Name }}-realm"
-        globalMounts:
-          - path: /opt/keycloak/data/import
       # Custom themes, selected under Realm settings -> Themes: login "chillincool" and "chillincool-master",
       # email, account and admin "chillincool" (the admin theme is picked in the master realm)
       theme:

@@ -11,9 +11,6 @@ resources:
   - ./prometheusrule.yaml
   - ./scheduledbackup.yaml
 configMapGenerator:
-  - name: keycloak-realm
-    files:
-      - chillincool-realm.json=./resources/chillincool-realm.json
   - name: keycloak-theme
     files:
       - theme.properties=./resources/theme/theme.properties
