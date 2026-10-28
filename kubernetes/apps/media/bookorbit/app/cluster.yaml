@@ -6,8 +6,9 @@ metadata:
   name: bookorbit-db
 spec:
   instances: 1
-  # BookOrbit upstream runs pgvector/pgvector:pg18
-  imageName: ghcr.io/cloudnative-pg/postgresql:18-standard-trixie
+  # BookOrbit upstream runs pgvector/pgvector:pg18. The "system" image is the variant that
+  # still ships barman-cloud, which backup.barmanObjectStore needs
+  imageName: ghcr.io/cloudnative-pg/postgresql:18-system-trixie
   primaryUpdateStrategy: unsupervised
   storage:
     size: 10Gi
