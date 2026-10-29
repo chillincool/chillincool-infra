@@ -51,7 +51,7 @@ spec:
           app:
             image:
               repository: codeberg.org/emersion/gamja
-              tag: v1.0.0-beta.11@sha256:e3eac67e221e58d78809d253ba0486fef0ae9f1a0e3fbe8914c56c1e66dd372d
+              tag: v1.0.0-beta.11@sha256:9650c193b9148c6f68a920d7e066a8507a30e3cb1b8bee5dfd0496b5bee75759
             probes:
               liveness: &gamjaProbes
                 enabled: true
