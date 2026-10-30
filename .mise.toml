@@ -14,7 +14,7 @@ _.path = [
 ]
 
 [tools]
-"uv" = "0.13.5"
+"uv" = "0.13.6"
 "pipx:flux-local" = "8.4.0"
 "talosctl" = "1.14.4"
 "kubectl" = "1.37.1"
