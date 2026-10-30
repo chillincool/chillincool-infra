@@ -161,6 +161,21 @@ spec:
             read-aloud-worker:
               - path: /media
                 readOnly: true
+      # Job scratch runs to ~30GB per audiobook; own volume so it skips VolSync but can resume
+      read-aloud:
+        existingClaim: "{{ .Release.Name }}-read-aloud"
+        advancedMounts:
+          bookorbit:
+            app:
+              - path: /data/read-aloud/jobs
+                subPath: jobs
+              - path: /data/read-aloud/tmp
+                subPath: tmp
+            read-aloud-worker:
+              - path: /data/read-aloud/jobs
+                subPath: jobs
+              - path: /data/read-aloud/tmp
+                subPath: tmp
       tmp:
         type: emptyDir
         globalMounts:
