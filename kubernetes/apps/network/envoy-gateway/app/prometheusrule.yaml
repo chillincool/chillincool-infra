@@ -11,10 +11,11 @@ spec:
         # Clients are sending QUIC packets for connections Envoy doesn't know, which drops their HTTP/3 sessions
         - alert: EnvoyQUICStatelessResets
           expr: |-
-            sum by (pod) (increase(envoy_listener_quic_dispatcher_stateless_reset_packets_sent[1h])) > 30
+            sum by (pod) (increase(envoy_listener_quic_dispatcher_stateless_reset_packets_sent[1h]))
+              / sum by (pod) (increase(envoy_http_downstream_cx_http3_total{envoy_http_conn_manager_prefix="https-10443"}[1h])) > 0.25
           for: 15m
           annotations:
             summary: >-
-              {{ $labels.pod }} sent {{ $value | humanize }} QUIC stateless resets in the last hour
+              {{ $labels.pod }} reset {{ $value | humanizePercentage }} of its HTTP/3 connections in the last hour
           labels:
             severity: warning
