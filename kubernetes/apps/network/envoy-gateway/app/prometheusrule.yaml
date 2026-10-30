@@ -1,0 +1,20 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas-cvg.pages.dev/monitoring.coreos.com/prometheusrule_v1.json
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: envoy-gateway-rules
+spec:
+  groups:
+    - name: envoy-gateway.rules
+      rules:
+        # Clients are sending QUIC packets for connections Envoy doesn't know, which drops their HTTP/3 sessions
+        - alert: EnvoyQUICStatelessResets
+          expr: |-
+            sum by (pod) (increase(envoy_listener_quic_dispatcher_stateless_reset_packets_sent[1h])) > 30
+          for: 15m
+          annotations:
+            summary: >-
+              {{ $labels.pod }} sent {{ $value | humanize }} QUIC stateless resets in the last hour
+          labels:
+            severity: warning
