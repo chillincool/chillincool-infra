@@ -20,3 +20,6 @@ talosconfig
 kubernetes/apps/iot
 kubernetes/apps/util/smtp-relay
 talos/nodes/talos*.j2
+
+#### Claude Code ####
+.claude/
