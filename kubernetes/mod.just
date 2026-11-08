@@ -2,6 +2,7 @@ set quiet := true
 set shell := ['bash', '-euo', 'pipefail', '-c']
 
 kubernetes_dir := justfile_dir() + '/kubernetes'
+track := 'source "' + justfile_dir() + '/scripts/rex-status.sh"; rex_track'
 
 [private]
 default:
@@ -9,6 +10,7 @@ default:
 
 [doc('Apply local Flux Kustomization')]
 apply-ks ns ks:
+    {{ track }} "Applying {{ ns }}/{{ ks }}"; \
     just kube render-local-ks "{{ ns }}" "{{ ks }}" | kubectl apply --server-side --force-conflicts --field-manager=kustomize-controller -f /dev/stdin
 
 [doc('Browse a PVC')]
@@ -17,6 +19,7 @@ browse-pvc namespace claim:
 
 [doc('Delete local Flux Kustomization')]
 delete-ks ns ks:
+    {{ track }} "Deleting {{ ns }}/{{ ks }}"; \
     just kube render-local-ks "{{ ns }}" "{{ ks }}" | kubectl delete -f /dev/stdin
 
 [doc('Open a shell on a node')]
@@ -32,8 +35,10 @@ prune-pods:
 
 [doc('Snapshot VolSync PVCs')]
 snapshot:
+    {{ track }} "Triggering VolSync snapshots"; \
+    ts="$(date +%s)"; \
     kubectl get replicationsources --no-headers -A | while read -r ns name _; do \
-        kubectl -n "$ns" patch replicationsources "$name" --type merge -p '{"spec":{"trigger":{"manual":"$(date +%s)"}}}'; \
+        kubectl -n "$ns" patch replicationsources "$name" --type merge -p '{"spec":{"trigger":{"manual":"'"$ts"'"}}}'; \
     done
 
 [doc('Suspend or resume Keda ScaledObjects')]

@@ -2,6 +2,7 @@ set quiet := true
 set shell := ['bash', '-euo', 'pipefail', '-c']
 
 scripts_dir := justfile_dir() + '/scripts'
+track := 'source "' + justfile_dir() + '/scripts/rex-status.sh"; rex_track'
 talos_dir := justfile_dir() + '/talos'
 controller := `talosctl config info -o yaml | yq -e '.endpoints[0]'`
 
@@ -11,10 +12,12 @@ default:
 
 [doc('Apply Talos config to a node')]
 apply-node node *args:
+    {{ track }} "Applying Talos config to {{ node }}"; \
     just talos render-config "{{ node }}" | talosctl -n "{{ node }}" apply-config -f /dev/stdin {{ args }}
 
 [doc('Download Talos machine image')]
 download-image version schematic:
+    {{ track }} "Downloading Talos {{ version }}"; \
     gum spin --title "Downloading Talos {{ version }} ..." -- \
     curl -sfL --remove-on-error --retry 5 --retry-delay 5 --retry-all-errors \
         -o "{{ talos_dir }}/talos-{{ version }}-{{ replace_regex(schematic, '^(.{8}).*', '$1') }}.iso" \
@@ -48,10 +51,12 @@ shutdown-node node *args:
 
 [doc('Upgrade Kubernetes version on the cluster')]
 upgrade-k8s version:
+    {{ track }} "Upgrading Kubernetes to {{ version }}"; \
     talosctl -n "{{ controller }}" upgrade-k8s --to {{ version }}
 
 [doc('Upgrade Talos version on a node')]
 upgrade-node node *args:
+    {{ track }} "Upgrading Talos on {{ node }}"; \
     talosctl -n "{{ node }}" upgrade -i "$(just talos machine-image)" -m powercycle --timeout=10m {{ args }}
 
 [private]
