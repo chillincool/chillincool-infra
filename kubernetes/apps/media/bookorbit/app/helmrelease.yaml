@@ -118,6 +118,36 @@ spec:
               limits:
                 cpu: 8
                 memory: 4Gi
+      # Manga metadata provider; add in BookOrbit as http://bookorbit-mangabaka:8080
+      mangabaka:
+        containers:
+          app:
+            image:
+              repository: ghcr.io/bookorbit/mangabaka-provider
+              tag: 0.1.0@sha256:c9471def1965232be7934df81b0e8a4df1b9b471b92e74c378622490c6d34742
+            env:
+              TZ: America/Chicago
+            probes:
+              liveness: &mangabakaProbes
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: 8080
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              readiness: *mangabakaProbes
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: {drop: ["ALL"]}
+            resources:
+              requests:
+                cpu: 10m
+                memory: 32Mi
+              limits:
+                memory: 256Mi
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -131,6 +161,11 @@ spec:
         ports:
           http:
             port: *port
+      mangabaka:
+        controller: mangabaka
+        ports:
+          http:
+            port: 8080
     route:
       app:
         hostnames:
@@ -138,6 +173,10 @@ spec:
         parentRefs:
           - name: envoy-external
             namespace: network
+        rules:
+          - backendRefs:
+              - name: bookorbit-app
+                port: *port
     persistence:
       data:
         existingClaim: "{{ .Release.Name }}"
