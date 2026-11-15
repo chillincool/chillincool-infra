@@ -27,7 +27,7 @@ spec:
               repository: docker.io/library/python
               tag: 3.15-alpine@sha256:0f9552bb28711333da16915ec146f5e6bb44a7fdac9ced15dc17c2e0206346dd
             env:
-              KEEP_COUNT: 100
+              KEEP_COUNT: 200
               KEEP_TAG: tl-keep
               TRACKER_PATTERN: torrentleech|tleechreload
             envFrom:
