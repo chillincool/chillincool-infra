@@ -132,6 +132,8 @@ spec:
                 subPath: log
               - path: /run/nginx
                 subPath: run
+              - path: /var/cache/nginx
+                subPath: cache
       tmp:
         type: emptyDir
         advancedMounts:
