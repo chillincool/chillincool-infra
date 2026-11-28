@@ -12,24 +12,49 @@ spec:
   values:
     controllers:
       recyclarr:
-        type: cronjob
-        cronjob:
-          schedule: 0 0 * * *
-          backoffLimit: 0
-          concurrencyPolicy: Forbid
-          successfulJobsHistory: 1
-          failedJobsHistory: 1
-          ttlSecondsAfterFinished: 86400
+        # v9 is a server that syncs on its own schedule (default daily at midnight UTC)
+        strategy: Recreate
+        annotations:
+          reloader.stakater.com/auto: "true"
         containers:
           app:
             image:
               repository: ghcr.io/recyclarr/recyclarr
-              tag: 8.8.1@sha256:3e9c41b9ec29bbf65fe846864058730d321a21f7695d8c0d9437b73e34d50ad9
+              tag: 9.0.0@sha256:4973d11b18b5ef09fb226f4161eecb16434ff7e6b43c56d50fceb52fb22c66c7
             envFrom:
               - secretRef:
                   name: "{{ .Release.Name }}-secret"
-            args:
-              - sync
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /livez
+                    port: &mgmt 7983
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /readyz
+                    port: *mgmt
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              # First start clones the TRaSH Guides before the server listens
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /livez
+                    port: *mgmt
+                  periodSeconds: 2
+                  failureThreshold: 150
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
@@ -39,9 +64,7 @@ spec:
                 cpu: 10m
                 memory: 64Mi
               limits:
-                memory: 128Mi
-        pod:
-          restartPolicy: Never
+                memory: 256Mi
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -58,5 +81,6 @@ spec:
         globalMounts:
           - path: /config/recyclarr.yml
             subPath: recyclarr.yml
+            readOnly: true
       tmp:
         type: emptyDir
