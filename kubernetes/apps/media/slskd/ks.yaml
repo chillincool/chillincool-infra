@@ -18,6 +18,7 @@ spec:
   postBuild:
     substitute:
       APP: slskd
+      NFS_SCALER_KIND: StatefulSet
   prune: true
   sourceRef:
     kind: GitRepository
